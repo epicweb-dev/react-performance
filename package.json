@@ -15,9 +15,12 @@
     "@reach/router": "^1.2.1",
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
+    "downshift": "^3.3.1",
     "history": "^4.10.1",
+    "match-sorter": "^4.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-window": "^1.8.5",
     "stop-runaway-react-effects": "^1.2.0"
   },
   "devDependencies": {
