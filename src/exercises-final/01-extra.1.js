@@ -1,23 +1,12 @@
-// TODO
+// useMemo for expensive calculations
+// 💯 Put getItems into a WebWorker
 
 import React from 'react'
 import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import cities from '../us-cities.json'
+import filterCitiesWorker from 'workerize!../filter-cities'
+import {useAsync} from '../utils'
 
-const allItems = cities.map((city, index) => ({
-  ...city,
-  id: String(index),
-}))
-
-function getItems(filter) {
-  if (!filter) {
-    return allItems
-  }
-  return matchSorter(allItems, filter, {
-    keys: ['name'],
-  })
-}
+const {getItems} = filterCitiesWorker()
 
 function Menu({
   getMenuProps,
@@ -26,9 +15,9 @@ function Menu({
   highlightedIndex,
   selectedItem,
 }) {
-  const items = React.useMemo(() => getItems(inputValue).slice(0, 100), [
-    inputValue,
-  ])
+  const {data: items} = useAsync(
+    React.useCallback(() => getItems(inputValue), [inputValue]),
+  )
   return (
     <ul
       {...getMenuProps({
@@ -42,22 +31,27 @@ function Menu({
         },
       })}
     >
-      {items.map((item, index) => (
-        <li
-          {...getItemProps({
-            key: item.id,
-            index,
-            item,
-            style: {
-              backgroundColor:
-                highlightedIndex === index ? 'lightgray' : 'inherit',
-              fontWeight: selectedItem === item ? 'bold' : 'normal',
-            },
-          })}
-        >
-          {item.name}
-        </li>
-      ))}
+      {items
+        ? items.slice(0, 100).map((item, index) => (
+            <li
+              {...getItemProps({
+                key: item.id,
+                index,
+                item,
+                style: {
+                  backgroundColor:
+                    highlightedIndex === index ? 'lightgray' : 'inherit',
+                  fontWeight:
+                    selectedItem && selectedItem.id === item.id
+                      ? 'bold'
+                      : 'normal',
+                },
+              })}
+            >
+              {item.name}
+            </li>
+          ))
+        : null}
     </ul>
   )
 }
@@ -122,6 +116,11 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'TODO'
+Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
+
+/*
+eslint
+  import/no-webpack-loader-syntax:0
+*/

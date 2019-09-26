@@ -2,8 +2,7 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import cities from '../us-cities.json'
+import {getItems} from '../filter-cities'
 
 function Menu({
   getMenuProps,
@@ -13,7 +12,7 @@ function Menu({
   selectedItem,
 }) {
   // 🐨 wrap getItems in a call to `React.useMemo`
-  const items = getItems(inputValue).slice(0, 100)
+  const items = getItems(inputValue)
   return (
     <ul
       {...getMenuProps({
@@ -27,7 +26,7 @@ function Menu({
         },
       })}
     >
-      {items.map((item, index) => (
+      {items.slice(0, 100).map((item, index) => (
         <li
           {...getItemProps({
             key: item.id,
@@ -59,20 +58,6 @@ http://ws.kcd.im/?ws=React%20Performance&e=useMemo&em=
 // But do look at it to see how your code is intended to be used. //
 //                                                                //
 ////////////////////////////////////////////////////////////////////
-
-const allItems = cities.map((city, index) => ({
-  ...city,
-  id: String(index),
-}))
-
-function getItems(filter) {
-  if (!filter) {
-    return allItems
-  }
-  return matchSorter(allItems, filter, {
-    keys: ['name'],
-  })
-}
 
 function useForceRerender() {
   const [, set] = React.useState()

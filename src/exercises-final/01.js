@@ -2,22 +2,7 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import cities from '../us-cities.json'
-
-const allItems = cities.map((city, index) => ({
-  ...city,
-  id: String(index),
-}))
-
-function getItems(filter) {
-  if (!filter) {
-    return allItems
-  }
-  return matchSorter(allItems, filter, {
-    keys: ['name'],
-  })
-}
+import {getItems} from '../filter-cities'
 
 function Menu({
   getMenuProps,
@@ -26,9 +11,7 @@ function Menu({
   highlightedIndex,
   selectedItem,
 }) {
-  const items = React.useMemo(() => getItems(inputValue).slice(0, 100), [
-    inputValue,
-  ])
+  const items = React.useMemo(() => getItems(inputValue), [inputValue])
   return (
     <ul
       {...getMenuProps({
@@ -42,7 +25,7 @@ function Menu({
         },
       })}
     >
-      {items.map((item, index) => (
+      {items.slice(0, 100).map((item, index) => (
         <li
           {...getItemProps({
             key: item.id,
@@ -125,3 +108,8 @@ function Usage() {
 Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
+
+/*
+eslint
+  import/no-webpack-loader-syntax:0
+*/

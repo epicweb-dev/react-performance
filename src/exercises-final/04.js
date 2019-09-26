@@ -76,8 +76,10 @@ function Menu({
   isOpen,
   inputValue,
   listRef,
-  items,
+  setItemCount,
 }) {
+  const items = React.useMemo(() => getItems(inputValue), [inputValue])
+  setItemCount(items.length)
   return (
     <ul
       {...getMenuProps({
@@ -123,7 +125,6 @@ const PureDownshift = React.memo(Downshift)
 
 function FilterComponent() {
   const listRef = React.useRef()
-  const [items, setItems] = React.useState(allItems)
 
   const forceRerender = useForceRerender()
 
@@ -136,13 +137,6 @@ function FilterComponent() {
     changes,
     downshiftState,
   ) {
-    if (changes.hasOwnProperty('inputValue')) {
-      performance.mark('getting items')
-      const gotItems = getItems(changes.inputValue)
-      performance.mark('got items')
-      performance.measure('getItems call', 'getting items', 'got items')
-      setItems(gotItems)
-    }
     if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
       listRef.current.scrollToItem(changes.highlightedIndex)
     }
@@ -159,6 +153,7 @@ function FilterComponent() {
       inputValue,
       highlightedIndex,
       selectedItem,
+      setItemCount,
     }) => (
       <div>
         <div>
@@ -168,7 +163,6 @@ function FilterComponent() {
           </div>
         </div>
         <Menu
-          items={items}
           getMenuProps={getMenuProps}
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
@@ -176,17 +170,17 @@ function FilterComponent() {
           isOpen={isOpen}
           inputValue={inputValue}
           listRef={listRef}
+          setItemCount={setItemCount}
         />
       </div>
     ),
-    [items],
+    [],
   )
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
       <PureDownshift
-        itemCount={items.length}
         onStateChange={handleStateChange}
         onChange={handleChange}
         itemToString={itemToString}

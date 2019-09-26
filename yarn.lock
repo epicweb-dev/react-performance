@@ -10573,6 +10573,18 @@ worker-rpc@^0.1.0:
   dependencies:
     microevent.ts "~0.1.1"
 
+workerize-loader@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/workerize-loader/-/workerize-loader-1.1.0.tgz#d3a634390dcb685cc1ee292cd1fffeef0a646044"
+  integrity sha512-cU2jPVE3AzzVxOonBe9lCCO//qwE9s/K4a9njFVRLueznzNDNND5vGHVorGuzK6xvamdDOZ9+g7CPIc7QKzucQ==
+  dependencies:
+    loader-utils "^1.2.3"
+
+workerize@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/workerize/-/workerize-0.1.7.tgz#cbfb05ee3ef0acf0a7e55d9d30f86e77294bc601"
+  integrity sha512-5sp00fQpti9Kd5TtKT82lX5FWh8RcwoRJoAM9+lPWnlpdDj3X0888nXJWelx+Pim96WURshLPxFqvku86VDwVg==
+
 wrap-ansi@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-2.1.0.tgz#d8fc3d284dd05794fe84973caecdd1cf824fdd85"
