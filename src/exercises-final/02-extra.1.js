@@ -1,7 +1,8 @@
 // React.memo for reducing unnecessary re-renders
+// 💯 Memoize the Downshift component
 
 import React from 'react'
-import Downshift from 'downshift'
+import OriginalDownshift from 'downshift'
 import filterCitiesWorker from 'workerize!../filter-cities'
 import {useAsync} from '../utils'
 
@@ -74,48 +75,52 @@ function ListItem({
 }
 ListItem = React.memo(ListItem)
 
+const Downshift = React.memo(OriginalDownshift)
+
+const itemToString = item => (item ? item.name : '')
+function handleChange(selection) {
+  alert(selection ? `You selected ${selection.name}` : 'Selection Cleared')
+}
+
+function downshiftChildren({
+  getInputProps,
+  getItemProps,
+  getLabelProps,
+  getMenuProps,
+  isOpen,
+  inputValue,
+  highlightedIndex,
+  selectedItem,
+  setItemCount,
+}) {
+  return (
+    <div>
+      <div>
+        <label {...getLabelProps()}>Find a city</label>
+        <div>
+          <input {...getInputProps()} />
+        </div>
+      </div>
+      <Menu
+        getMenuProps={getMenuProps}
+        inputValue={inputValue}
+        getItemProps={getItemProps}
+        highlightedIndex={highlightedIndex}
+        selectedItem={selectedItem}
+        setItemCount={setItemCount}
+      />
+    </div>
+  )
+}
+
 function FilterComponent() {
   const forceRerender = useForceRerender()
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
-      <Downshift
-        onChange={selection =>
-          alert(
-            selection ? `You selected ${selection.name}` : 'Selection Cleared',
-          )
-        }
-        itemToString={item => (item ? item.name : '')}
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getLabelProps,
-          getMenuProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem,
-          setItemCount,
-        }) => (
-          <div>
-            <div>
-              <label {...getLabelProps()}>Find a city</label>
-              <div>
-                <input {...getInputProps()} />
-              </div>
-            </div>
-            <Menu
-              getMenuProps={getMenuProps}
-              inputValue={inputValue}
-              getItemProps={getItemProps}
-              highlightedIndex={highlightedIndex}
-              selectedItem={selectedItem}
-              setItemCount={setItemCount}
-            />
-          </div>
-        )}
+      <Downshift onChange={handleChange} itemToString={itemToString}>
+        {downshiftChildren}
       </Downshift>
     </>
   )

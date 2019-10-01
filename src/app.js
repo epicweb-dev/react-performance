@@ -259,10 +259,12 @@ function App() {
   let ui = <Routes />
   if (pathname.startsWith('/isolated')) {
     const moduleName = pathname.split('/').slice(-1)[0]
-    if (pathname.includes('-final')) {
+    if (pathname.includes('/exercises-final/')) {
       ui = <Isolated loader={() => import(`./exercises-final/${moduleName}`)} />
-    } else {
+    } else if (pathname.includes('/exercises/')) {
       ui = <Isolated loader={() => import(`./exercises/${moduleName}`)} />
+    } else if (pathname.includes('/examples/')) {
+      ui = <Isolated loader={() => import(`./examples/${moduleName}`)} />
     }
   }
   return <React.Suspense fallback={<div>Loading...</div>}>{ui}</React.Suspense>

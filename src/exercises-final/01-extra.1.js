@@ -120,10 +120,7 @@ function FilterComponent() {
   )
 }
 
-function useForceRerender() {
-  const [, set] = React.useState()
-  return React.useCallback(() => set({}), [])
-}
+const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
 function Usage() {
   return <FilterComponent />

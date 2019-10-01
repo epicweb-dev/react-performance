@@ -1,9 +1,7 @@
-// Window large lists with react-window
+// React.memo for reducing unnecessary re-renders
 
 import React from 'react'
 import Downshift from 'downshift'
-// 🐨 import react-window's FixedSizeList here
-// 💰 import {FixedSizeList as List} from 'react-window'
 import filterCitiesWorker from 'workerize!../filter-cities'
 import {useAsync} from '../utils'
 
@@ -16,14 +14,12 @@ function Menu({
   highlightedIndex,
   selectedItem,
   setItemCount,
-  // 🐨 accept a prop called "listRef" here
-  // 💰 I gave you a bit of code to pass the listRef prop here.
-  // You can peek down below in the FilterComponent and I'll explain what I did.
 }) {
   const {data: items = []} = useAsync(
     React.useCallback(() => getItems(inputValue), [inputValue]),
   )
-  setItemCount(items.length)
+  const itemsToRender = items.slice(0, 100)
+  setItemCount(itemsToRender.length)
   return (
     <ul
       {...getMenuProps({
@@ -37,8 +33,7 @@ function Menu({
         },
       })}
     >
-      {/* 💣 remove this items.map call */}
-      {items.map((item, index) => (
+      {itemsToRender.map((item, index) => (
         <ListItem
           key={item.id}
           getItemProps={getItemProps}
@@ -48,26 +43,17 @@ function Menu({
           index={index}
         />
       ))}
-      {/*
-        🐨 render the FixedSizeList component here and pass ListItem as children.
-        💰 Here are the props you'll want: ref, width, height, itemCount, itemSize, itemData
-        💰 I'll bet you can figure out their values, let me know if you have trouble.
-      */}
     </ul>
   )
 }
+// 🐨 Memoize the Menu here using React.memo
 
 function ListItem({
-  // ListItem will now be rendered by react-window and most of the props we
-  // were accepting before will now be passed into an object prop called "data"
-  // 🐨 rewrite this so the following props are properties of a new "data" prop:
-  // getItemProps, items, highlightedIndex, selectedItem
   getItemProps,
   items,
   highlightedIndex,
   selectedItem,
   index,
-  // 🐨 accept a new style prop
 }) {
   const item = items[index]
   return (
@@ -76,8 +62,6 @@ function ListItem({
         index,
         item,
         style: {
-          // spread the style object onto this object to merge the styles
-          // react-window wants to pass with the ones we want to define.
           backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
           fontWeight:
             selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
@@ -88,42 +72,15 @@ function ListItem({
     </li>
   )
 }
-
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=windowing&em=
-*/
-
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
+// 🐨 Memoize the ListItem here using React.memo
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
-  // 💰 I made this listRef for you and pass it as a prop to the Menu
-  const listRef = React.useRef()
-
-  // 💰 whenever Downshift experiences a state change, it'll call this function
-  // and we use this to interact with react-window's listRef to scroll to
-  // a specific index if Downshift's highlightedIndex changes.
-  // I figured making you do this yourself would just be busy work and not
-  // really help you learn how to tune your apps for performance, so that's why
-  // I did it for you.
-  function handleStateChange(changes, downshiftState) {
-    if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
-      listRef.current.scrollToItem(changes.highlightedIndex)
-    }
-  }
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
       <Downshift
-        onStateChange={handleStateChange}
         onChange={selection =>
           alert(
             selection ? `You selected ${selection.name}` : 'Selection Cleared',
@@ -156,8 +113,6 @@ function FilterComponent() {
               highlightedIndex={highlightedIndex}
               selectedItem={selectedItem}
               setItemCount={setItemCount}
-              // 💰 Here's where I added the listRef prop
-              listRef={listRef}
             />
           </div>
         )}
@@ -166,19 +121,17 @@ function FilterComponent() {
   )
 }
 
-function useForceRerender() {
-  const [, set] = React.useState()
-  return React.useCallback(() => set({}), [])
-}
+const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'Window large lists with react-window'
+Usage.title = 'React.memo for reducing unnecessary re-renders'
 
 export default Usage
 
 /*
 eslint
-  import/no-webpack-loader-syntax:0
+  import/no-webpack-loader-syntax: 0,
+  no-func-assign: 0,
 */

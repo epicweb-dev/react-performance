@@ -1,23 +1,150 @@
-// TODO
+// Window large lists with react-window
 
 import React from 'react'
+import Downshift from 'downshift'
+import {FixedSizeList as List} from 'react-window'
+import filterCitiesWorker from 'workerize!../filter-cities'
+import {useAsync} from '../utils'
 
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=TODO&em=
-*/
+const {getItems} = filterCitiesWorker()
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
+function Menu({
+  getMenuProps,
+  inputValue,
+  getItemProps,
+  highlightedIndex,
+  selectedItem,
+  setItemCount,
+  listRef,
+}) {
+  const {data: items = []} = useAsync(
+    React.useCallback(() => getItems(inputValue), [inputValue]),
+  )
+  setItemCount(items.length)
+  return (
+    <ul
+      {...getMenuProps({
+        style: {
+          width: 300,
+          height: 300,
+          overflowY: 'scroll',
+          backgroundColor: '#eee',
+          padding: 0,
+          listStyle: 'none',
+        },
+      })}
+    >
+      <List
+        ref={listRef}
+        width={300}
+        height={300}
+        itemCount={items.length}
+        itemSize={20}
+        itemData={{
+          getItemProps,
+          items,
+          highlightedIndex,
+          selectedItem,
+        }}
+      >
+        {ListItem}
+      </List>
+    </ul>
+  )
+}
+Menu = React.memo(Menu)
+
+function ListItem({
+  data: {getItemProps, items, highlightedIndex, selectedItem},
+  index,
+  style,
+}) {
+  const item = items[index]
+  return (
+    <li
+      {...getItemProps({
+        index,
+        item,
+        style: {
+          ...style,
+          backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
+          fontWeight:
+            selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
+        },
+      })}
+    >
+      {item.name}
+    </li>
+  )
+}
+
+function FilterComponent() {
+  const forceRerender = useForceRerender()
+  const listRef = React.useRef()
+
+  function handleStateChange(changes, downshiftState) {
+    if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
+      listRef.current.scrollToItem(changes.highlightedIndex)
+    }
+  }
+
+  return (
+    <>
+      <button onClick={forceRerender}>force rerender</button>
+      <Downshift
+        onStateChange={handleStateChange}
+        onChange={selection =>
+          alert(
+            selection ? `You selected ${selection.name}` : 'Selection Cleared',
+          )
+        }
+        itemToString={item => (item ? item.name : '')}
+      >
+        {({
+          getInputProps,
+          getItemProps,
+          getLabelProps,
+          getMenuProps,
+          isOpen,
+          inputValue,
+          highlightedIndex,
+          selectedItem,
+          setItemCount,
+        }) => (
+          <div>
+            <div>
+              <label {...getLabelProps()}>Find a city</label>
+              <div>
+                <input {...getInputProps()} />
+              </div>
+            </div>
+            <Menu
+              getMenuProps={getMenuProps}
+              inputValue={inputValue}
+              getItemProps={getItemProps}
+              highlightedIndex={highlightedIndex}
+              selectedItem={selectedItem}
+              setItemCount={setItemCount}
+              listRef={listRef}
+            />
+          </div>
+        )}
+      </Downshift>
+    </>
+  )
+}
+
+const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
 function Usage() {
-  return <div>TODO</div>
+  return <FilterComponent />
 }
-Usage.title = 'TODO'
+Usage.title = 'Window large lists with react-window'
 
 export default Usage
+
+/*
+eslint
+  import/no-webpack-loader-syntax: 0,
+  no-func-assign: 0,
+*/
