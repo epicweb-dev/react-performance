@@ -49,9 +49,11 @@ The more prepared you are for the workshop, the better it will go for you.
 
 Here are the tools and techniques we'll be covering:
 
+- Loading less code via code splitting
 - Install and explore the React DevTools
 - Identify and fix slow components with React DevTools Profiler
 - Identify and fix slow JavaScript with the Chrome DevTools Profiler
+- Use Web Workers to free up the main thread from expensive computations
 - Solve "perf death by a thousand cuts"
 - Optimize context providers
 - Production Monitoring

@@ -3,47 +3,10 @@
 import React from 'react'
 import Downshift from 'downshift'
 import {FixedSizeList as List} from 'react-window'
-import cities from '../us-cities.json'
+import filterCitiesWorker from 'workerize!../filter-cities'
+import {useAsync} from '../utils'
 
-const allItems = cities.map((city, index) => ({
-  ...city,
-  lowerName: city.name.toLowerCase(),
-  id: String(index),
-}))
-
-function getItems(filter) {
-  if (!filter) {
-    return allItems
-  }
-  const filteredItems = []
-  const lowerFilter = filter.toLowerCase()
-  for (let i = 0; i < allItems.length; i++) {
-    const city = allItems[i]
-    const index = city.lowerName.indexOf(lowerFilter)
-    if (index >= 0) {
-      filteredItems[index] = filteredItems[index] || []
-      filteredItems[index].push(city)
-    }
-  }
-  let final = []
-  for (const index in filteredItems) {
-    final = final.concat(filteredItems[index])
-  }
-  return final
-}
-
-// function getItemsSlow(filter) {
-//   return filter
-//     ? allItems
-//         .reduce((acc, city) => {
-//           const index = city.name.toLowerCase().indexOf(filter.toLowerCase())
-//           acc[index] = acc[index] || []
-//           acc[index].push(city)
-//           return acc
-//         }, [])
-//         .reduce((acc, cities) => [...acc, ...cities], [])
-//     : allItems
-// }
+const {getItems} = filterCitiesWorker()
 
 function ListItem({
   data: {getItemProps, items, highlightedIndex, selectedItem},
@@ -78,8 +41,11 @@ function Menu({
   listRef,
   setItemCount,
 }) {
-  const items = React.useMemo(() => getItems(inputValue), [inputValue])
-  setItemCount(items.length)
+  const {data: items} = useAsync(
+    React.useCallback(() => getItems(inputValue), [inputValue]),
+  )
+  const itemCount = items ? items.length : 0
+  setItemCount(itemCount)
   return (
     <ul
       {...getMenuProps({
@@ -96,7 +62,7 @@ function Menu({
         ref={listRef}
         width={300}
         height={300}
-        itemCount={items.length}
+        itemCount={itemCount}
         itemSize={20}
         itemData={{
           getItemProps,
@@ -210,3 +176,8 @@ function Usage() {
 Usage.title = 'TODO'
 
 export default Usage
+
+/*
+eslint
+  import/no-webpack-loader-syntax:0
+*/

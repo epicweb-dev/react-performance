@@ -1,23 +1,13 @@
-// TODO
+// Window large lists with react-window
 
 import React from 'react'
 import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import cities from '../us-cities.json'
+// 🐨 import react-window's FixedSizeList here
+// 💰 import {FixedSizeList as List} from 'react-window'
+import filterCitiesWorker from 'workerize!../filter-cities'
+import {useAsync} from '../utils'
 
-const allItems = cities.map((city, index) => ({
-  ...city,
-  id: String(index),
-}))
-
-function getItems(filter) {
-  if (!filter) {
-    return allItems
-  }
-  return matchSorter(allItems, filter, {
-    keys: ['name'],
-  })
-}
+const {getItems} = filterCitiesWorker()
 
 function Menu({
   getMenuProps,
@@ -25,10 +15,15 @@ function Menu({
   getItemProps,
   highlightedIndex,
   selectedItem,
+  setItemCount,
+  // 🐨 accept a prop called "listRef" here
+  // 💰 I gave you a bit of code to pass the listRef prop here.
+  // You can peek down below in the FilterComponent and I'll explain what I did.
 }) {
-  const items = React.useMemo(() => getItems(inputValue).slice(0, 100), [
-    inputValue,
-  ])
+  const {data: items = []} = useAsync(
+    React.useCallback(() => getItems(inputValue), [inputValue]),
+  )
+  setItemCount(items.length)
   return (
     <ul
       {...getMenuProps({
@@ -42,38 +37,93 @@ function Menu({
         },
       })}
     >
+      {/* 💣 remove this items.map call */}
       {items.map((item, index) => (
-        <li
-          {...getItemProps({
-            key: item.id,
-            index,
-            item,
-            style: {
-              backgroundColor:
-                highlightedIndex === index ? 'lightgray' : 'inherit',
-              fontWeight: selectedItem === item ? 'bold' : 'normal',
-            },
-          })}
-        >
-          {item.name}
-        </li>
+        <ListItem
+          key={item.id}
+          getItemProps={getItemProps}
+          items={items}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
+          index={index}
+        />
       ))}
+      {/*
+        🐨 render the FixedSizeList component here and pass ListItem as children.
+        💰 Here are the props you'll want: ref, width, height, itemCount, itemSize, itemData
+        💰 I'll bet you can figure out their values, let me know if you have trouble.
+      */}
     </ul>
   )
 }
 
-function useForceRerender() {
-  const [, set] = React.useState()
-  return React.useCallback(() => set({}), [])
+function ListItem({
+  // ListItem will now be rendered by react-window and most of the props we
+  // were accepting before will now be passed into an object prop called "data"
+  // 🐨 rewrite this so the following props are properties of a new "data" prop:
+  // getItemProps, items, highlightedIndex, selectedItem
+  getItemProps,
+  items,
+  highlightedIndex,
+  selectedItem,
+  index,
+  // 🐨 accept a new style prop
+}) {
+  const item = items[index]
+  return (
+    <li
+      {...getItemProps({
+        index,
+        item,
+        style: {
+          // spread the style object onto this object to merge the styles
+          // react-window wants to pass with the ones we want to define.
+          backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
+          fontWeight:
+            selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
+        },
+      })}
+    >
+      {item.name}
+    </li>
+  )
 }
+
+/*
+🦉 Elaboration & Feedback
+After the instruction, copy the URL below into your browser and fill out the form:
+http://ws.kcd.im/?ws=React%20Performance&e=windowing&em=
+*/
+
+////////////////////////////////////////////////////////////////////
+//                                                                //
+//                 Don't make changes below here.                 //
+// But do look at it to see how your code is intended to be used. //
+//                                                                //
+////////////////////////////////////////////////////////////////////
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
+  // 💰 I made this listRef for you and pass it as a prop to the Menu
+  const listRef = React.useRef()
+
+  // 💰 whenever Downshift experiences a state change, it'll call this function
+  // and we use this to interact with react-window's listRef to scroll to
+  // a specific index if Downshift's highlightedIndex changes.
+  // I figured making you do this yourself would just be busy work and not
+  // really help you learn how to tune your apps for performance, so that's why
+  // I did it for you.
+  function handleStateChange(changes, downshiftState) {
+    if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
+      listRef.current.scrollToItem(changes.highlightedIndex)
+    }
+  }
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
       <Downshift
+        onStateChange={handleStateChange}
         onChange={selection =>
           alert(
             selection ? `You selected ${selection.name}` : 'Selection Cleared',
@@ -90,6 +140,7 @@ function FilterComponent() {
           inputValue,
           highlightedIndex,
           selectedItem,
+          setItemCount,
         }) => (
           <div>
             <div>
@@ -104,6 +155,9 @@ function FilterComponent() {
               getItemProps={getItemProps}
               highlightedIndex={highlightedIndex}
               selectedItem={selectedItem}
+              setItemCount={setItemCount}
+              // 💰 Here's where I added the listRef prop
+              listRef={listRef}
             />
           </div>
         )}
@@ -112,16 +166,19 @@ function FilterComponent() {
   )
 }
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
+function useForceRerender() {
+  const [, set] = React.useState()
+  return React.useCallback(() => set({}), [])
+}
 
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'TODO'
+Usage.title = 'Window large lists with react-window'
 
 export default Usage
+
+/*
+eslint
+  import/no-webpack-loader-syntax:0
+*/

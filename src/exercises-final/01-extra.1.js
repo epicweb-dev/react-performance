@@ -1,5 +1,5 @@
 // useMemo for expensive calculations
-// 💯 Put getItems into a WebWorker
+// 💯 Put getItems into a Web Worker
 
 import React from 'react'
 import Downshift from 'downshift'
@@ -14,10 +14,13 @@ function Menu({
   getItemProps,
   highlightedIndex,
   selectedItem,
+  setItemCount,
 }) {
-  const {data: items} = useAsync(
+  const {data: items = []} = useAsync(
     React.useCallback(() => getItems(inputValue), [inputValue]),
   )
+  const itemsToRender = items.slice(0, 100)
+  setItemCount(itemsToRender.length)
   return (
     <ul
       {...getMenuProps({
@@ -31,34 +34,43 @@ function Menu({
         },
       })}
     >
-      {items
-        ? items.slice(0, 100).map((item, index) => (
-            <li
-              {...getItemProps({
-                key: item.id,
-                index,
-                item,
-                style: {
-                  backgroundColor:
-                    highlightedIndex === index ? 'lightgray' : 'inherit',
-                  fontWeight:
-                    selectedItem && selectedItem.id === item.id
-                      ? 'bold'
-                      : 'normal',
-                },
-              })}
-            >
-              {item.name}
-            </li>
-          ))
-        : null}
+      {itemsToRender.map((item, index) => (
+        <ListItem
+          key={item.id}
+          getItemProps={getItemProps}
+          items={items}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
+          index={index}
+        />
+      ))}
     </ul>
   )
 }
 
-function useForceRerender() {
-  const [, set] = React.useState()
-  return React.useCallback(() => set({}), [])
+function ListItem({
+  getItemProps,
+  items,
+  highlightedIndex,
+  selectedItem,
+  index,
+}) {
+  const item = items[index]
+  return (
+    <li
+      {...getItemProps({
+        index,
+        item,
+        style: {
+          backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
+          fontWeight:
+            selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
+        },
+      })}
+    >
+      {item.name}
+    </li>
+  )
 }
 
 function FilterComponent() {
@@ -84,6 +96,7 @@ function FilterComponent() {
           inputValue,
           highlightedIndex,
           selectedItem,
+          setItemCount,
         }) => (
           <div>
             <div>
@@ -98,6 +111,7 @@ function FilterComponent() {
               getItemProps={getItemProps}
               highlightedIndex={highlightedIndex}
               selectedItem={selectedItem}
+              setItemCount={setItemCount}
             />
           </div>
         )}
@@ -106,12 +120,10 @@ function FilterComponent() {
   )
 }
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
+function useForceRerender() {
+  const [, set] = React.useState()
+  return React.useCallback(() => set({}), [])
+}
 
 function Usage() {
   return <FilterComponent />

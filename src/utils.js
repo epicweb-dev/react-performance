@@ -8,18 +8,18 @@ import React from 'react'
 // useAsync is placed in a dependency array, so you must use React.useCallback
 // to ensure that the callback remains consistent until the dependencies change.
 function useAsync(cb) {
-  const [state, setState] = React.useState({data: null, error: null})
+  const [state, setState] = React.useState({data: undefined, error: undefined})
   React.useEffect(() => {
     let current = true
     cb().then(
       data => {
         if (current) {
-          setState({data, error: null})
+          setState({data, error: undefined})
         }
       },
       error => {
         if (current) {
-          setState({error, data: null})
+          setState({error, data: undefined})
         }
       },
     )
