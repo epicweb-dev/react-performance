@@ -1,3 +1,5 @@
+// http://localhost:3000/isolated/examples/unnecessary-rerenders
+
 import React from 'react'
 
 function CountButton({count, onClick}) {

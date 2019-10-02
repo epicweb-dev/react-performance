@@ -10100,6 +10100,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-interval@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/use-interval/-/use-interval-1.1.0.tgz#fffb7e10141b8fc36cd5f3055958b960c464092d"
+  integrity sha512-x6U0YaN5IknebySwYnaUy6UCEeG7AfmHkoccGxvI/3WM/8Jo25Pqr+6wr2YL4soMy8i6BSlVE+oVcVTScFBzjA==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"

@@ -1,4 +1,5 @@
 // Fix "perf death by a thousand cuts"
+// 💯 Speed up the app by memoizing all the things
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -16,6 +17,9 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
+    case 'TYPED_IN_DOG_INPUT': {
+      return {...state, dogName: action.dogName}
+    }
     case 'UPDATE_GRID': {
       return {
         ...state,
@@ -35,6 +39,7 @@ function appReducer(state, action) {
 function AppStateProvider(props) {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
+    dogName: '',
   })
   return <AppContext.Provider value={[state, dispatch]} {...props} />
 }
@@ -114,11 +119,12 @@ function ChangingGrid() {
       <div style={{width: '100%', maxWidth: 800, overflow: 'scroll'}}>
         <div style={{width: columns * cellWidth}}>
           {state.grid.slice(0, rows).map((row, i) => (
-            <div key={i} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
-              ))}
-            </div>
+            <Row
+              key={i}
+              row={row}
+              columnCount={columns}
+              cellWidth={cellWidth}
+            />
           ))}
         </div>
       </div>
@@ -126,6 +132,17 @@ function ChangingGrid() {
   )
 }
 ChangingGrid = React.memo(ChangingGrid)
+
+function Row({row, columnCount, cellWidth}) {
+  return (
+    <div style={{display: 'flex'}}>
+      {row.slice(0, columnCount).map((cell, cI) => (
+        <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+      ))}
+    </div>
+  )
+}
+Row = React.memo(Row)
 
 function Cell({cellWidth, cell}) {
   return (
@@ -148,13 +165,15 @@ function Cell({cellWidth, cell}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [dogName, setDogName] = React.useState('')
+  const [{dogName}, dispatch] = useAppState()
   return (
     <form onSubmit={e => e.preventDefault()}>
       <label htmlFor="dogName">Dog Name</label>
       <input
         value={dogName}
-        onChange={e => setDogName(e.target.value)}
+        onChange={e =>
+          dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: e.target.value})
+        }
         id="dogName"
         placeholder="Toto"
       />

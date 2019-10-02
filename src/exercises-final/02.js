@@ -3,7 +3,7 @@
 import React from 'react'
 import Downshift from 'downshift'
 import filterCitiesWorker from 'workerize!../filter-cities'
-import {useAsync} from '../utils'
+import {useAsync, useForceRerender} from '../utils'
 
 const {getItems} = filterCitiesWorker()
 
@@ -120,8 +120,6 @@ function FilterComponent() {
     </>
   )
 }
-
-const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
 function Usage() {
   return <FilterComponent />

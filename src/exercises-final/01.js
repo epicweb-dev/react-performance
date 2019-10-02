@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Downshift from 'downshift'
+import {useForceRerender} from '../utils'
 import {getItems} from '../filter-cities'
 
 function Menu({
@@ -113,8 +114,6 @@ function FilterComponent() {
     </>
   )
 }
-
-const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
 function Usage() {
   return <FilterComponent />
