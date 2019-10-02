@@ -32,4 +32,20 @@ function useAsync(cb) {
 
 const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
-export {useAsync, useForceRerender}
+function debounce(cb, time) {
+  let timeout
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(cb, time, ...args)
+  }
+}
+
+// this only needs to exist because concurrent mode isn't here yet. When we get
+// that then so much of our hack-perf fixes go away!
+function useDebouncedState(initialState) {
+  const [state, setState] = React.useState(initialState)
+  const debouncedSetState = React.useCallback(debounce(setState, 200), [])
+  return [state, debouncedSetState]
+}
+
+export {useAsync, useForceRerender, useDebouncedState}

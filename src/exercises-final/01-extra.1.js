@@ -3,10 +3,8 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-import filterCitiesWorker from 'workerize!../filter-cities'
+import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
-
-const {getItems} = filterCitiesWorker()
 
 function Menu({
   getMenuProps,
@@ -126,8 +124,3 @@ function Usage() {
 Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
-
-/*
-eslint
-  import/no-webpack-loader-syntax:0
-*/

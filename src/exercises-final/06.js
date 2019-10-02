@@ -1,23 +1,34 @@
-// TODO
+// Production performance monitoring
 
 import React from 'react'
+import reportProfile from '../report-profile'
 
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=TODO&em=
-*/
+function Counter() {
+  const [count, setCount] = React.useState(0)
+  const increment = () => setCount(c => c + 1)
+  return <button onClick={increment}>{count}</button>
+}
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
+function App() {
+  return (
+    <div>
+      <React.Profiler id="counter" onRender={reportProfile}>
+        <div>
+          Profiled counter
+          <Counter />
+        </div>
+      </React.Profiler>
+      <div>
+        Unprofiled counter
+        <Counter />
+      </div>
+    </div>
+  )
+}
 
 function Usage() {
-  return <div>TODO</div>
+  return <App />
 }
-Usage.title = 'TODO'
+Usage.title = 'Production performance monitoring'
 
 export default Usage

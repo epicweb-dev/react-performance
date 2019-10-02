@@ -2,7 +2,7 @@
 
 import React from 'react'
 import useInterval from 'use-interval'
-import {useForceRerender} from '../utils'
+import {useForceRerender, useDebouncedState} from '../utils'
 
 const AppStateContext = React.createContext()
 
@@ -50,31 +50,17 @@ function AppStateProvider(props) {
 function useAppState() {
   const context = React.useContext(AppStateContext)
   if (!context) {
-    throw new Error('useAppState must be used within a context provider')
+    throw new Error('useAppState must be used within the AppStateProvider')
   }
   return context
-}
-
-function dbnce(cb, time) {
-  let timeout
-  return (...args) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(cb, time, ...args)
-  }
-}
-
-// this only needs to exist because concurrent mode isn't here yet. When we get
-// that then so much of our hack-perf fixes go away!
-function useDebouncedState(initialState) {
-  const [state, setState] = React.useState(initialState)
-  const debouncedSetState = dbnce(setState, 200)
-  return [state, debouncedSetState]
 }
 
 function UpdateGridOnInterval() {
   const [, dispatch] = useAppState()
   useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
+  return null
 }
+UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)

@@ -121,8 +121,3 @@ function Usage() {
 Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
-
-/*
-eslint
-  import/no-webpack-loader-syntax:0
-*/

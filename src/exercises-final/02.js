@@ -2,10 +2,8 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-import filterCitiesWorker from 'workerize!../filter-cities'
+import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
-
-const {getItems} = filterCitiesWorker()
 
 function Menu({
   getMenuProps,
@@ -130,6 +128,5 @@ export default Usage
 
 /*
 eslint
-  import/no-webpack-loader-syntax: 0,
   no-func-assign: 0,
 */
