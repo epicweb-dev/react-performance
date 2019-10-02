@@ -1,4 +1,5 @@
 // Fix "perf death by a thousand cuts"
+// 💯 write an HOC to get a slice of app state
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -73,77 +74,91 @@ function UpdateGridOnInterval() {
   useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
 }
 
-function ChangingGrid() {
-  const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const [state, dispatch] = useAppState()
-  const [rows, setRows] = useDebouncedState(initialRowsColumns)
-  const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const cellWidth = 40
-  return (
-    <div>
-      <form onSubmit={e => e.preventDefault()}>
-        <div>
-          <button type="button" onClick={() => dispatch({type: 'UPDATE_GRID'})}>
-            Update Grid Data
-          </button>
-        </div>
-        <div>
-          <label htmlFor="keepUpdated">Keep Grid Data updated</label>
-          <input
-            id="keepUpdated"
-            checked={keepUpdated}
-            type="checkbox"
-            onChange={e => setKeepUpdated(e.target.checked)}
-          />
-          {keepUpdated ? <UpdateGridOnInterval /> : null}
-        </div>
-        <div>
-          <label htmlFor="rows">Rows to display: </label>
-          <input
-            id="rows"
-            defaultValue={rows}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setRows(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-        <div>
-          <label htmlFor="columns">Columns to display: </label>
-          <input
-            id="columns"
-            defaultValue={columns}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setColumns(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-      </form>
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 410,
-          maxHeight: 820,
-          overflow: 'scroll',
-        }}
-      >
-        <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, i) => (
-            <div key={i} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
-              ))}
-            </div>
-          ))}
+function withStateSlice(Comp, slice) {
+  const MemoComp = React.memo(Comp)
+  const Wrapper = props => {
+    const [state, dispatch] = useAppState()
+    return <MemoComp state={slice(state)} dispatch={dispatch} {...props} />
+  }
+  Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
+  return Wrapper
+}
+
+const ChangingGrid = withStateSlice(
+  function ChangingGrid({state: grid, dispatch}) {
+    const [keepUpdated, setKeepUpdated] = React.useState(false)
+    const [rows, setRows] = useDebouncedState(initialRowsColumns)
+    const [columns, setColumns] = useDebouncedState(initialRowsColumns)
+    const cellWidth = 40
+    return (
+      <div>
+        <form onSubmit={e => e.preventDefault()}>
+          <div>
+            <button
+              type="button"
+              onClick={() => dispatch({type: 'UPDATE_GRID'})}
+            >
+              Update Grid Data
+            </button>
+          </div>
+          <div>
+            <label htmlFor="keepUpdated">Keep Grid Data updated</label>
+            <input
+              id="keepUpdated"
+              checked={keepUpdated}
+              type="checkbox"
+              onChange={e => setKeepUpdated(e.target.checked)}
+            />
+            {keepUpdated ? <UpdateGridOnInterval /> : null}
+          </div>
+          <div>
+            <label htmlFor="rows">Rows to display: </label>
+            <input
+              id="rows"
+              defaultValue={rows}
+              type="number"
+              min={1}
+              max={dimensions}
+              onChange={e => setRows(e.target.value)}
+            />
+            {` (max: ${dimensions})`}
+          </div>
+          <div>
+            <label htmlFor="columns">Columns to display: </label>
+            <input
+              id="columns"
+              defaultValue={columns}
+              type="number"
+              min={1}
+              max={dimensions}
+              onChange={e => setColumns(e.target.value)}
+            />
+            {` (max: ${dimensions})`}
+          </div>
+        </form>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 410,
+            maxHeight: 820,
+            overflow: 'scroll',
+          }}
+        >
+          <div style={{width: columns * cellWidth}}>
+            {grid.slice(0, rows).map((row, i) => (
+              <div key={i} style={{display: 'flex'}}>
+                {row.slice(0, columns).map((cell, cI) => (
+                  <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
-ChangingGrid = React.memo(ChangingGrid)
+    )
+  },
+  state => state.grid,
+)
 
 function Cell({cellWidth, cell}) {
   return (
@@ -198,19 +213,6 @@ function App() {
     </AppStateProvider>
   )
 }
-
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=colocate%20state&em=
-*/
-
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
 
 function Usage() {
   const forceRerender = useForceRerender()

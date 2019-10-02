@@ -1,5 +1,5 @@
 // Fix "perf death by a thousand cuts"
-// 💯 Speed up the app by memoizing all the things
+// 💯 speed up perf by memoizing all the things
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -25,7 +25,7 @@ function appReducer(state, action) {
         ...state,
         grid: state.grid.map(row => {
           return row.map(cell =>
-            Math.random() > 0.7 ? Math.random() * 100 : cell,
+            Math.random() > 0.5 ? Math.random() * 100 : cell,
           )
         }),
       }
@@ -38,10 +38,11 @@ function appReducer(state, action) {
 
 function AppStateProvider(props) {
   const [state, dispatch] = React.useReducer(appReducer, {
-    grid: initialGrid,
     dogName: '',
+    grid: initialGrid,
   })
-  return <AppContext.Provider value={[state, dispatch]} {...props} />
+  const value = [state, dispatch]
+  return <AppContext.Provider value={value} {...props} />
 }
 
 function useAppState() {
@@ -68,17 +69,17 @@ function useDebouncedState(initialState) {
   return [state, debouncedSetState]
 }
 
+function UpdateGridOnInterval() {
+  const [, dispatch] = useAppState()
+  useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
+}
+
 function ChangingGrid() {
-  const keepUpdatedRef = React.useRef()
+  const [keepUpdated, setKeepUpdated] = React.useState(false)
   const [state, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
   const cellWidth = 40
-  useInterval(() => {
-    if (keepUpdatedRef.current.checked) {
-      dispatch({type: 'UPDATE_GRID'})
-    }
-  }, 500)
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -89,7 +90,13 @@ function ChangingGrid() {
         </div>
         <div>
           <label htmlFor="keepUpdated">Keep Grid Data updated</label>
-          <input id="keepUpdated" type="checkbox" ref={keepUpdatedRef} />
+          <input
+            id="keepUpdated"
+            checked={keepUpdated}
+            type="checkbox"
+            onChange={e => setKeepUpdated(e.target.checked)}
+          />
+          {keepUpdated ? <UpdateGridOnInterval /> : null}
         </div>
         <div>
           <label htmlFor="rows">Rows to display: </label>
@@ -116,33 +123,40 @@ function ChangingGrid() {
           {` (max: ${dimensions})`}
         </div>
       </form>
-      <div style={{width: '100%', maxWidth: 800, overflow: 'scroll'}}>
-        <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, i) => (
-            <Row
-              key={i}
-              row={row}
-              columnCount={columns}
-              cellWidth={cellWidth}
-            />
-          ))}
-        </div>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 410,
+          maxHeight: 820,
+          overflow: 'scroll',
+        }}
+      >
+        <Grid
+          grid={state.grid}
+          columns={columns}
+          cellWidth={cellWidth}
+          rows={rows}
+        />
       </div>
     </div>
   )
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Row({row, columnCount, cellWidth}) {
+function Grid({grid, columns, cellWidth, rows}) {
   return (
-    <div style={{display: 'flex'}}>
-      {row.slice(0, columnCount).map((cell, cI) => (
-        <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+    <div style={{width: columns * cellWidth}}>
+      {grid.slice(0, rows).map((row, i) => (
+        <div key={i} style={{display: 'flex'}}>
+          {row.slice(0, columns).map((cell, cI) => (
+            <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+          ))}
+        </div>
       ))}
     </div>
   )
 }
-Row = React.memo(Row)
+Grid = React.memo(Grid)
 
 function Cell({cellWidth, cell}) {
   return (
@@ -165,22 +179,22 @@ function Cell({cellWidth, cell}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [{dogName}, dispatch] = useAppState()
+  const [state, dispatch] = useAppState()
   return (
     <form onSubmit={e => e.preventDefault()}>
       <label htmlFor="dogName">Dog Name</label>
       <input
-        value={dogName}
+        value={state.dogName}
         onChange={e =>
           dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: e.target.value})
         }
         id="dogName"
         placeholder="Toto"
       />
-      {dogName ? (
+      {state.dogName ? (
         <div>
-          <strong>{dogName}</strong>
-          {`, I've a feeling we're not in Kansas anymore`}
+          <strong>{state.dogName}</strong>, I've a feeling we're not in Kansas
+          anymore
         </div>
       ) : null}
     </form>
@@ -198,26 +212,13 @@ function App() {
   )
 }
 
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=colocate%20state&em=
-*/
-
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
-
 function Usage() {
   const forceRerender = useForceRerender()
   return (
-    <>
+    <div>
       <button onClick={forceRerender}>force rerender</button>
       <App />
-    </>
+    </div>
   )
 }
 Usage.title = 'Fix "perf death by a thousand cuts"'

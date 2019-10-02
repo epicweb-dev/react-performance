@@ -1,4 +1,5 @@
 // Fix "perf death by a thousand cuts"
+// 💯 speed things up by limiting the work consuming components do
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -73,9 +74,14 @@ function UpdateGridOnInterval() {
   useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
 }
 
-function ChangingGrid() {
-  const [keepUpdated, setKeepUpdated] = React.useState(false)
+function ChangingGrid(props) {
   const [state, dispatch] = useAppState()
+  return <ChangingGridImpl grid={state.grid} dispatch={dispatch} {...props} />
+}
+ChangingGrid = React.memo(ChangingGrid)
+
+function ChangingGridImpl({grid, dispatch}) {
+  const [keepUpdated, setKeepUpdated] = React.useState(false)
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
   const cellWidth = 40
@@ -131,7 +137,7 @@ function ChangingGrid() {
         }}
       >
         <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, i) => (
+          {grid.slice(0, rows).map((row, i) => (
             <div key={i} style={{display: 'flex'}}>
               {row.slice(0, columns).map((cell, cI) => (
                 <Cell key={cI} cellWidth={cellWidth} cell={cell} />
@@ -143,7 +149,7 @@ function ChangingGrid() {
     </div>
   )
 }
-ChangingGrid = React.memo(ChangingGrid)
+ChangingGridImpl = React.memo(ChangingGridImpl)
 
 function Cell({cellWidth, cell}) {
   return (
@@ -198,19 +204,6 @@ function App() {
     </AppStateProvider>
   )
 }
-
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=colocate%20state&em=
-*/
-
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
 
 function Usage() {
   const forceRerender = useForceRerender()
