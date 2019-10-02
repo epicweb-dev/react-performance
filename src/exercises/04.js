@@ -16,6 +16,8 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
+    // we're no longer managing the dogName state in our reducer
+    // 💣 remove this case
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
     }
@@ -24,7 +26,7 @@ function appReducer(state, action) {
         ...state,
         grid: state.grid.map(row => {
           return row.map(cell =>
-            Math.random() > 0.5 ? Math.random() * 100 : cell,
+            Math.random() > 0.7 ? Math.random() * 100 : cell,
           )
         }),
       }
@@ -37,6 +39,7 @@ function appReducer(state, action) {
 
 function AppStateProvider(props) {
   const [state, dispatch] = React.useReducer(appReducer, {
+    // 💣 remove the dogName state because we're nlo longer managing that
     dogName: '',
     grid: initialGrid,
   })
@@ -166,22 +169,29 @@ function Cell({cellWidth, cell}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
+  // 🐨 replace the useAppState with a normal useState here to manage
+  // the dogName locally within this component
   const [state, dispatch] = useAppState()
+  const {dogName} = state
+
+  function handleChange(event) {
+    const newDogName = event.target.value
+    // 🐨 change this to call your state setter that you get from useState
+    dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
+  }
+
   return (
     <form onSubmit={e => e.preventDefault()}>
       <label htmlFor="dogName">Dog Name</label>
       <input
-        value={state.dogName}
-        onChange={e =>
-          dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: e.target.value})
-        }
+        value={dogName}
+        onChange={handleChange}
         id="dogName"
         placeholder="Toto"
       />
-      {state.dogName ? (
+      {dogName ? (
         <div>
-          <strong>{state.dogName}</strong>, I've a feeling we're not in Kansas
-          anymore
+          <strong>{dogName}</strong>, I've a feeling we're not in Kansas anymore
         </div>
       ) : null}
     </form>

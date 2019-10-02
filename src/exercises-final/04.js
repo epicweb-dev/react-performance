@@ -163,19 +163,24 @@ Cell = React.memo(Cell)
 
 function DogNameInput() {
   const [dogName, setDogName] = React.useState('')
+
+  function handleChange(event) {
+    const newDogName = event.target.value
+    setDogName(newDogName)
+  }
+
   return (
     <form onSubmit={e => e.preventDefault()}>
       <label htmlFor="dogName">Dog Name</label>
       <input
         value={dogName}
-        onChange={e => setDogName(e.target.value)}
+        onChange={handleChange}
         id="dogName"
         placeholder="Toto"
       />
       {dogName ? (
         <div>
-          <strong>{dogName}</strong>
-          {`, I've a feeling we're not in Kansas anymore`}
+          <strong>{dogName}</strong>, I've a feeling we're not in Kansas anymore
         </div>
       ) : null}
     </form>

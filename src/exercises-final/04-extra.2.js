@@ -25,7 +25,7 @@ function appReducer(state, action) {
         ...state,
         grid: state.grid.map(row => {
           return row.map(cell =>
-            Math.random() > 0.5 ? Math.random() * 100 : cell,
+            Math.random() > 0.7 ? Math.random() * 100 : cell,
           )
         }),
       }
@@ -173,26 +173,35 @@ Cell = React.memo(Cell)
 
 function DogNameInput() {
   const [state, dispatch] = useAppState()
+  const {dogName} = state
+
+  function handleChange(event) {
+    const newDogName = event.target.value
+    dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
+  }
+
   return (
     <form onSubmit={e => e.preventDefault()}>
       <label htmlFor="dogName">Dog Name</label>
       <input
-        value={state.dogName}
-        onChange={e =>
-          dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: e.target.value})
-        }
+        value={dogName}
+        onChange={handleChange}
         id="dogName"
         placeholder="Toto"
       />
-      {state.dogName ? (
+      {dogName ? (
         <div>
-          <strong>{state.dogName}</strong>, I've a feeling we're not in Kansas
-          anymore
+          <strong>{dogName}</strong>, I've a feeling we're not in Kansas anymore
         </div>
       ) : null}
     </form>
   )
 }
+// NOTE: This React.memo on the DogNameInput doesn't really do much,
+// but that's kinda the point. Once people start saying they need React.memo
+// all over the place, they start doing it everywhere whether it's actually
+// needed or not
+DogNameInput = React.memo(DogNameInput)
 
 function App() {
   return (
