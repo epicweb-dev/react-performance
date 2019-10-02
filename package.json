@@ -24,6 +24,7 @@
     "react-window": "^1.8.5",
     "stop-runaway-react-effects": "^1.2.0",
     "use-interval": "^1.1.0",
+    "vanilla-tilt": "^1.7.0",
     "workerize": "^0.1.7"
   },
   "devDependencies": {

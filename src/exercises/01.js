@@ -1,6 +1,24 @@
 // Code splitting
 
 import React from 'react'
+import Tilt from '../tilt'
+
+function App() {
+  const [showTilt, setShowTilt] = React.useState(false)
+  return (
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          checked={showTilt}
+          onChange={e => setShowTilt(e.target.checked)}
+        />
+        {' show tilt'}
+      </label>
+      {showTilt ? <Tilt>This is tilted!</Tilt> : null}
+    </div>
+  )
+}
 
 /*
 🦉 Elaboration & Feedback
@@ -16,7 +34,7 @@ http://ws.kcd.im/?ws=React%20Performance&e=code%20splitting&em=
 ////////////////////////////////////////////////////////////////////
 
 function Usage() {
-  return <div>TODO</div>
+  return <App />
 }
 Usage.title = 'Code splitting'
 
