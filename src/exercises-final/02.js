@@ -1,9 +1,9 @@
-// React.memo for reducing unnecessary re-renders
+// useMemo for expensive calculations
 
 import React from 'react'
 import Downshift from 'downshift'
-import {getItems} from '../workerized-filter-cities'
-import {useAsync, useForceRerender} from '../utils'
+import {useForceRerender} from '../utils'
+import {getItems} from '../filter-cities'
 
 function Menu({
   getMenuProps,
@@ -13,9 +13,7 @@ function Menu({
   selectedItem,
   setItemCount,
 }) {
-  const {data: items = []} = useAsync(
-    React.useCallback(() => getItems(inputValue), [inputValue]),
-  )
+  const items = React.useMemo(() => getItems(inputValue), [inputValue])
   const itemsToRender = items.slice(0, 100)
   setItemCount(itemsToRender.length)
   return (
@@ -44,7 +42,6 @@ function Menu({
     </ul>
   )
 }
-Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
@@ -70,7 +67,6 @@ function ListItem({
     </li>
   )
 }
-ListItem = React.memo(ListItem)
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
@@ -122,11 +118,6 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'React.memo for reducing unnecessary re-renders'
+Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
-
-/*
-eslint
-  no-func-assign: 0,
-*/

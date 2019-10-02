@@ -1,9 +1,9 @@
-// React.memo for reducing unnecessary re-renders
+// useMemo for expensive calculations
 
 import React from 'react'
 import Downshift from 'downshift'
-import {getItems} from '../workerized-filter-cities'
-import {useAsync, useForceRerender} from '../utils'
+import {useForceRerender} from '../utils'
+import {getItems} from '../filter-cities'
 
 function Menu({
   getMenuProps,
@@ -13,9 +13,8 @@ function Menu({
   selectedItem,
   setItemCount,
 }) {
-  const {data: items = []} = useAsync(
-    React.useCallback(() => getItems(inputValue), [inputValue]),
-  )
+  // 🐨 wrap getItems in a call to `React.useMemo`
+  const items = getItems(inputValue)
   const itemsToRender = items.slice(0, 100)
   setItemCount(itemsToRender.length)
   return (
@@ -31,7 +30,7 @@ function Menu({
         },
       })}
     >
-      {itemsToRender.map((item, index) => (
+      {itemsToRender.slice(0, 100).map((item, index) => (
         <ListItem
           key={item.id}
           getItemProps={getItemProps}
@@ -44,7 +43,19 @@ function Menu({
     </ul>
   )
 }
-// 🐨 Memoize the Menu here using React.memo
+
+/*
+🦉 Elaboration & Feedback
+After the instruction, copy the URL below into your browser and fill out the form:
+http://ws.kcd.im/?ws=React%20Performance&e=useMemo&em=
+*/
+
+////////////////////////////////////////////////////////////////////
+//                                                                //
+//                 Don't make changes below here.                 //
+// But do look at it to see how your code is intended to be used. //
+//                                                                //
+////////////////////////////////////////////////////////////////////
 
 function ListItem({
   getItemProps,
@@ -70,7 +81,6 @@ function ListItem({
     </li>
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
@@ -122,6 +132,6 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'React.memo for reducing unnecessary re-renders'
+Usage.title = 'useMemo for expensive calculations'
 
 export default Usage

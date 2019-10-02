@@ -1,8 +1,8 @@
-// useMemo for expensive calculations
-// 💯 Put getItems into a Web Worker
+// React.memo for reducing unnecessary re-renders
+// 💯 Memoize the Downshift component
 
 import React from 'react'
-import Downshift from 'downshift'
+import OriginalDownshift from 'downshift'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
@@ -45,6 +45,7 @@ function Menu({
     </ul>
   )
 }
+Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
@@ -70,6 +71,45 @@ function ListItem({
     </li>
   )
 }
+ListItem = React.memo(ListItem)
+
+const Downshift = React.memo(OriginalDownshift)
+
+const itemToString = item => (item ? item.name : '')
+function handleChange(selection) {
+  alert(selection ? `You selected ${selection.name}` : 'Selection Cleared')
+}
+
+function downshiftChildren({
+  getInputProps,
+  getItemProps,
+  getLabelProps,
+  getMenuProps,
+  isOpen,
+  inputValue,
+  highlightedIndex,
+  selectedItem,
+  setItemCount,
+}) {
+  return (
+    <div>
+      <div>
+        <label {...getLabelProps()}>Find a city</label>
+        <div>
+          <input {...getInputProps()} />
+        </div>
+      </div>
+      <Menu
+        getMenuProps={getMenuProps}
+        inputValue={inputValue}
+        getItemProps={getItemProps}
+        highlightedIndex={highlightedIndex}
+        selectedItem={selectedItem}
+        setItemCount={setItemCount}
+      />
+    </div>
+  )
+}
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
@@ -77,42 +117,8 @@ function FilterComponent() {
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
-      <Downshift
-        onChange={selection =>
-          alert(
-            selection ? `You selected ${selection.name}` : 'Selection Cleared',
-          )
-        }
-        itemToString={item => (item ? item.name : '')}
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getLabelProps,
-          getMenuProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem,
-          setItemCount,
-        }) => (
-          <div>
-            <div>
-              <label {...getLabelProps()}>Find a city</label>
-              <div>
-                <input {...getInputProps()} />
-              </div>
-            </div>
-            <Menu
-              getMenuProps={getMenuProps}
-              inputValue={inputValue}
-              getItemProps={getItemProps}
-              highlightedIndex={highlightedIndex}
-              selectedItem={selectedItem}
-              setItemCount={setItemCount}
-            />
-          </div>
-        )}
+      <Downshift onChange={handleChange} itemToString={itemToString}>
+        {downshiftChildren}
       </Downshift>
     </>
   )
@@ -121,6 +127,11 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'useMemo for expensive calculations'
+Usage.title = 'React.memo for reducing unnecessary re-renders'
 
 export default Usage
+
+/*
+eslint
+  no-func-assign: 0,
+*/

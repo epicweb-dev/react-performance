@@ -1,8 +1,7 @@
-// Window large lists with react-window
+// React.memo for reducing unnecessary re-renders
 
 import React from 'react'
 import Downshift from 'downshift'
-import {FixedSizeList as List} from 'react-window'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
@@ -13,12 +12,12 @@ function Menu({
   highlightedIndex,
   selectedItem,
   setItemCount,
-  listRef,
 }) {
   const {data: items = []} = useAsync(
     React.useCallback(() => getItems(inputValue), [inputValue]),
   )
-  setItemCount(items.length)
+  const itemsToRender = items.slice(0, 100)
+  setItemCount(itemsToRender.length)
   return (
     <ul
       {...getMenuProps({
@@ -32,30 +31,27 @@ function Menu({
         },
       })}
     >
-      <List
-        ref={listRef}
-        width={300}
-        height={300}
-        itemCount={items.length}
-        itemSize={20}
-        itemData={{
-          getItemProps,
-          items,
-          highlightedIndex,
-          selectedItem,
-        }}
-      >
-        {ListItem}
-      </List>
+      {itemsToRender.map((item, index) => (
+        <ListItem
+          key={item.id}
+          getItemProps={getItemProps}
+          items={items}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
+          index={index}
+        />
+      ))}
     </ul>
   )
 }
 Menu = React.memo(Menu)
 
 function ListItem({
-  data: {getItemProps, items, highlightedIndex, selectedItem},
+  getItemProps,
+  items,
+  highlightedIndex,
+  selectedItem,
   index,
-  style,
 }) {
   const item = items[index]
   return (
@@ -64,7 +60,6 @@ function ListItem({
         index,
         item,
         style: {
-          ...style,
           backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
           fontWeight:
             selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
@@ -75,22 +70,15 @@ function ListItem({
     </li>
   )
 }
+ListItem = React.memo(ListItem)
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
-  const listRef = React.useRef()
-
-  function handleStateChange(changes, downshiftState) {
-    if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
-      listRef.current.scrollToItem(changes.highlightedIndex)
-    }
-  }
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
       <Downshift
-        onStateChange={handleStateChange}
         onChange={selection =>
           alert(
             selection ? `You selected ${selection.name}` : 'Selection Cleared',
@@ -123,7 +111,6 @@ function FilterComponent() {
               highlightedIndex={highlightedIndex}
               selectedItem={selectedItem}
               setItemCount={setItemCount}
-              listRef={listRef}
             />
           </div>
         )}
@@ -135,7 +122,7 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'Window large lists with react-window'
+Usage.title = 'React.memo for reducing unnecessary re-renders'
 
 export default Usage
 

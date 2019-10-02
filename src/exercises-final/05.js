@@ -1,4 +1,4 @@
-// Optimize context value
+// Fix "perf death by a thousand cuts"
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -16,23 +16,6 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
-    case 'UPDATE_GRID_CELL': {
-      const {rowIndex, columnIndex} = action
-      return {
-        ...state,
-        grid: state.grid.map((row, rI) => {
-          if (rI === rowIndex) {
-            return row.map((cell, cI) => {
-              if (cI === columnIndex) {
-                return Math.random() * 100
-              }
-              return cell
-            })
-          }
-          return row
-        }),
-      }
-    }
     case 'UPDATE_GRID': {
       return {
         ...state,
@@ -53,7 +36,7 @@ function AppStateProvider(props) {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
-  const value = React.useMemo(() => [state, dispatch], [state])
+  const value = [state, dispatch]
   return <AppStateContext.Provider value={value} {...props} />
 }
 
@@ -130,16 +113,10 @@ function ChangingGrid() {
         }}
       >
         <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, rI) => (
-            <div key={rI} style={{display: 'flex'}}>
+          {state.grid.slice(0, rows).map((row, i) => (
+            <div key={i} style={{display: 'flex'}}>
               {row.slice(0, columns).map((cell, cI) => (
-                <Cell
-                  key={cI}
-                  cellWidth={cellWidth}
-                  cell={cell}
-                  rowIndex={rI}
-                  columnIndex={cI}
-                />
+                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
               ))}
             </div>
           ))}
@@ -150,20 +127,14 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cellWidth, cell, rowIndex, columnIndex}) {
-  const [, dispatch] = useAppState()
-  const handleClick = () =>
-    dispatch({type: 'UPDATE_GRID_CELL', rowIndex, columnIndex})
+function Cell({cellWidth, cell}) {
   return (
     <div
-      onClick={handleClick}
       style={{
         outline: `1px solid black`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        cursor: 'pointer',
-        userSelect: 'none',
         width: cellWidth,
         height: cellWidth,
         color: cell > 50 ? 'white' : 'black',
@@ -222,7 +193,7 @@ function Usage() {
     </div>
   )
 }
-Usage.title = 'Optimize context value'
+Usage.title = 'Fix "perf death by a thousand cuts"'
 
 export default Usage
 
