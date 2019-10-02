@@ -5,7 +5,7 @@ import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender} from '../utils'
 
-const AppContext = React.createContext()
+const AppStateContext = React.createContext()
 
 // increase this number to make the speed difference more stark.
 const dimensions = 100
@@ -42,11 +42,11 @@ function AppStateProvider(props) {
     grid: initialGrid,
   })
   const value = [state, dispatch]
-  return <AppContext.Provider value={value} {...props} />
+  return <AppStateContext.Provider value={value} {...props} />
 }
 
 function useAppState() {
-  const context = React.useContext(AppContext)
+  const context = React.useContext(AppStateContext)
   if (!context) {
     throw new Error('useAppState must be used within a context provider')
   }
