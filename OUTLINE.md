@@ -77,6 +77,19 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 - **Berry the Bomb** 💣 "Remove this code"
 - **Alfred the Alert** 🚨 "Extra helpful in test errors"
 
+## Overview
+
+The secret to performance is this: Less code.
+
+1. Load less code
+2. Run less code
+
+All of the performance optimization techniques that you learn in this workshop
+will be doing one of those two things.
+
+The tools we'll be using are to help you determine where these problems exist
+and what you can do to best optimize those things.
+
 ## Workshop Feedback
 
 Each exercise has an Elaboration and Feedback link. Please fill that out after
