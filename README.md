@@ -79,19 +79,16 @@ variable and how to fix it here for [windows][win-path] or
 
 ## Setup
 
-You should be able to work through the entire workshop in the browser. This is
-actually the recommended approach as it requires absolutely no setup whatsoever.
-Go to
-[this codesandbox](https://codesandbox.io/s/github/kentcdodds/react-performance)
-and you should be good to go.
+For many of my workshops, you should be able to run them
+[entirely in the browser](https://codesandbox.io/s/github/kentcdodds/react-performance).
+However for this one, most of the exercises require you run scripts and do some
+performance analysis that doesn't work well in that environment. So I recommend
+you work through the workshop on your own computer.
 
-[![Edit react-performance](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/react-performance)
+To do so, please follow these instructions.
 
-If you'd rather be able to work through the workshop on your own computer, then
-follow the following instructions.
-
-After you've made sure to have the correct things (and versions) installed, you
-should be able to just run a few commands to get set up:
+After you've made sure to have the correct things (and versions) installed (as
+indicated above), you should be able to just run a few commands to get set up:
 
 ```
 git clone https://github.com/kentcdodds/react-performance.git
@@ -171,6 +168,10 @@ npm install
 # verify the project is ready to run
 npm run build
 npm run test:coverage
+npm run lint
+
+# automatically fill in your email for the feedback links.
+node ./scripts/autofill-feedback-email.js
 ```
 
 If any of those scripts fail, please try to work out what went wrong by the
