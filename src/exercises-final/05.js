@@ -177,12 +177,12 @@ function DogNameInput() {
 
 function App() {
   return (
-    <AppStateProvider>
-      <div>
-        <DogNameInput />
+    <div>
+      <DogNameInput />
+      <AppStateProvider>
         <ChangingGrid />
-      </div>
-    </AppStateProvider>
+      </AppStateProvider>
+    </div>
   )
 }
 

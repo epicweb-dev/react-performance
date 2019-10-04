@@ -187,6 +187,9 @@ function DogNameInput() {
 }
 
 function App() {
+  // 🐨 because the whole app doesn't need access to the AppState context,
+  // we can move that closer to only wrap the <ChangingGrid /> rather than all
+  // the components here
   return (
     <AppStateProvider>
       <div>

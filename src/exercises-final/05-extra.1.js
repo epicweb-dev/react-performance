@@ -1,5 +1,5 @@
 // Fix "perf death by a thousand cuts"
-// 💯 speed up perf by memoizing the grid
+// 💯 separate contexts
 
 // http://localhost:3000/isolated/exercises-final/05-extra.1
 
@@ -8,6 +8,7 @@ import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
 
 const AppStateContext = React.createContext()
+const DogStateContext = React.createContext()
 
 // increase this number to make the speed difference more stark.
 const dimensions = 100
@@ -17,11 +18,33 @@ const initialGrid = Array.from({length: dimensions}, () =>
 
 const initialRowsColumns = Math.floor(dimensions / 2)
 
-function appReducer(state, action) {
+function dogReducer(state, action) {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
     }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
+}
+
+function DogStateProvider(props) {
+  const [state, dispatch] = React.useReducer(dogReducer, {dogName: ''})
+  const value = [state, dispatch]
+  return <DogStateContext.Provider value={value} {...props} />
+}
+
+function useDogState() {
+  const context = React.useContext(DogStateContext)
+  if (!context) {
+    throw new Error('useDogState must be used within the DogStateProvider')
+  }
+  return context
+}
+
+function appReducer(state, action) {
+  switch (action.type) {
     case 'UPDATE_GRID': {
       return {
         ...state,
@@ -40,6 +63,7 @@ function appReducer(state, action) {
 
 function AppStateProvider(props) {
   const [state, dispatch] = React.useReducer(appReducer, {
+    // 💣 remove the dogName state because we're nlo longer managing that
     dogName: '',
     grid: initialGrid,
   })
@@ -119,32 +143,20 @@ function ChangingGrid() {
           overflow: 'scroll',
         }}
       >
-        <Grid
-          grid={state.grid}
-          columns={columns}
-          cellWidth={cellWidth}
-          rows={rows}
-        />
+        <div style={{width: columns * cellWidth}}>
+          {state.grid.slice(0, rows).map((row, i) => (
+            <div key={i} style={{display: 'flex'}}>
+              {row.slice(0, columns).map((cell, cI) => (
+                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 ChangingGrid = React.memo(ChangingGrid)
-
-function Grid({grid, columns, cellWidth, rows}) {
-  return (
-    <div style={{width: columns * cellWidth}}>
-      {grid.slice(0, rows).map((row, i) => (
-        <div key={i} style={{display: 'flex'}}>
-          {row.slice(0, columns).map((cell, cI) => (
-            <Cell key={cI} cellWidth={cellWidth} cell={cell} />
-          ))}
-        </div>
-      ))}
-    </div>
-  )
-}
-Grid = React.memo(Grid)
 
 function Cell({cellWidth, cell}) {
   return (
@@ -167,7 +179,7 @@ function Cell({cellWidth, cell}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [state, dispatch] = useAppState()
+  const [state, dispatch] = useDogState()
   const {dogName} = state
 
   function handleChange(event) {
@@ -192,20 +204,17 @@ function DogNameInput() {
     </form>
   )
 }
-// NOTE: This React.memo on the DogNameInput doesn't really do much,
-// but that's kinda the point. Once people start saying they need React.memo
-// all over the place, they start doing it everywhere whether it's actually
-// needed or not
-DogNameInput = React.memo(DogNameInput)
 
 function App() {
   return (
-    <AppStateProvider>
-      <div>
+    <div>
+      <DogStateProvider>
         <DogNameInput />
+      </DogStateProvider>
+      <AppStateProvider>
         <ChangingGrid />
-      </div>
-    </AppStateProvider>
+      </AppStateProvider>
+    </div>
   )
 }
 
