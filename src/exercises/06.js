@@ -1,6 +1,7 @@
 // Optimize context value
 
 // http://localhost:3000/isolated/exercises/06
+
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
