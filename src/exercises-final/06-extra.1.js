@@ -1,6 +1,8 @@
 // Optimize context value
 // 💯 separate the contexts
 
+// http://localhost:3000/isolated/exercises-final/06-extra.1
+
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
@@ -241,7 +243,6 @@ function Usage() {
     </div>
   )
 }
-Usage.title = 'Optimize context value'
 
 export default Usage
 

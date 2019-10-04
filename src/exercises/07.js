@@ -1,5 +1,6 @@
 // Production performance monitoring
 
+// http://localhost:3000/isolated/exercises/07
 import React from 'react'
 // 🐨 you're going to need the reportProfile function
 // 💰 here, let me help you with that...
@@ -47,6 +48,5 @@ http://ws.kcd.im/?ws=React%20Performance&e=perf%20monitoring&em=
 function Usage() {
   return <App />
 }
-Usage.title = 'Production performance monitoring'
 
 export default Usage

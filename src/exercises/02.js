@@ -1,5 +1,7 @@
 // useMemo for expensive calculations
 
+// http://localhost:3000/isolated/exercises/02
+
 import React from 'react'
 import Downshift from 'downshift'
 import {useForceRerender} from '../utils'
@@ -132,6 +134,5 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'useMemo for expensive calculations'
 
 export default Usage

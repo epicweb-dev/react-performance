@@ -1,5 +1,7 @@
 // Production performance monitoring
 
+// http://localhost:3000/isolated/exercises-final/07
+
 import React from 'react'
 import reportProfile from '../report-profile'
 
@@ -29,6 +31,5 @@ function App() {
 function Usage() {
   return <App />
 }
-Usage.title = 'Production performance monitoring'
 
 export default Usage

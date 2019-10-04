@@ -19,7 +19,7 @@ function Tilt({children}) {
   return (
     <div ref={tiltRef} className="tilt-root">
       <div className="tilt-child">
-        <div className="totally-centered">{children}</div>
+        <textarea className="totally-centered" style={{resize: 'none'}} />
       </div>
     </div>
   )

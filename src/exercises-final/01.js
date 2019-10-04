@@ -1,5 +1,7 @@
 // Code splitting
 
+// http://localhost:3000/isolated/exercises-final/01
+
 import React from 'react'
 
 const Tilt = React.lazy(() => import('../tilt'))
@@ -25,6 +27,5 @@ function App() {
 function Usage() {
   return <App />
 }
-Usage.title = 'Code splitting'
 
 export default Usage

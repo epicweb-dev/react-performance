@@ -1,5 +1,7 @@
 // Window large lists with react-window
 
+// http://localhost:3000/isolated/exercises/04
+
 import React from 'react'
 import Downshift from 'downshift'
 // 🐨 import react-window's FixedSizeList here
@@ -168,7 +170,6 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'Window large lists with react-window'
 
 export default Usage
 

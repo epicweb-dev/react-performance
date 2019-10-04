@@ -1,5 +1,7 @@
 // React.memo for reducing unnecessary re-renders
 
+// http://localhost:3000/isolated/exercises/03
+
 import React from 'react'
 import Downshift from 'downshift'
 import {getItems} from '../workerized-filter-cities'
@@ -122,6 +124,5 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'React.memo for reducing unnecessary re-renders'
 
 export default Usage

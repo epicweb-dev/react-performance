@@ -1,5 +1,7 @@
 // Fix "perf death by a thousand cuts"
 
+// http://localhost:3000/isolated/exercises-final/05
+
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
@@ -193,7 +195,6 @@ function Usage() {
     </div>
   )
 }
-Usage.title = 'Fix "perf death by a thousand cuts"'
 
 export default Usage
 

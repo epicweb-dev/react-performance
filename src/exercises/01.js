@@ -1,5 +1,7 @@
 // Code splitting
 
+// http://localhost:3000/isolated/exercises/01
+
 import React from 'react'
 import Tilt from '../tilt'
 
@@ -36,6 +38,5 @@ http://ws.kcd.im/?ws=React%20Performance&e=code%20splitting&em=
 function Usage() {
   return <App />
 }
-Usage.title = 'Code splitting'
 
 export default Usage

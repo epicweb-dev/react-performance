@@ -5,7 +5,7 @@ https://micku7zu.github.io/vanilla-tilt.js/index.html
 .tilt-root {
   height: 150px;
   background-color: red;
-  width: 200px;
+  min-width: 200px;
   background-image: -webkit-linear-gradient(315deg, #ff00ba 0%, #fae713 100%);
   background-image: linear-gradient(135deg, #ff00ba 0%, #fae713 100%);
   transform-style: preserve-3d;

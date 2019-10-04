@@ -1,6 +1,8 @@
 // Fix "perf death by a thousand cuts"
 // 💯 speed up perf by memoizing the grid
 
+// http://localhost:3000/isolated/exercises-final/05-extra.1
+
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
@@ -216,7 +218,6 @@ function Usage() {
     </div>
   )
 }
-Usage.title = 'Fix "perf death by a thousand cuts"'
 
 export default Usage
 

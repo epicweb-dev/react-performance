@@ -1,6 +1,8 @@
 // useMemo for expensive calculations
 // 💯 Put getItems into a Web Worker
 
+// http://localhost:3000/isolated/exercises-final/02-extra.1
+
 import React from 'react'
 import Downshift from 'downshift'
 import {getItems} from '../workerized-filter-cities'
@@ -121,6 +123,5 @@ function FilterComponent() {
 function Usage() {
   return <FilterComponent />
 }
-Usage.title = 'useMemo for expensive calculations'
 
 export default Usage
