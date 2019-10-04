@@ -41,7 +41,7 @@ function ExtraCreditLinks({exerciseId}) {
   }
 
   return (
-    <div>
+    <div style={{gridColumn: 'span 2'}}>
       {`Extra Credits: `}
       {Object.entries(extraCreditTitles).map(([id, title]) => (
         <span key={id}>
@@ -63,8 +63,8 @@ function ExerciseContainer({exerciseId}) {
   return (
     <div
       style={{
-        padding: 20,
-        height: '100%',
+        padding: '20px 20px 40px 20px',
+        minHeight: '100%',
         display: 'grid',
         gridGap: '20px',
         gridTemplateColumns: '1fr 1fr',
@@ -272,7 +272,13 @@ function App() {
       ui = <Isolated loader={() => import(`./examples/${moduleName}`)} />
     }
   }
-  return <React.Suspense fallback={<div>Loading...</div>}>{ui}</React.Suspense>
+  return (
+    <React.Suspense
+      fallback={<div className="totally-centered">Loading...</div>}
+    >
+      {ui}
+    </React.Suspense>
+  )
 }
 
 export default App
