@@ -4,10 +4,6 @@ import {render, fireEvent} from '@testing-library/react'
 import Usage from '../exercises-final/02'
 // import Usage from '../exercises/02'
 
-afterEach(() => {
-  jest.clearAllMocks()
-})
-
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
   return {
