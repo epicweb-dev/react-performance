@@ -3,7 +3,12 @@
 // http://localhost:3000/isolated/exercises/01
 
 import React from 'react'
+// 💣 remove this import
 import Tilt from '../tilt'
+
+// 🐨 use React.lazy to create a Tilt component
+// which using a dynamic import to get the Tilt
+// component from the '../tilt' module.
 
 function App() {
   const [showTilt, setShowTilt] = React.useState(false)
@@ -17,6 +22,10 @@ function App() {
         />
         {' show tilt'}
       </label>
+      {/*
+        🐨 wrap the code below in a <React.Suspense /> component
+        with a fallback.
+      */}
       {showTilt ? <Tilt>This is tilted!</Tilt> : null}
     </div>
   )
