@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
-    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/jest-dom": "^4.1.1",
     "@testing-library/react": "^9.2.0",
     "chalk": "^2.4.2",
     "downshift": "^3.3.4",
@@ -28,7 +28,7 @@
     "workerize": "^0.1.7"
   },
   "devDependencies": {
-    "cross-spawn": "^7.0.0",
+    "cross-spawn": "^7.0.1",
     "eslint": "^6.5.1",
     "husky": "^3.0.8",
     "inquirer": "^7.0.0",
