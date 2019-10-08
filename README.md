@@ -21,6 +21,10 @@ following:
 - [ ] Setup the project (follow the setup instructions below) (~5 minutes)
 - [ ] Install and setup [Zoom](https://zoom.us) on the computer you will be
       using (~5 minutes)
+- [ ] Install the React DevTools
+      ([Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+      (recommended),
+      [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/))
 - [ ] Watch
       [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
       (~8 minutes).
