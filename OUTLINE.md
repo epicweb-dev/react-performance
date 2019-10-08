@@ -99,4 +99,4 @@ Each exercise has an Elaboration and Feedback link. Please fill that out after
 the exercise and instruction.
 
 At the end of the workshop, please go to this URL to give overall feedback.
-Thank you! https://kcd.im/arp-ws-feedback
+Thank you! https://kcd.im/rp-ws-feedback
