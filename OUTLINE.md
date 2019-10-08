@@ -33,16 +33,18 @@
 ## Schedule
 
 - 😴 Logistics
-- 🏋 TODO
+- 🏋 Code splitting
 - 😴 10 Minutes
-- 🏋 TODO
-- 🏋 TODO
+- 🏋 useMemo for expensive calculations
+- 🏋 React.memo for reducing unnecessary re-renders
 - 😴 30 Minutes
-- 🏋 TODO
+- 🏋 Window large lists with react-window
 - 😴 10 Minutes
-- 🏋 TODO
+- 🏋 Fix "perf death by a thousand cuts"
+- 🏋 Optimize context value
 - 😴 10 Minutes
-- 🏋 TODO
+- 🏋 Production performance monitoring
+- ❓ Q&A
 
 ## Scripts
 
