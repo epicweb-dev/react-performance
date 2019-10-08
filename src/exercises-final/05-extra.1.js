@@ -63,8 +63,6 @@ function appReducer(state, action) {
 
 function AppStateProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
-    // 💣 remove the dogName state because we're nlo longer managing that
-    dogName: '',
     grid: initialGrid,
   })
   const value = [state, dispatch]
