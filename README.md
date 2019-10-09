@@ -1,3 +1,9 @@
+<p align="center">
+<a href="https://codefund.io/properties/507/visit-sponsor">
+<img src="https://codefund.io/properties/507/sponsor" />
+</a>
+</p>
+
 # React Performance
 
 > Let's make our apps fast ⚡
