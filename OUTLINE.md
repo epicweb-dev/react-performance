@@ -77,7 +77,7 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 - **Olivia the Owl** 🦉 "Pro-tip"
 - **Dominic the Document** 📜 "Docs links"
 - **Berry the Bomb** 💣 "Remove this code"
-- **Peter the Product Manager** 🕴 "Story time"
+- **Peter the Product Manager** 👨‍💼 "Story time"
 - **Alfred the Alert** 🚨 "Extra helpful in test errors"
 
 ## Overview
@@ -92,6 +92,11 @@ will be doing one of those two things.
 
 The tools we'll be using are to help you determine where these problems exist
 and what you can do to best optimize those things.
+
+> NOTE: I know that you're eager to get into the React DevTools profiler. It's
+> awesome. I promise we'll get to it, but the first few exercises we'll be using
+> the regular browser devtools. You'll use them both together, don't worry!
+> Patience is a virtue 😉
 
 ## Workshop Feedback
 
