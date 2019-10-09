@@ -69,6 +69,10 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 - `src/__tests__/0x.js`: Tests
 - `src/exercises-final/0x.js`: Final version
 
+> NOTE: Some of the extra credit have tests that are specific to their
+> implementation because the implementation is significantly different and your
+> work needs to be checked differently.
+
 ## Emoji
 
 - **Kody the Koala Bear** 🐨 "Do this"

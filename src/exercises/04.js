@@ -50,8 +50,15 @@ function Menu({
       ))}
       {/*
         🐨 render the FixedSizeList component here and pass ListItem as children.
-        💰 Here are the props you'll want: ref, width, height, itemCount, itemSize, itemData
-        💰 I'll bet you can figure out their values, let me know if you have trouble.
+        💰 Here are the props you'll want:
+           ref (listItem)
+           width (300)
+           height (300)
+           itemCount (items.length)
+           itemSize (20)
+           itemData (all the other props we currently have on the ListItem)
+        💰 quick note that react-window accepts your component definition as a prop.
+           which may seem strange, so it'll be something like this: <List>{ListItem}</List>
       */}
     </ul>
   )
