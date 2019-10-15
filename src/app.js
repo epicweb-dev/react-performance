@@ -2,6 +2,13 @@ import React from 'react'
 import {Router, Link} from '@reach/router'
 import {createBrowserHistory} from 'history'
 import preval from 'preval.macro'
+import pkg from '../package.json'
+
+const {title} = pkg
+
+if (!title) {
+  throw new Error('The package.json must have a title!')
+}
 
 const exerciseInfo = preval`module.exports = require('./load-exercises')`
 
@@ -198,7 +205,7 @@ function Isolated({loader}) {
 function Home() {
   return (
     <div style={{maxWidth: 800, margin: '50px auto 0px auto'}}>
-      <h1 style={{textAlign: 'center'}}>React Performance</h1>
+      <h1 style={{textAlign: 'center'}}>{title}</h1>
       <div>
         {Object.entries(exerciseInfo).map(([filename, {title}]) => {
           return (
