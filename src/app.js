@@ -21,6 +21,13 @@ for (const infoKey in exerciseInfo) {
 }
 
 const history = createBrowserHistory()
+function handleAnchorClick(event) {
+  if (event.metaKey || event.shiftKey) {
+    return
+  }
+  event.preventDefault()
+  history.push(event.target.getAttribute('href'))
+}
 
 function ComponentContainer({label, ...props}) {
   return (
@@ -50,12 +57,15 @@ function ExtraCreditLinks({exerciseId}) {
   return (
     <div style={{gridColumn: 'span 2'}}>
       {`Extra Credits: `}
-      {Object.entries(extraCreditTitles).map(([id, title]) => (
+      {Object.entries(extraCreditTitles).map(([id, title], index, array) => (
         <span key={id}>
-          <a href={`/isolated/exercises-final/${exerciseId}-extra.${id}`}>
+          <a
+            href={`/isolated/exercises-final/${exerciseId}-extra.${id}`}
+            onClick={handleAnchorClick}
+          >
             {title}
           </a>
-          {' | '}
+          {array.length - 1 === index ? null : ' | '}
         </span>
       ))}
     </div>
@@ -160,7 +170,9 @@ function FullPage({type, exerciseId}) {
           </span>
           Exercise Page
         </Link>
-        <a href={isolatedPath}>isolated</a>
+        <a href={isolatedPath} onClick={handleAnchorClick}>
+          isolated
+        </a>
       </div>
       <div style={{textAlign: 'center'}}>
         <h1>{page.title}</h1>
@@ -204,7 +216,14 @@ function Isolated({loader}) {
 
 function Home() {
   return (
-    <div style={{maxWidth: 800, margin: '50px auto 0px auto'}}>
+    <div
+      style={{
+        maxWidth: 800,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingTop: 30,
+      }}
+    >
       <h1 style={{textAlign: 'center'}}>{title}</h1>
       <div>
         {Object.entries(exerciseInfo).map(([filename, {title}]) => {
@@ -265,7 +284,9 @@ function Routes() {
 function App() {
   const [location, setLocation] = React.useState(history.location)
   React.useEffect(() => {
-    return history.listen(l => setLocation(l))
+    return history.listen(l => {
+      setLocation(l)
+    })
   }, [])
   const {pathname} = location
   let ui = <Routes />
