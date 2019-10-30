@@ -259,12 +259,13 @@ function Routes() {
 }
 
 // cache
-const lazyComps = {final: {}, exercise: {}}
+const lazyComps = {final: {}, exercise: {}, examples: {}}
 
 function useIsolatedComponent({pathname}) {
   const isIsolated = pathname.startsWith('/isolated')
   const isFinal = pathname.includes('/exercises-final/')
   const isExercise = pathname.includes('/exercises/')
+  const isExample = pathname.includes('/examples/')
   const moduleName = isIsolated ? pathname.split('/').slice(-1)[0] : null
   const IsolatedComponent = React.useMemo(() => {
     if (!moduleName) {
@@ -278,8 +279,12 @@ function useIsolatedComponent({pathname}) {
       return (lazyComps.exercise[moduleName] =
         lazyComps.exercise[moduleName] ||
         React.lazy(() => import(`./exercises/${moduleName}`)))
+    } else if (isExample) {
+      return (lazyComps.examples[moduleName] =
+        lazyComps.examples[moduleName] ||
+        React.lazy(() => import(`./examples/${moduleName}`)))
     }
-  }, [isExercise, isFinal, moduleName])
+  }, [isExample, isExercise, isFinal, moduleName])
   return moduleName ? IsolatedComponent : null
 }
 
