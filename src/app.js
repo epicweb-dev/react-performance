@@ -195,25 +195,6 @@ function FullPage({type, exerciseId}) {
   )
 }
 
-function Isolated({loader}) {
-  const Component = React.useMemo(() => React.lazy(loader), [loader])
-  return (
-    <div
-      style={{
-        padding: 30,
-        height: '100%',
-        display: 'grid',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div>
-        <Component />
-      </div>
-    </div>
-  )
-}
-
 function Home() {
   return (
     <div
@@ -277,34 +258,62 @@ function Routes() {
   )
 }
 
+// cache
+const lazyComps = {final: {}, exercise: {}}
+
+function useIsolatedComponent({pathname}) {
+  const isIsolated = pathname.startsWith('/isolated')
+  const isFinal = pathname.includes('/exercises-final/')
+  const isExercise = pathname.includes('/exercises/')
+  const moduleName = isIsolated ? pathname.split('/').slice(-1)[0] : null
+  const IsolatedComponent = React.useMemo(() => {
+    if (!moduleName) {
+      return null
+    }
+    if (isFinal) {
+      return (lazyComps.final[moduleName] =
+        lazyComps.final[moduleName] ||
+        React.lazy(() => import(`./exercises-final/${moduleName}`)))
+    } else if (isExercise) {
+      return (lazyComps.exercise[moduleName] =
+        lazyComps.exercise[moduleName] ||
+        React.lazy(() => import(`./exercises/${moduleName}`)))
+    }
+  }, [isExercise, isFinal, moduleName])
+  return moduleName ? IsolatedComponent : null
+}
+
 // The reason we don't put the Isolated components as regular routes
 // and do all this complex stuff instead is so the React DevTools component
 // tree is as small as possible to make it easier for people to figure
 // out what is relevant to the example.
 function App() {
   const [location, setLocation] = React.useState(history.location)
-  React.useEffect(() => {
-    return history.listen(l => {
-      setLocation(l)
-    })
-  }, [])
-  const {pathname} = location
-  let ui = <Routes />
-  if (pathname.startsWith('/isolated')) {
-    const moduleName = pathname.split('/').slice(-1)[0]
-    if (pathname.includes('/exercises-final/')) {
-      ui = <Isolated loader={() => import(`./exercises-final/${moduleName}`)} />
-    } else if (pathname.includes('/exercises/')) {
-      ui = <Isolated loader={() => import(`./exercises/${moduleName}`)} />
-    } else if (pathname.includes('/examples/')) {
-      ui = <Isolated loader={() => import(`./examples/${moduleName}`)} />
-    }
-  }
+  React.useEffect(() => history.listen(l => setLocation(l)), [])
+
+  const IsolatedComponent = useIsolatedComponent(location)
+
   return (
     <React.Suspense
       fallback={<div className="totally-centered">Loading...</div>}
     >
-      {ui}
+      {IsolatedComponent ? (
+        <div
+          style={{
+            padding: 30,
+            height: '100%',
+            display: 'grid',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div>
+            <IsolatedComponent />
+          </div>
+        </div>
+      ) : (
+        <Routes />
+      )}
     </React.Suspense>
   )
 }
