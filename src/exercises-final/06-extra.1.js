@@ -1,5 +1,5 @@
 // Optimize context value
-// 💯 separate the contexts
+// 🕷 separate the contexts
 
 // http://localhost:3000/isolated/exercises-final/06-extra.1
 

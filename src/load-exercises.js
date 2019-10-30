@@ -17,7 +17,7 @@ const exerciseInfo = glob
     const isFinal = !isExercise && !isExtraCredit
     const [firstLine, secondLine] = contents.split('\n')
     const title = firstLine.replace(/\/\//, '').trim()
-    const extraCreditTitle = secondLine.replace(/\/\/ 💯/, '').trim()
+    const extraCreditTitle = secondLine.replace(/\/\/ 🕷/, '').trim()
     const extraCreditNumber = (name.match(/-extra.(\d+)/) || [])[1]
 
     acc[id] = acc[id] || {}

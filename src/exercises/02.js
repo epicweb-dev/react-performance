@@ -15,7 +15,7 @@ function Menu({
   selectedItem,
   setItemCount,
 }) {
-  // 🐨 wrap getItems in a call to `React.useMemo`
+  // 🎃 wrap getItems in a call to `React.useMemo`
   const items = getItems(inputValue)
   const itemsToRender = items.slice(0, 100)
   setItemCount(itemsToRender.length)
@@ -47,7 +47,7 @@ function Menu({
 }
 
 /*
-🦉 Elaboration & Feedback
+🧛 Elaboration & Feedback
 After the instruction, copy the URL below into your browser and fill out the form:
 http://ws.kcd.im/?ws=React%20Performance&e=useMemo&em=
 */

@@ -20,7 +20,7 @@ test('loads the tile component asynchronously', async () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
+    error.message = `🦇  ${chalk.red(
       'The tilt component must be loaded asynchronously via React.lazy and React.Suspense',
     )}`
 

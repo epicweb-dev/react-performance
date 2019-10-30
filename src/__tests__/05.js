@@ -27,7 +27,7 @@ test('colocates state properly', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
+    error.message = `🦇  ${chalk.red(
       'React.useReducer should not be called with an initial state object value that includes a dogName property',
     )}\n\n${error.message}`
 
@@ -44,7 +44,7 @@ test('colocates state properly', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
+    error.message = `🦇  ${chalk.red(
       `Unable to find the appReducer function. Ask the instructor what's going on. You shouldn't see this.`,
     )}\n\n${error.message}`
 
@@ -61,7 +61,7 @@ test('colocates state properly', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
+    error.message = `🦇  ${chalk.red(
       `The appReducer shouldn't handle the event type TYPED_IN_DOG_INPUT anymore`,
     )}\n\n${error.message}`
 
@@ -80,7 +80,7 @@ test('colocates state properly', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
+    error.message = `🦇  ${chalk.red(
       'The DogName component is not working.',
     )}\n\n${error.message}`
 

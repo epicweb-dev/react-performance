@@ -19,7 +19,7 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 function appReducer(state, action) {
   switch (action.type) {
     // we're no longer managing the dogName state in our reducer
-    // 💣 remove this case
+    // 💀 remove this case
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
     }
@@ -41,7 +41,7 @@ function appReducer(state, action) {
 
 function AppStateProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
-    // 💣 remove the dogName state because we're no longer managing that
+    // 💀 remove the dogName state because we're no longer managing that
     dogName: '',
     grid: initialGrid,
   })
@@ -161,14 +161,14 @@ function Cell({cellWidth, cell}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  // 🐨 replace the useAppState with a normal useState here to manage
+  // 🎃 replace the useAppState with a normal useState here to manage
   // the dogName locally within this component
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
   function handleChange(event) {
     const newDogName = event.target.value
-    // 🐨 change this to call your state setter that you get from useState
+    // 🎃 change this to call your state setter that you get from useState
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
@@ -191,7 +191,7 @@ function DogNameInput() {
 }
 
 function App() {
-  // 🐨 because the whole app doesn't need access to the AppState context,
+  // 🎃 because the whole app doesn't need access to the AppState context,
   // we can move that closer to only wrap the <ChangingGrid /> rather than all
   // the components here
   return (
@@ -205,7 +205,7 @@ function App() {
 }
 
 /*
-🦉 Elaboration & Feedback
+🧛 Elaboration & Feedback
 After the instruction, copy the URL below into your browser and fill out the form:
 http://ws.kcd.im/?ws=React%20Performance&e=colocate%20state&em=
 */

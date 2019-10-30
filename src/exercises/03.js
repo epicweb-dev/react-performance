@@ -46,7 +46,7 @@ function Menu({
     </ul>
   )
 }
-// 🐨 Memoize the Menu here using React.memo
+// 🎃 Memoize the Menu here using React.memo
 
 function ListItem({
   getItemProps,
@@ -72,7 +72,7 @@ function ListItem({
     </li>
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
+// 🎃 Memoize the ListItem here using React.memo
 
 function FilterComponent() {
   const forceRerender = useForceRerender()

@@ -19,7 +19,7 @@ test('memoizes state properly', () => {
   )
   if (!memoCall) {
     throw new Error(
-      `🚨  ${chalk.red(
+      `🦇  ${chalk.red(
         'AppStateProvider must call React.useMemo with the state as a dependency',
       )}`,
     )
@@ -29,7 +29,7 @@ test('memoizes state properly', () => {
 
   if (!state || !dispatch) {
     throw new Error(
-      `🚨  ${chalk.red(
+      `🦇  ${chalk.red(
         'The useMemo callback must return an array that includes the state object and dispatch function',
       )}`,
     )
@@ -37,7 +37,7 @@ test('memoizes state properly', () => {
 
   if (typeof dispatch !== 'function') {
     throw new Error(
-      `🚨  ${chalk.red(
+      `🦇  ${chalk.red(
         'The second element in the array returned from the useMemo callback must be the dispatch function',
       )}`,
     )
@@ -48,7 +48,7 @@ test('memoizes state properly', () => {
     !(deps.length === 2 && deps.includes(state) && deps.includes(dispatch))
   ) {
     throw new Error(
-      `🚨  ${chalk.red(
+      `🦇  ${chalk.red(
         'The useMemo dependency array must be an array that includes only the state (and optionally the dispatch function)',
       )}`,
     )

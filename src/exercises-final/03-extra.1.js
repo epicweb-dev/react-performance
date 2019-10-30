@@ -1,5 +1,5 @@
 // React.memo for reducing unnecessary re-renders
-// 💯 Memoize the Downshift component
+// 🕷 Memoize the Downshift component
 
 // http://localhost:3000/isolated/exercises-final/03-extra.1
 
