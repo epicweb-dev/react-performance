@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="https://codefund.io/properties/507/visit-sponsor">
-    <img src="https://codefund.io/properties/507/sponsor" />
-  </a>
+<a href="https://codefund.io/properties/507/visit-sponsor">
+<img src="https://codefund.io/properties/507/sponsor" />
+</a>
 </p>
 
 # React Performance
@@ -140,24 +140,24 @@ output and play around with it.
 **Your goal will be to go into each test, swap the final version for the
 exercise version in the import, and make the tests pass**
 
-## Helpful Emoji 🎃 🧟 🕷 🧛 🔮 💀 🦇
+## Helpful Emoji 🐨 💰 💯 🦉 📜 💣 🚨
 
 Each exercise has comments in it to help you get through the exercise. These fun
 emoji characters are here to help you.
 
-- **Jack the Jack-o'-lantern** 🎃 will tell you when there's something specific
-  you should do
-- **Zack the Zombie** 🧟 will give you specific tips (and sometimes code) along
-  the way
-- **Sally the Spider** 🕷 will give you extra challenges you can do if you finish
-  the exercises early.
-- **Victoria the Vampire** 🧛 will give you useful tidbits/best practice notes
-  and a link for elaboration and feedback.
-- **Crystal the Crystal Ball** 🔮 will give you links to useful documentation
-- **Sammy the Skeleton** 💀 will be hanging around anywhere you need to blow
-  stuff up (delete code)
-- **Gary the Ghost Product Manager** 👻 helps us know what our users want
-- **Barry the Bat** 🦇 will occasionally show up in the test failures with
+- **Kody the Koala Bear** 🐨 will tell you when there's something specific you
+  should do
+- **Marty the Money Bag** 💰 will give you specific tips (and sometimes code)
+  along the way
+- **Hannah the Hundred** 💯 will give you extra challenges you can do if you
+  finish the exercises early.
+- **Olivia the Owl** 🦉 will give you useful tidbits/best practice notes and a
+  link for elaboration and feedback.
+- **Dominic the Document** 📜 will give you links to useful documentation
+- **Berry the Bomb** 💣 will be hanging around anywhere you need to blow stuff
+  up (delete code)
+- **Peter the Product Manager** 👨‍💼 helps us know what our users want
+- **Alfred the Alert** 🚨 will occasionally show up in the test failures with
   potential explanations for why the tests are failing.
 
 ## Troubleshooting

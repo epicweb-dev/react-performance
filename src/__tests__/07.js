@@ -31,7 +31,7 @@ test('uses the Profiler correctly', () => {
     //
     // these comment lines are just here to keep the next line out of the codeframe
     // so it doesn't confuse people when they see the error message twice.
-    error.message = `🦇  ${chalk.red(
+    error.message = `🚨  ${chalk.red(
       'The React.Profiler component must be used with the correct props',
     )}\n\n${error.message}`
 

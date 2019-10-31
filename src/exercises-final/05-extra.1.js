@@ -1,5 +1,5 @@
 // Fix "perf death by a thousand cuts"
-// 🕷 separate contexts
+// 💯 separate contexts
 
 // http://localhost:3000/isolated/exercises-final/05-extra.1
 

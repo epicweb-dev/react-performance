@@ -75,14 +75,14 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 
 ## Emoji
 
-- **Jack the Jack-o'-lantern** 🎃 "Do this"
-- **Zack the Zombie** 🧟 "Here's a hint"
-- **Sally the Spider** 🕷 "Extra Credit"
-- **Victoria the Vampire** 🧛 "Pro-tip"
-- **Crystal the Crystal Ball** 🔮 "Docs links"
-- **Sammy the Skeleton** 💀 "Remove this code"
-- **Gary the Ghost Product Manager** 👻 "Story time"
-- **Barry the Bat** 🦇 "Extra helpful in test errors"
+- **Kody the Koala Bear** 🐨 "Do this"
+- **Marty the Money Bag** 💰 "Here's a hint"
+- **Hannah the Hundred** 💯 "Extra Credit"
+- **Olivia the Owl** 🦉 "Pro-tip"
+- **Dominic the Document** 📜 "Docs links"
+- **Berry the Bomb** 💣 "Remove this code"
+- **Peter the Product Manager** 👨‍💼 "Story time"
+- **Alfred the Alert** 🚨 "Extra helpful in test errors"
 
 ## Overview
 

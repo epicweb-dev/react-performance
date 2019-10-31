@@ -4,8 +4,8 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-// 🎃 import react-window's FixedSizeList here
-// 🧟 import {FixedSizeList as List} from 'react-window'
+// 🐨 import react-window's FixedSizeList here
+// 💰 import {FixedSizeList as List} from 'react-window'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
@@ -16,8 +16,8 @@ function Menu({
   highlightedIndex,
   selectedItem,
   setItemCount,
-  // 🎃 accept a prop called "listRef" here
-  // 🧟 I gave you a bit of code to pass the listRef prop here.
+  // 🐨 accept a prop called "listRef" here
+  // 💰 I gave you a bit of code to pass the listRef prop here.
   // You can peek down below in the FilterComponent and I'll explain what I did.
 }) {
   const {data: items = []} = useAsync(
@@ -37,7 +37,7 @@ function Menu({
         },
       })}
     >
-      {/* 💀 remove this items.map call */}
+      {/* 💣 remove this items.map call */}
       {items.map((item, index) => (
         <ListItem
           key={item.id}
@@ -49,15 +49,15 @@ function Menu({
         />
       ))}
       {/*
-        🎃 render the FixedSizeList component here and pass ListItem as children.
-        🧟 Here are the props you'll want:
+        🐨 render the FixedSizeList component here and pass ListItem as children.
+        💰 Here are the props you'll want:
            ref (listItem)
            width (300)
            height (300)
            itemCount (items.length)
            itemSize (20)
            itemData (all the other props we currently have on the ListItem)
-        🧟 quick note that react-window accepts your component definition as a prop.
+        💰 quick note that react-window accepts your component definition as a prop.
            which may seem strange, so it'll be something like this: <List>{ListItem}</List>
       */}
     </ul>
@@ -68,14 +68,14 @@ Menu = React.memo(Menu)
 function ListItem({
   // ListItem will now be rendered by react-window and most of the props we
   // were accepting before will now be passed into an object prop called "data"
-  // 🎃 rewrite this so the following props are properties of a new "data" prop:
+  // 🐨 rewrite this so the following props are properties of a new "data" prop:
   // getItemProps, items, highlightedIndex, selectedItem
   getItemProps,
   items,
   highlightedIndex,
   selectedItem,
   index,
-  // 🎃 accept a new style prop
+  // 🐨 accept a new style prop
 }) {
   const item = items[index]
   return (
@@ -98,7 +98,7 @@ function ListItem({
 }
 
 /*
-🧛 Elaboration & Feedback
+🦉 Elaboration & Feedback
 After the instruction, copy the URL below into your browser and fill out the form:
 http://ws.kcd.im/?ws=React%20Performance&e=windowing&em=
 */
@@ -112,10 +112,10 @@ http://ws.kcd.im/?ws=React%20Performance&e=windowing&em=
 
 function FilterComponent() {
   const forceRerender = useForceRerender()
-  // 🧟 I made this listRef for you and pass it as a prop to the Menu
+  // 💰 I made this listRef for you and pass it as a prop to the Menu
   const listRef = React.useRef()
 
-  // 🧟 whenever Downshift experiences a state change, it'll call this function
+  // 💰 whenever Downshift experiences a state change, it'll call this function
   // and we use this to interact with react-window's listRef to scroll to
   // a specific index if Downshift's highlightedIndex changes.
   // I figured making you do this yourself would just be busy work and not
@@ -164,7 +164,7 @@ function FilterComponent() {
               highlightedIndex={highlightedIndex}
               selectedItem={selectedItem}
               setItemCount={setItemCount}
-              // 🧟 Here's where I added the listRef prop
+              // 💰 Here's where I added the listRef prop
               listRef={listRef}
             />
           </div>

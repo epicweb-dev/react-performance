@@ -55,7 +55,7 @@ function AppStateProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
-  // 🎃 memoize this value with React.useMemo
+  // 🐨 memoize this value with React.useMemo
   const value = [state, dispatch]
   return (
     <AppStateContext.Provider value={value}>
@@ -184,7 +184,7 @@ function Cell({cellWidth, cell, rowIndex, columnIndex}) {
 Cell = React.memo(Cell)
 
 /*
-🧛 Elaboration & Feedback
+🦉 Elaboration & Feedback
 After the instruction, copy the URL below into your browser and fill out the form:
 http://ws.kcd.im/?ws=React%20Performance&e=optimize%20context&em=
 */

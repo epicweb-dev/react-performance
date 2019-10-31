@@ -3,18 +3,18 @@
 // http://localhost:3000/isolated/exercises/01
 
 import React from 'react'
-// 💀 remove this import
+// 💣 remove this import
 import Tilt from '../tilt'
 
-// 🎃 use React.lazy to create a Tilt component which using a dynamic import
+// 🐨 use React.lazy to create a Tilt component which using a dynamic import
 // to get the Tilt component from the '../tilt' module.
 
 function App() {
   const [showTilt, setShowTilt] = React.useState(false)
 
-  // 🎃 wrap the code below in a <React.Suspense /> component
+  // 🐨 wrap the code below in a <React.Suspense /> component
   // with a fallback.
-  // 🧟 try putting it in a few different places and observe how that
+  // 💰 try putting it in a few different places and observe how that
   // impacts the user experience.
   return (
     <div>
@@ -30,13 +30,13 @@ function App() {
     </div>
   )
 }
-// 🧛 Note that in this app, we actually already have a React.Suspense
+// 🦉 Note that in this app, we actually already have a React.Suspense
 // component higher up in the tree where this component is rendered
 // (see app.js), so you *could* just rely on that one. Why would you not want
 // to do that do you think?
 
 /*
-🧛 Elaboration & Feedback
+🦉 Elaboration & Feedback
 After the instruction, copy the URL below into your browser and fill out the form:
 http://ws.kcd.im/?ws=React%20Performance&e=code%20splitting&em=
 */

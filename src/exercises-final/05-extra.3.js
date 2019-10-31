@@ -1,5 +1,5 @@
 // Fix "perf death by a thousand cuts"
-// 🕷 write an HOC to get a slice of app state
+// 💯 write an HOC to get a slice of app state
 
 // http://localhost:3000/isolated/exercises-final/05-extra.3
 

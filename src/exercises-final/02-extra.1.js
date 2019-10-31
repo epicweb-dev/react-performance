@@ -1,5 +1,5 @@
 // useMemo for expensive calculations
-// 🕷 Put getItems into a Web Worker
+// 💯 Put getItems into a Web Worker
 
 // http://localhost:3000/isolated/exercises-final/02-extra.1
 

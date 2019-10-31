@@ -41,7 +41,7 @@ test('Components are memoized', () => {
         `You may be seeing this error because the name of the function was removed (like this: const Menu = React.memo(() => {})). It's avised to keep the function name to improve the devtools experience (like this: const Menu = React.memo(function Menu() {}))`,
       )
     }
-    error.message = `🦇  ${chalk.red(
+    error.message = `🚨  ${chalk.red(
       `The Menu and ListItem components need to both be wrapped in React.memo. You do not need to have any other components memoized.`,
     )}\n\n${error.message}`
 

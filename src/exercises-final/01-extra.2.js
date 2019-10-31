@@ -1,5 +1,5 @@
 // Code splitting
-// 🕷 webpack magic comments
+// 💯 webpack magic comments
 
 // http://localhost:3000/isolated/exercises-final/01-extra.2
 
