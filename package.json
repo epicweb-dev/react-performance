@@ -28,7 +28,8 @@
     "stop-runaway-react-effects": "^1.2.0",
     "use-interval": "^1.1.0",
     "vanilla-tilt": "^1.7.0",
-    "workerize": "^0.1.7"
+    "workerize": "^0.1.7",
+    "workerize-loader": "^1.1.0"
   },
   "devDependencies": {
     "cross-spawn": "^7.0.1",
@@ -40,8 +41,7 @@
     "prettier": "^1.17.1",
     "react-scripts": "^3.2.0",
     "replace-in-file": "^4.2.0",
-    "serve": "^11.2.0",
-    "workerize-loader": "^1.1.0"
+    "serve": "^11.2.0"
   },
   "scripts": {
     "serve": "serve -s build",
