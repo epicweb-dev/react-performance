@@ -35,12 +35,6 @@ function App() {
 // (see app.js), so you *could* just rely on that one. Why would you not want
 // to do that do you think?
 
-/*
-🦉 Elaboration & Feedback
-After the instruction, copy the URL below into your browser and fill out the form:
-http://ws.kcd.im/?ws=React%20Performance&e=code%20splitting&em=
-*/
-
 ////////////////////////////////////////////////////////////////////
 //                                                                //
 //                 Don't make changes below here.                 //
