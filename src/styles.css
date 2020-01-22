@@ -29,3 +29,11 @@ https://micku7zu.github.io/vanilla-tilt.js/index.html
   justify-content: center;
   align-items: center;
 }
+
+.isolated-top-container {
+  padding: 30px;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}

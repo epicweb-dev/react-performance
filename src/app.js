@@ -1,12 +1,18 @@
 import React from 'react'
-import {Router, Link} from '@reach/router'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from 'react-router-dom'
 import {createBrowserHistory} from 'history'
 import preval from 'preval.macro'
 import pkg from '../package.json'
 
-const {title} = pkg
+const {title: projectTitle} = pkg
 
-if (!title) {
+if (!projectTitle) {
   throw new Error('The package.json must have a title!')
 }
 
@@ -31,7 +37,7 @@ function handleAnchorClick(event) {
 
 function ComponentContainer({label, ...props}) {
   return (
-    <div style={{display: 'flex', flexDirection: 'column'}}>
+    <div>
       <h2 style={{textAlign: 'center'}}>{label}</h2>
       <div
         style={{
@@ -72,8 +78,12 @@ function ExtraCreditLinks({exerciseId}) {
   )
 }
 
-function ExerciseContainer({exerciseId}) {
+function ExerciseContainer() {
+  let {exerciseId} = useParams()
   const {
+    title,
+    exercise,
+    final,
     exercise: {Component: Exercise},
     final: {Component: Final},
   } = exerciseInfo[exerciseId]
@@ -88,14 +98,22 @@ function ExerciseContainer({exerciseId}) {
         gridTemplateRows: '30px 1fr 30px',
       }}
     >
-      <h1 style={{gridColumn: 'span 2', textAlign: 'center'}}>{Final.title}</h1>
+      <h1 style={{gridColumn: 'span 2', textAlign: 'center'}}>{title}</h1>
       <ComponentContainer
-        label={<Link to={`/${exerciseId}/exercise`}>Exercise</Link>}
+        label={
+          <a href={exercise.isolatedPath} onClick={handleAnchorClick}>
+            Exercise
+          </a>
+        }
       >
         <Exercise />
       </ComponentContainer>
       <ComponentContainer
-        label={<Link to={`/${exerciseId}/final`}>Final Version</Link>}
+        label={
+          <a href={final.isolatedPath} onClick={handleAnchorClick}>
+            Final
+          </a>
+        }
       >
         <Final />
       </ComponentContainer>
@@ -150,51 +168,6 @@ function NavigationFooter({exerciseId, type}) {
   )
 }
 
-function FullPage({type, exerciseId}) {
-  const page = exerciseInfo[exerciseId]
-  const {Component, isolatedPath} = exerciseInfo[exerciseId][type]
-  return (
-    <div>
-      <div
-        style={{
-          marginLeft: 10,
-          marginRight: 10,
-          marginTop: 10,
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Link to={`/${exerciseId}`}>
-          <span role="img" aria-label="back">
-            👈
-          </span>
-          Exercise Page
-        </Link>
-        <a href={isolatedPath} onClick={handleAnchorClick}>
-          isolated
-        </a>
-      </div>
-      <div style={{textAlign: 'center'}}>
-        <h1>{page.title}</h1>
-      </div>
-      <div
-        style={{
-          flex: 1,
-          padding: 20,
-          margin: 20,
-          border: '1px solid',
-          display: 'grid',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Component />
-      </div>
-      <NavigationFooter exerciseId={exerciseId} type={type} />
-    </div>
-  )
-}
-
 function Home() {
   return (
     <div
@@ -205,21 +178,27 @@ function Home() {
         paddingTop: 30,
       }}
     >
-      <h1 style={{textAlign: 'center'}}>{title}</h1>
+      <h1 style={{textAlign: 'center'}}>{projectTitle}</h1>
       <div>
-        {Object.entries(exerciseInfo).map(([filename, {title}]) => {
-          return (
-            <div key={filename} style={{margin: 10}}>
-              {filename}
-              {'. '}
-              <Link to={`/${filename}`}>{title}</Link>{' '}
-              <small>
-                <Link to={`/${filename}/exercise`}>(exercise)</Link>{' '}
-                <Link to={`/${filename}/final`}>(final)</Link>
-              </small>
-            </div>
-          )
-        })}
+        {Object.entries(exerciseInfo)
+          .sort(([aKey], [bKey]) => (Number(aKey) > Number(bKey) ? 1 : -1))
+          .map(([filename, {title, final, exercise}]) => {
+            return (
+              <div key={filename} style={{margin: 10}}>
+                {filename}
+                {'. '}
+                <Link to={`/${filename}`}>{title}</Link>{' '}
+                <small>
+                  <a href={exercise.isolatedPath} onClick={handleAnchorClick}>
+                    (exercise)
+                  </a>{' '}
+                  <a href={final.isolatedPath} onClick={handleAnchorClick}>
+                    (final)
+                  </a>
+                </small>
+              </div>
+            )
+          })}
       </div>
     </div>
   )
@@ -249,11 +228,17 @@ function NotFound() {
 function Routes() {
   return (
     <Router>
-      <Home path="/" />
-      <ExerciseContainer path="/:exerciseId" />
-      <FullPage path="/:exerciseId/exercise" type="exercise" />
-      <FullPage path="/:exerciseId/final" type="final" />
-      <NotFound default />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/:exerciseId">
+          <ExerciseContainer />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </Router>
   )
 }
@@ -266,7 +251,9 @@ function useIsolatedComponent({pathname}) {
   const isFinal = pathname.includes('/exercises-final/')
   const isExercise = pathname.includes('/exercises/')
   const isExample = pathname.includes('/examples/')
-  const moduleName = isIsolated ? pathname.split('/').slice(-1)[0] : null
+  const moduleName = isIsolated
+    ? pathname.split(/\/isolated\/.*?\//).slice(-1)[0]
+    : null
   const IsolatedComponent = React.useMemo(() => {
     if (!moduleName) {
       return null
@@ -288,31 +275,57 @@ function useIsolatedComponent({pathname}) {
   return moduleName ? IsolatedComponent : null
 }
 
+function useExerciseTitle({pathname}) {
+  const isIsolated = pathname.startsWith('/isolated')
+  const isFinal = pathname.includes('/exercises-final/')
+  const isExercise = pathname.includes('/exercises/')
+  const exerciseName = isIsolated
+    ? pathname.split(/\/isolated\/.*?\//).slice(-1)[0]
+    : pathname.split('/').slice(-1)[0]
+
+  React.useEffect(() => {
+    document.title = [
+      projectTitle,
+      exerciseName,
+      isExercise ? 'Exercise' : null,
+      isFinal ? 'Final' : null,
+    ]
+      .filter(Boolean)
+      .join(' | ')
+  }, [exerciseName, isExercise, isFinal])
+}
+
+function useLocationBodyClassName({pathname}) {
+  const className = pathname.replace(/\//g, '_')
+  React.useEffect(() => {
+    document.body.classList.add(className)
+    return () => document.body.classList.remove(className)
+  }, [className])
+}
+
 // The reason we don't put the Isolated components as regular routes
 // and do all this complex stuff instead is so the React DevTools component
 // tree is as small as possible to make it easier for people to figure
 // out what is relevant to the example.
-function App() {
+function MainApp() {
   const [location, setLocation] = React.useState(history.location)
   React.useEffect(() => history.listen(l => setLocation(l)), [])
+  useExerciseTitle(location)
+  useLocationBodyClassName(location)
 
   const IsolatedComponent = useIsolatedComponent(location)
 
   return (
     <React.Suspense
-      fallback={<div className="totally-centered">Loading...</div>}
+      fallback={
+        <div style={{height: '100vh'}} className="totally-centered">
+          Loading...
+        </div>
+      }
     >
       {IsolatedComponent ? (
-        <div
-          style={{
-            padding: 30,
-            height: '100%',
-            display: 'grid',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div>
+        <div className="isolated-top-container">
+          <div className="isolated-div-wrapper">
             <IsolatedComponent />
           </div>
         </div>
@@ -323,4 +336,4 @@ function App() {
   )
 }
 
-export default App
+export default MainApp
