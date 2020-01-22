@@ -102,6 +102,9 @@ and what you can do to best optimize those things.
 > the regular browser devtools. You'll use them both together, don't worry!
 > Patience is a virtue 😉
 
+Note also that most of the code changes you'll be making are pretty small and
+you should spend the bulk of your time in the profiling tools we'll be using.
+
 ## Workshop Feedback
 
 Each exercise has an Elaboration and Feedback link. Please fill that out after
