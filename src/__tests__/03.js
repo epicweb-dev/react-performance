@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
-import '../exercises-final/03'
-// import '../exercises-final/03-extra.1'
-// import '../exercises/03'
+import '../final/03'
+// import '../final/03-extra.1'
+// import '../exercise/03'
 
 // this gets set as soon as we import the file
 // storing it here so it persists between tests

@@ -1,6 +1,0 @@
-{
-  "rules": {
-    "no-func-assign": "off",
-    "import/no-webpack-loader-syntax": "off"
-  }
-}

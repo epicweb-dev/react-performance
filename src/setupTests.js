@@ -1,19 +1,13 @@
-import '@testing-library/jest-dom/extend-expect'
+import '@kentcdodds/react-workshop-app/setup-tests'
 
-afterEach(() => {
-  jest.clearAllMocks()
+beforeAll(() => {
+  jest.spyOn(window, 'alert').mockImplementation(() => {})
 })
 
-jest.spyOn(window, 'alert').mockImplementation(() => {})
-
-// none of these tests should actually invoke fetch
 beforeEach(() => {
-  jest.spyOn(window, 'fetch').mockImplementation((...args) => {
-    console.warn('window.fetch is not mocked for this call', ...args)
-    return Promise.reject(new Error('This must be mocked!'))
-  })
+  window.alert.mockClear()
 })
 
-afterEach(() => {
-  window.fetch.mockRestore()
+afterAll(() => {
+  window.alert.mockRestore()
 })

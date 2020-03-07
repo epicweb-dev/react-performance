@@ -33,17 +33,17 @@
 ## Schedule
 
 - 😴 Logistics
-- 🏋 Code splitting
+- 💪 Code splitting
 - 😴 10 Minutes
-- 🏋 useMemo for expensive calculations
-- 🏋 React.memo for reducing unnecessary re-renders
+- 💪 useMemo for expensive calculations
+- 💪 React.memo for reducing unnecessary re-renders
 - 😴 30 Minutes
-- 🏋 Window large lists with react-window
+- 💪 Window large lists with react-window
 - 😴 10 Minutes
-- 🏋 Fix "perf death by a thousand cuts"
-- 🏋 Optimize context value
+- 💪 Fix "perf death by a thousand cuts"
+- 💪 Optimize context value
 - 😴 10 Minutes
-- 🏋 Production performance monitoring
+- 💪 Production performance monitoring
 - ❓ Q&A
 
 ## Scripts
@@ -64,10 +64,10 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 
 ## Exercises
 
-- `src/exercises/0x.md`: Background, Exercise Instructions, Extra Credit
-- `src/exercises/0x.js`: Exercise with Emoji helpers
+- `src/exercise/0x.md`: Background, Exercise Instructions, Extra Credit
+- `src/exercise/0x.js`: Exercise with Emoji helpers
 - `src/__tests__/0x.js`: Tests
-- `src/exercises-final/0x.js`: Final version
+- `src/final/0x.js`: Final version
 
 > NOTE: Some of the extra credit have tests that are specific to their
 > implementation because the implementation is significantly different and your
@@ -76,6 +76,8 @@ Please do ask! Interrupt me. If you have an unrelated question, please ask on
 ## Emoji
 
 - **Kody the Koala Bear** 🐨 "Do this"
+- **Matthew the Muscle** 💪 "Exercise"
+- **Chuck the Checkered Flag** 🏁 "Final"
 - **Marty the Money Bag** 💰 "Here's a hint"
 - **Hannah the Hundred** 💯 "Extra Credit"
 - **Olivia the Owl** 🦉 "Pro-tip"

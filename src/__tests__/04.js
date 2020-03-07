@@ -3,8 +3,8 @@ import {_FixedSizeList as List} from 'react-window'
 import chalk from 'chalk'
 import {render, fireEvent, wait} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
-import Usage from '../exercises-final/04'
-// import Usage from '../exercises/04'
+import Usage from '../final/04'
+// import Usage from '../exercise/04'
 
 jest.mock('react-window', () => {
   const {forwardRef} = require('react')

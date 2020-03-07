@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
 import {render, fireEvent} from '@testing-library/react'
-import Usage from '../exercises-final/05'
-// import Usage from '../exercises/05'
+import Usage from '../final/05'
+// import Usage from '../exercise/05'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')

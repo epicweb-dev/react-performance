@@ -12,42 +12,48 @@
 workshop repo to teach you about profiling React applications to identify slow
 parts and using proven tools and techniques to make your app fast.
 
+<!-- prettier-ignore-start -->
 [![Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
 [![Code Coverage][coverage-badge]][coverage]
 [![GPL 3.0 License][license-badge]][license]
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-[![PRs Welcome][prs-badge]][prs] [![Code of Conduct][coc-badge]][coc]
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![PRs Welcome][prs-badge]][prs]
+[![Code of Conduct][coc-badge]][coc]
+<!-- prettier-ignore-end -->
 
 ## Pre-Workshop Instructions/Requirements
 
-In order for us to maximize our efforts during the workshop, please do the
-following:
+In order for us to maximize our efforts during the workshop, please complete the
+following things to prepare.
 
-- [ ] Setup the project (follow the setup instructions below) (~5 minutes)
-- [ ] Install and setup [Zoom](https://zoom.us) on the computer you will be
+- 📺 indicates steps that are only necessary if the workshop is remote via Zoom
+- 👋 indicates steps that are specific to the material for this workshop
+
+- [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
+- [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
       using (~5 minutes)
-- [ ] Install the React DevTools
-      ([Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
-      (recommended),
-      [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/))
-- [ ] Watch
+- [ ] 📺 Watch
       [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
       (~8 minutes).
 - [ ] Watch
       [Setup and Logistics for KCD Workshops](https://egghead.io/lessons/egghead-setup-and-logistics-for-kcd-workshops)
       (~24 minutes). Please do NOT skip this step.
-- [ ] Watch [The Beginner's Guide to React](https://kcd.im/beginner-react)
+- [ ] 👋 Install the React DevTools
+      ([Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+      (recommended),
+      [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/))
+- [ ] 👋 Watch [The Beginner's Guide to React](https://kcd.im/beginner-react)
       (available free on Egghead.io), or have the equivalent experience (77
       minutes)
-- [ ] Watch my talk
+- [ ] 👋 Watch my talk
       [Why React Hooks](https://www.youtube.com/watch?v=zWsZcBiwgVE&list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf)
       (35 minutes)
-- [ ] Go through my
+- [ ] 👋 Go through my
       [Learn React Hooks Workshop](https://kentcdodds.com/workshops/hooks), or
       have the equivalent basic experience of using hooks. You should be
       experienced with `useState`, `useEffect`, and `useRef`.
-- [ ] Go through my
+- [ ] 👋 Go through my
       [Advanced React Hooks Workshop](https://kentcdodds.com/workshops/advanced-react-hooks),
       or have the equivalent experience. You should be experienced with
       `useContext` and `useReducer` (experience with `useMemo` and `useCallback`
@@ -71,16 +77,16 @@ Here are the tools and techniques we'll be covering:
 ## System Requirements
 
 - [git][git] v2 or greater
-- [NodeJS][node] v8 or greater
-- [yarn][yarn] v1 or greater (or [npm][npm] v6 or greater)
+- [NodeJS][node] v10 or greater
+- [npm][npm] v6 or greater
 
 All of these must be available in your `PATH`. To verify things are set up
 properly, you can run this:
 
-```shell
+```
 git --version
 node --version
-yarn --version # or npm --version
+npm --version
 ```
 
 If you have trouble with any of these, learn more about the PATH environment
@@ -89,16 +95,8 @@ variable and how to fix it here for [windows][win-path] or
 
 ## Setup
 
-For many of my workshops, you should be able to run them
-[entirely in the browser](https://codesandbox.io/s/github/kentcdodds/react-performance).
-However for this one, most of the exercises require you run scripts and do some
-performance analysis that doesn't work well in that environment. So I recommend
-you work through the workshop on your own computer.
-
-To do so, please follow these instructions.
-
-After you've made sure to have the correct things (and versions) installed (as
-indicated above), you should be able to just run a few commands to get set up:
+After you've made sure to have the correct things (and versions) installed, you
+should be able to just run a few commands to get set up:
 
 ```
 git clone https://github.com/kentcdodds/react-performance.git
@@ -109,10 +107,16 @@ npm run setup --silent
 This may take a few minutes. **It will ask you for your email.** This is
 optional and just automatically adds your email to the links in the project to
 make filling out some forms easier If you get any errors, please read through
-them and see if you can find out what the problem is. You may also want to look
-at [Troubleshooting](#troubleshooting). If you can't work it out on your own
-then please [file an issue][issue] and provide _all_ the output from the
-commands you ran (even if it's a lot).
+them and see if you can find out what the problem is. If you can't work it out
+on your own then please [file an issue][issue] and provide _all_ the output from
+the commands you ran (even if it's a lot).
+
+You may be able to work through the entire workshop in the browser. Go to
+[this codesandbox](https://codesandbox.io/s/github/kentcdodds/react-performance)
+and you should be good to go. Note that sometimes people have trouble with
+codesandbox not working quite right with tests, but you should be able to work
+around that. If you're concerned, then it would probably be better to just set
+things up locally.
 
 ## Running the app
 
@@ -123,7 +127,7 @@ npm start
 ```
 
 This should start up your browser. If you're familiar, this is a standard
-[react-scripts](https://github.com/facebook/create-react-app) application.
+[react-scripts](https://create-react-app.dev/) application.
 
 You can also open
 [the deployment of the app on Netlify](https://react-performance.netlify.com/).
@@ -134,19 +138,22 @@ You can also open
 npm test
 ```
 
-This will start [Jest](http://facebook.github.io/jest) in watch mode. Read the
-output and play around with it.
+This will start [Jest](https://jestjs.io/) in watch mode. Read the output and
+play around with it. The tests are there to help you reach the final version,
+however _sometimes_ you can accomplish the task and the tests still fail if you
+implement things differently than I do in my solution, so don't look to them as
+a complete authority.
 
-**Your goal will be to go into each test, swap the final version for the
-exercise version in the import, and make the tests pass**
-
-## Helpful Emoji 🐨 💰 💯 🦉 📜 💣 🚨
+## Helpful Emoji 🐨 💪 🏁 💰 💯 🦉 📜 💣 👨‍💼 🚨
 
 Each exercise has comments in it to help you get through the exercise. These fun
 emoji characters are here to help you.
 
 - **Kody the Koala Bear** 🐨 will tell you when there's something specific you
   should do
+- **Matthew the Muscle** 💪 will indicate what you're working with an exercise
+- **Chuck the Checkered Flag** 🏁 will indicate that you're working with a final
+  version
 - **Marty the Money Bag** 💰 will give you specific tips (and sometimes code)
   along the way
 - **Hannah the Hundred** 💯 will give you extra challenges you can do if you
@@ -159,38 +166,6 @@ emoji characters are here to help you.
 - **Peter the Product Manager** 👨‍💼 helps us know what our users want
 - **Alfred the Alert** 🚨 will occasionally show up in the test failures with
   potential explanations for why the tests are failing.
-
-## Troubleshooting
-
-<details>
-
-<summary>"npm run setup" command not working</summary>
-
-Here's what the setup script does. If it fails, try doing each of these things
-individually yourself:
-
-```
-# verify your environment will work with the project
-node ./scripts/verify
-
-# install dependencies
-npm install
-
-# verify the project is ready to run
-npm run build
-npm run test:coverage
-npm run lint
-
-# automatically fill in your email for the feedback links.
-node ./scripts/autofill-feedback-email.js
-```
-
-If any of those scripts fail, please try to work out what went wrong by the
-error message you get. If you still can't work it out, feel free to [open an
-issue][issue] with _all_ the output from that script. I will try to help if I
-can.
-
-</details>
 
 ## Contributors
 
@@ -217,46 +192,29 @@ specification. Contributions of any kind welcome!
 This material is available for private, non-commercial use under the
 [GPL version 3](http://www.gnu.org/licenses/gpl-3.0-standalone.html). If you
 would like to use this material to conduct your own workshop, please contact me
-at kent@doddsfamily.us
+at me@kentcdodds.com
 
+<!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[yarn]: https://yarnpkg.com/
-[build-badge]:
-  https://img.shields.io/travis/kentcdodds/react-performance.svg?style=flat-square&logo=travis
+[build-badge]: https://img.shields.io/travis/kentcdodds/react-performance.svg?style=flat-square&logo=travis
 [build]: https://travis-ci.org/kentcdodds/react-performance
-[license-badge]:
-  https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]:
-  https://github.com/kentcdodds/react-performance/blob/master/README.md#license
-[prs-badge]:
-  https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
+[license]: https://github.com/kentcdodds/react-performance/blob/master/README.md#license
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
-[coc-badge]:
-  https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[coc]:
-  https://github.com/kentcdodds/react-performance/blob/master/CODE_OF_CONDUCT.md
-[github-watch-badge]:
-  https://img.shields.io/github/watchers/kentcdodds/react-performance.svg?style=social
-[github-watch]: https://github.com/kentcdodds/react-performance/watchers
-[github-star-badge]:
-  https://img.shields.io/github/stars/kentcdodds/react-performance.svg?style=social
-[github-star]: https://github.com/kentcdodds/react-performance/stargazers
-[twitter]:
-  https://twitter.com/intent/tweet?text=Check%20out%20react-performance%20by%20@kentcdodds%20https://github.com/kentcdodds/react-performance%20%F0%9F%91%8D
-[twitter-badge]:
-  https://img.shields.io/twitter/url/https/github.com/kentcdodds/react-performance.svg?style=social
+[donate-badge]: https://img.shields.io/badge/$-support-green.svg?style=flat-square
+[donate]: http://kcd.im/donate
+[coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[coc]: https://github.com/kentcdodds/react-performance/blob/master/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/kentcdodds/all-contributors#emoji-key
 [all-contributors]: https://github.com/kentcdodds/all-contributors
-[win-path]:
-  https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
+[win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 [mac-path]: http://stackoverflow.com/a/24322978/971592
 [issue]: https://github.com/kentcdodds/react-performance/issues/new
-[win-build-badge]:
-  https://img.shields.io/appveyor/ci/kentcdodds/react-performance.svg?style=flat-square&logo=appveyor
+[win-build-badge]: https://img.shields.io/appveyor/ci/kentcdodds/react-performance.svg?style=flat-square&logo=appveyor
 [win-build]: https://ci.appveyor.com/project/kentcdodds/react-performance
-[coverage-badge]:
-  https://img.shields.io/codecov/c/github/kentcdodds/react-performance.svg?style=flat-square
+[coverage-badge]: https://img.shields.io/codecov/c/github/kentcdodds/react-performance.svg?style=flat-square
 [coverage]: https://codecov.io/github/kentcdodds/react-performance
-[watchman]: https://facebook.github.io/watchman/docs/install.html
+<!-- prettier-ignore-end -->

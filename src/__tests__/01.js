@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
 import {render, fireEvent} from '@testing-library/react'
-import Usage from '../exercises-final/01'
-// import Usage from '../exercises/01'
+import Usage from '../final/01'
+// import Usage from '../exercise/01'
 
 test('loads the tile component asynchronously', async () => {
   const {getByLabelText, findByDisplayValue, queryByDisplayValue} = render(
