@@ -1,3 +1,4 @@
+import './vanilla-tilt.css'
 import React from 'react'
 import VanillaTilt from 'vanilla-tilt'
 
