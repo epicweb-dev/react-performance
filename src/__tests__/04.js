@@ -1,7 +1,7 @@
 import React from 'react'
 import {_FixedSizeList as List} from 'react-window'
 import chalk from 'chalk'
-import {render, fireEvent, wait} from '@testing-library/react'
+import {render, fireEvent, waitFor} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
 import Usage from '../final/04'
 // import Usage from '../exercise/04'
@@ -29,7 +29,7 @@ test('renders react-window properly', async () => {
   getItems.mockReturnValue(promise)
   const {getByText} = render(<Usage />)
 
-  await wait(() => promise)
+  await waitFor(() => promise)
 
   try {
     expect(List).toHaveBeenLastCalledWith(
@@ -62,7 +62,7 @@ test('renders react-window properly', async () => {
   }
 
   fireEvent.click(getByText(fakeCity.name))
-  await wait(() => expect(window.alert).toHaveBeenCalledTimes(1))
+  await waitFor(() => expect(window.alert).toHaveBeenCalledTimes(1))
   expect(window.alert).toHaveBeenCalledWith(
     expect.stringContaining(fakeCity.name),
   )

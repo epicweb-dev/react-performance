@@ -1,6 +1,6 @@
 import React from 'react'
 import chalk from 'chalk'
-import {render, fireEvent, wait} from '@testing-library/react'
+import {render, fireEvent, waitFor} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
 import Usage from '../final/02.extra-1'
 // import Usage from '../exercise/02'
@@ -25,7 +25,7 @@ test('useMemo is called properly', async () => {
   const {getByText, container} = render(<Usage />)
   const forceRerender = getByText(/force rerender/i)
 
-  await wait(() => promise)
+  await waitFor(() => promise)
 
   const findCity = container.querySelector('input')
   const filter = 'NO_CITY_WILL_MATCH_THIS'
@@ -34,7 +34,7 @@ test('useMemo is called properly', async () => {
 
   fireEvent.change(findCity, {target: {value: filter}})
 
-  await wait(() => promise2)
+  await waitFor(() => promise2)
 
   try {
     expect(container.querySelectorAll('li')).toHaveLength(0)
@@ -52,6 +52,6 @@ test('useMemo is called properly', async () => {
   }
 
   fireEvent.click(forceRerender)
-  await wait(() => promise2)
+  await waitFor(() => promise2)
   expect(React.useMemo).not.toHaveBeenCalled()
 })
