@@ -1,6 +1,5 @@
 // Production performance monitoring
-
-// http://localhost:3000/isolated/exercise/07
+// http://localhost:3000/isolated/exercise/07.js
 
 import React from 'react'
 // 🐨 you're going to need the reportProfile function

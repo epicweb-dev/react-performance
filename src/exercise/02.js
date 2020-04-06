@@ -1,6 +1,5 @@
 // useMemo for expensive calculations
-
-// http://localhost:3000/isolated/exercise/02
+// http://localhost:3000/isolated/exercise/02.js
 
 import React from 'react'
 import Downshift from 'downshift'

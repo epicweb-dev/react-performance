@@ -1,7 +1,6 @@
 // Code splitting
 // 💯 eager loading
-
-// http://localhost:3000/isolated/final/01-extra.1
+// http://localhost:3000/isolated/final/01.extra-1.js
 
 import React from 'react'
 

@@ -1,7 +1,6 @@
 // Fix "perf death by a thousand cuts"
 // 💯 separate contexts
-
-// http://localhost:3000/isolated/final/05-extra.1
+// http://localhost:3000/isolated/final/05.extra-1.js
 
 import React from 'react'
 import useInterval from 'use-interval'

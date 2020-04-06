@@ -1,4 +1,4 @@
-// http://localhost:3000/isolated/examples/unnecessary-rerenders
+// http://localhost:3000/isolated/examples/unnecessary-rerenders.js
 
 import React from 'react'
 

@@ -1,7 +1,6 @@
 // Fix "perf death by a thousand cuts"
 // 💯 limit the work consuming components do
-
-// http://localhost:3000/isolated/final/05-extra.2
+// http://localhost:3000/isolated/final/05.extra-2.js
 
 import React from 'react'
 import useInterval from 'use-interval'

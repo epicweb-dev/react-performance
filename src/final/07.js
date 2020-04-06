@@ -1,6 +1,5 @@
 // Production performance monitoring
-
-// http://localhost:3000/isolated/final/07
+// http://localhost:3000/isolated/final/07.js
 
 import React from 'react'
 import reportProfile from '../report-profile'

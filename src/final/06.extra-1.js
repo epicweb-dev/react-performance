@@ -1,7 +1,6 @@
 // Optimize context value
 // 💯 separate the contexts
-
-// http://localhost:3000/isolated/final/06-extra.1
+// http://localhost:3000/isolated/final/06.extra-1.js
 
 import React from 'react'
 import useInterval from 'use-interval'

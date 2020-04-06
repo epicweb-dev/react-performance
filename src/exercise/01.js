@@ -1,6 +1,5 @@
 // Code splitting
-
-// http://localhost:3000/isolated/exercise/01
+// http://localhost:3000/isolated/exercise/01.js
 
 import React from 'react'
 // 💣 remove this import

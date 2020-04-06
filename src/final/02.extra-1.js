@@ -1,7 +1,6 @@
 // useMemo for expensive calculations
 // 💯 Put getItems into a Web Worker
-
-// http://localhost:3000/isolated/final/02-extra.1
+// http://localhost:3000/isolated/final/02.extra-1.js
 
 import React from 'react'
 import Downshift from 'downshift'

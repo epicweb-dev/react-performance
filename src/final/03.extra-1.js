@@ -1,7 +1,6 @@
 // React.memo for reducing unnecessary re-renders
 // 💯 Memoize the Downshift component
-
-// http://localhost:3000/isolated/final/03-extra.1
+// http://localhost:3000/isolated/final/03.extra-1.js
 
 import React from 'react'
 import OriginalDownshift from 'downshift'
