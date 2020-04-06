@@ -1,5 +1,5 @@
 // Production performance monitoring
-// 💯 use the exerimental trace API
+// 💯 use the experimental trace API
 // http://localhost:3000/isolated/final/07.extra-1.js
 
 import React from 'react'

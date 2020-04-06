@@ -1,4 +1,4 @@
-# React Performance
+# React Performance ⚡
 
 > Let's make our apps fast ⚡
 
@@ -137,8 +137,6 @@ implement things differently than I do in my solution, so don't look to them as
 a complete authority.
 
 ## Workshop Outline
-
-> Let's make our apps fast ⚡
 
 👋 I'm Kent C. Dodds
 
