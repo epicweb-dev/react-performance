@@ -4,8 +4,8 @@
 
 import React from 'react'
 import Downshift from 'downshift'
-import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
+import {getItems} from '../workerized-filter-cities'
 
 function Menu({
   getMenuProps,
