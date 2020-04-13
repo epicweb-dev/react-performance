@@ -30,8 +30,5 @@ function App() {
     </div>
   )
 }
-function Usage() {
-  return <App />
-}
 
-export default Usage
+export default App

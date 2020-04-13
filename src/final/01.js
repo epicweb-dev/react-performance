@@ -8,7 +8,7 @@ const Tilt = React.lazy(() => import('../tilt'))
 function App() {
   const [showTilt, setShowTilt] = React.useState(false)
   return (
-    <div>
+    <div style={{width: 200}}>
       <label>
         <input
           type="checkbox"
@@ -23,8 +23,5 @@ function App() {
     </div>
   )
 }
-function Usage() {
-  return <App />
-}
 
-export default Usage
+export default App

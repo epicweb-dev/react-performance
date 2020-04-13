@@ -40,9 +40,4 @@ function App() {
 // But do look at it to see how your code is intended to be used. //
 //                                                                //
 ////////////////////////////////////////////////////////////////////
-
-function Usage() {
-  return <App />
-}
-
-export default Usage
+export default App

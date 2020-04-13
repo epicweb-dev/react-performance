@@ -30,8 +30,4 @@ function App() {
   )
 }
 
-function Usage() {
-  return <App />
-}
-
-export default Usage
+export default App
