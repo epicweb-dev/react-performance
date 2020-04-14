@@ -116,8 +116,4 @@ function FilterComponent() {
   )
 }
 
-function Usage() {
-  return <FilterComponent />
-}
-
-export default Usage
+export default FilterComponent

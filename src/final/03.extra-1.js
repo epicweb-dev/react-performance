@@ -125,12 +125,7 @@ function FilterComponent() {
   )
 }
 
-function Usage() {
-  return <FilterComponent />
-}
-
-export default Usage
-
+export default FilterComponent
 /*
 eslint
   no-func-assign: 0,

@@ -127,8 +127,9 @@ function FilterComponent() {
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 
-function Usage() {
-  return <FilterComponent />
-}
+export default FilterComponent
 
-export default Usage
+/*
+eslint
+  no-func-assign: 0,
+*/
