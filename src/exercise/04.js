@@ -50,7 +50,7 @@ function Menu({
       {/*
         🐨 render the FixedSizeList component here and pass ListItem as children.
         💰 Here are the props you'll want:
-           ref (listItem)
+           ref (listRef)
            width (300)
            height (300)
            itemCount (items.length)
