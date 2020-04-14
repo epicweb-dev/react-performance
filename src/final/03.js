@@ -73,7 +73,7 @@ function ListItem({
 }
 ListItem = React.memo(ListItem)
 
-function FilterComponent() {
+function App() {
   const forceRerender = useForceRerender()
 
   return (
@@ -120,7 +120,7 @@ function FilterComponent() {
   )
 }
 
-export default FilterComponent
+export default App
 /*
 eslint
   no-func-assign: 0,

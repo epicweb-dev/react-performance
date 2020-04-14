@@ -72,7 +72,7 @@ function ListItem({
   )
 }
 
-function FilterComponent() {
+function App() {
   const forceRerender = useForceRerender()
 
   return (
@@ -119,4 +119,4 @@ function FilterComponent() {
   )
 }
 
-export default FilterComponent
+export default App

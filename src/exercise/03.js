@@ -73,7 +73,7 @@ function ListItem({
 }
 // 🐨 Memoize the ListItem here using React.memo
 
-function FilterComponent() {
+function App() {
   const forceRerender = useForceRerender()
 
   return (
@@ -127,7 +127,7 @@ function FilterComponent() {
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 
-export default FilterComponent
+export default App
 
 /*
 eslint

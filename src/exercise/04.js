@@ -17,7 +17,7 @@ function Menu({
   setItemCount,
   // 🐨 accept a prop called "listRef" here
   // 💰 I gave you a bit of code to pass the listRef prop here.
-  // You can peek down below in the FilterComponent and I'll explain what I did.
+  // You can peek down below in the App and I'll explain what I did.
 }) {
   const {data: items = []} = useAsync(
     React.useCallback(() => getItems(inputValue), [inputValue]),
@@ -103,7 +103,7 @@ function ListItem({
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 
-function FilterComponent() {
+function App() {
   const forceRerender = useForceRerender()
   // 💰 I made this listRef for you and pass it as a prop to the Menu
   const listRef = React.useRef()
@@ -167,7 +167,7 @@ function FilterComponent() {
   )
 }
 
-export default FilterComponent
+export default App
 /*
 eslint
   no-func-assign: 0,
