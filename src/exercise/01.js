@@ -29,10 +29,9 @@ function App() {
     </div>
   )
 }
-// 🦉 Note that in this app, we actually already have a React.Suspense
-// component higher up in the tree where this component is rendered
-// (see app.js), so you *could* just rely on that one. Why would you not want
-// to do that do you think?
+// 🦉 Note that if you're not on the isolated page, then you'll notice that this
+// app actually already has a React.Suspense component higher up in the tree
+// where this component is rendered, so you *could* just rely on that one.
 
 ////////////////////////////////////////////////////////////////////
 //                                                                //
