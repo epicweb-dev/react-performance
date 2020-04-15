@@ -41,7 +41,7 @@ following things to prepare.
 - [ ] 📺 Watch
       [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
       (~8 minutes).
-- [ ] Watch
+- [ ] 📺 Watch
       [Setup and Logistics for KCD Workshops](https://egghead.io/lessons/egghead-setup-and-logistics-for-kcd-workshops)
       (~24 minutes). Please do NOT skip this step.
 - [ ] 👋 Install the React DevTools
