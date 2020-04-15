@@ -28,8 +28,18 @@
       "contributions": [
         "fundingFinding"
       ]
+    },
+    {
+      "login": "Fensterbank",
+      "name": "Frédéric Bolvin",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1684826?v=4",
+      "profile": "https://bol.vin",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
