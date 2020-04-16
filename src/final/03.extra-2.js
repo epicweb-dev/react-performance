@@ -1,6 +1,6 @@
 // React.memo for reducing unnecessary re-renders
-// 💯 Use a custom comparator function
-// http://localhost:3000/isolated/final/03.extra-1.js
+// 💯 Memoize the Downshift component
+// http://localhost:3000/isolated/final/03.extra-2.js
 
 import React from 'react'
 import OriginalDownshift from 'downshift'
@@ -72,26 +72,7 @@ function ListItem({
     </li>
   )
 }
-ListItem = React.memo(ListItem, (prevProps, nextProps) => {
-  // true means do NOT rerender
-  // false means DO rerender
-
-  // these ones are easy if any of these changed, we should re-render
-  if (prevProps.getItemProps !== nextProps.getItemProps) return false
-  if (prevProps.items !== nextProps.items) return false
-  if (prevProps.index !== nextProps.index) return false
-  if (prevProps.selectedItem !== nextProps.selectedItem) return false
-
-  // this is trickier. We should only re-render if this list item:
-  // 1. was highlighted before and now it's not
-  // 2. was not highlighted before and now it is
-  if (prevProps.highlightedIndex !== nextProps.highlightedIndex) {
-    const wasPrevHighlighted = prevProps.highlightedIndex === prevProps.index
-    const isNowHighlighted = nextProps.highlightedIndex === nextProps.index
-    return wasPrevHighlighted === isNowHighlighted
-  }
-  return true
-})
+ListItem = React.memo(ListItem)
 
 const Downshift = React.memo(OriginalDownshift)
 

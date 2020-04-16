@@ -73,6 +73,7 @@ function ListItem({
   items,
   highlightedIndex,
   selectedItem,
+  // 💰 index will be passed by react-window
   index,
   // 🐨 accept a new style prop
 }) {
