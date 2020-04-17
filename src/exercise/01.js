@@ -16,7 +16,7 @@ function App() {
   // 💰 try putting it in a few different places and observe how that
   // impacts the user experience.
   return (
-    <div>
+    <div style={{width: 200}}>
       <label>
         <input
           type="checkbox"
