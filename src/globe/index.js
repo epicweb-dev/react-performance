@@ -33,7 +33,7 @@ const Globe = animated(
     })
 
     return (
-      <svg ref={svgref} width={size} height={size}>
+      <svg ref={svgref} width={size} height={size} title="globe">
         <defs>
           <radialGradient
             id="gradient"

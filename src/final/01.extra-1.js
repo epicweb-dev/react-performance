@@ -4,29 +4,40 @@
 
 import React from 'react'
 
-const loadTilt = () => import('../tilt')
-const Tilt = React.lazy(loadTilt)
+const loadGlobe = () => import('../globe')
+const Globe = React.lazy(loadGlobe)
 
 function App() {
-  const [showTilt, setShowTilt] = React.useState(false)
-
-  React.useEffect(() => {
-    loadTilt()
-  }, [])
+  const [showGlobe, setShowGlobe] = React.useState(false)
 
   return (
-    <div>
-      <label>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: '100%',
+        padding: '2rem',
+      }}
+    >
+      <label
+        style={{marginBottom: '1rem'}}
+        onMouseEnter={loadGlobe}
+        onFocus={loadGlobe}
+      >
         <input
           type="checkbox"
-          checked={showTilt}
-          onChange={e => setShowTilt(e.target.checked)}
+          checked={showGlobe}
+          onChange={e => setShowGlobe(e.target.checked)}
         />
-        {' show tilt'}
+        {' show globe'}
       </label>
-      <React.Suspense fallback={<div>loading tilt...</div>}>
-        {showTilt ? <Tilt>This is tilted!</Tilt> : null}
-      </React.Suspense>
+      <div style={{width: 400, height: 400}}>
+        <React.Suspense fallback={<div>loading globe...</div>}>
+          {showGlobe ? <Globe /> : null}
+        </React.Suspense>
+      </div>
     </div>
   )
 }

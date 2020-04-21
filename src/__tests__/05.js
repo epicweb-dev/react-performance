@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
 import {render, fireEvent} from '@testing-library/react'
-import Usage from '../final/05'
-// import Usage from '../exercise/05'
+import App from '../final/05'
+// import App from '../exercise/05'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
@@ -14,7 +14,7 @@ jest.mock('react', () => {
 })
 
 test('colocates state properly', () => {
-  const {getByLabelText, getByText} = render(<Usage />)
+  const {getByLabelText, getByText} = render(<App />)
 
   try {
     expect(React.useReducer).not.toHaveBeenCalledWith(

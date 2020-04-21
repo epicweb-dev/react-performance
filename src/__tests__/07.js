@@ -2,8 +2,8 @@ import React from 'react'
 import chalk from 'chalk'
 import {render} from '@testing-library/react'
 import reportProfile from '../report-profile'
-import Usage from '../final/07'
-// import Usage from '../exercise/07'
+import App from '../final/07'
+// import App from '../exercise/07'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
@@ -14,7 +14,7 @@ jest.mock('react', () => {
 })
 
 test('uses the Profiler correctly', () => {
-  render(<Usage />)
+  render(<App />)
 
   try {
     expect(React.Profiler).toHaveBeenLastCalledWith(

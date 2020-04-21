@@ -2,8 +2,8 @@ import React from 'react'
 import chalk from 'chalk'
 import {render, fireEvent, waitFor} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
-import Usage from '../final/02.extra-1'
-// import Usage from '../exercise/02'
+import App from '../final/02.extra-1'
+// import App from '../exercise/02'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
@@ -22,7 +22,7 @@ jest.mock('../workerized-filter-cities', () => ({
 test('useMemo is called properly', async () => {
   const promise = Promise.resolve([{id: 'fake', name: 'FAKE_CITY_NAME'}])
   getItems.mockReturnValue(promise)
-  const {getByText, container} = render(<Usage />)
+  const {getByText, container} = render(<App />)
   const forceRerender = getByText(/force rerender/i)
 
   await waitFor(() => promise)

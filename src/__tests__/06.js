@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
 import {render} from '@testing-library/react'
-import Usage from '../final/06'
-// import Usage from '../exercise/06'
+import App from '../final/06'
+// import App from '../exercise/06'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
@@ -13,7 +13,7 @@ jest.mock('react', () => {
 })
 
 test('memoizes state properly', () => {
-  render(<Usage />)
+  render(<App />)
   const memoCall = React.useMemo.mock.calls.find(
     ([fn, deps]) => deps && deps.some && deps.some(d => d && d.grid),
   )

@@ -1,8 +1,8 @@
 import React from 'react'
 import chalk from 'chalk'
 import {render, fireEvent} from '@testing-library/react'
-import Usage from '../final/02'
-// import Usage from '../exercise/02'
+import App from '../final/02'
+// import App from '../exercise/02'
 
 jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
@@ -13,7 +13,7 @@ jest.mock('react', () => {
 })
 
 test('useMemo is called properly', () => {
-  const {getByText, container} = render(<Usage />)
+  const {getByText, container} = render(<App />)
   const forceRerender = getByText(/force rerender/i)
 
   try {

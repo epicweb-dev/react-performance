@@ -1,31 +1,31 @@
 import React from 'react'
-import chalk from 'chalk'
-import {render, fireEvent} from '@testing-library/react'
-import Usage from '../final/01'
-// import Usage from '../exercise/01'
+import {render, fireEvent, screen, act} from '@testing-library/react'
+import App from '../final/01'
+// import App from '../exercise/01'
+
+beforeEach(() => {
+  window.navigator.geolocation = {
+    getCurrentPosition: async () => ({
+      coords: {
+        logitude: 321,
+        latitude: 123,
+      },
+    }),
+  }
+})
 
 test('loads the tile component asynchronously', async () => {
-  const {getByLabelText, findByDisplayValue, queryByDisplayValue} = render(
-    <Usage />,
-  )
-  fireEvent.click(getByLabelText(/show tilt/))
+  render(<App />)
 
-  const tilted = /this is tilted/i
+  expect(
+    screen.queryByTitle(/globe/i),
+    'The tilt component must be loaded asynchronously via React.lazy and React.Suspense',
+  ).not.toBeInTheDocument()
 
-  try {
-    expect(queryByDisplayValue(tilted)).not.toBeInTheDocument()
-  } catch (error) {
-    //
-    //
-    //
-    // these comment lines are just here to keep the next line out of the codeframe
-    // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
-      'The tilt component must be loaded asynchronously via React.lazy and React.Suspense',
-    )}`
+  // TODO: figure out why act is needed here because it should not be...
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/show globe/))
+  })
 
-    throw error
-  }
-
-  expect(await findByDisplayValue(tilted)).toBeInTheDocument()
+  expect(await screen.findByTitle(/globe/i)).toBeInTheDocument()
 })

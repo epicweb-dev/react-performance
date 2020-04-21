@@ -3,8 +3,8 @@ import {_FixedSizeList as List} from 'react-window'
 import chalk from 'chalk'
 import {render, fireEvent, waitFor} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
-import Usage from '../final/04'
-// import Usage from '../exercise/04'
+import App from '../final/04'
+// import App from '../exercise/04'
 
 jest.mock('react-window', () => {
   const {forwardRef} = require('react')
@@ -27,7 +27,7 @@ test('renders react-window properly', async () => {
   const fakeItems = [fakeCity]
   const promise = Promise.resolve(fakeItems)
   getItems.mockReturnValue(promise)
-  const {getByText} = render(<Usage />)
+  const {getByText} = render(<App />)
 
   await waitFor(() => promise)
 
