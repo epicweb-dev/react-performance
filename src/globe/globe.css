@@ -1,0 +1,24 @@
+.pin-0 {
+  animation: pulse 2s cubic-bezier(0, 0.55, 0.45, 1) infinite;
+  pointer-events: none;
+}
+.pin-1 {
+  animation: pulse 2s cubic-bezier(0, 0.55, 0.45, 1) infinite;
+  animation-delay: 1s;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+    r: 0;
+  }
+  50% {
+    opacity: 1;
+    r: auto;
+  }
+  100% {
+    opacity: 0;
+    r: auto;
+  }
+}
