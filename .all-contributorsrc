@@ -37,6 +37,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "vojtaholik",
+      "name": "Vojta Holik",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/25487857?v=4",
+      "profile": "http://vojta.io",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ],
   "repoHost": "https://github.com",
