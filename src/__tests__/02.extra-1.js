@@ -1,6 +1,5 @@
 import React from 'react'
-import chalk from 'chalk'
-import {render, fireEvent, waitFor} from '@testing-library/react'
+import {render, fireEvent, waitFor, screen} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
 import App from '../final/02.extra-1'
 // import App from '../exercise/02'
@@ -27,7 +26,7 @@ test('useMemo is called properly', async () => {
 
   await waitFor(() => promise)
 
-  const findCity = container.querySelector('input')
+  const findCity = screen.getByRole('textbox', {name: /find a city/i})
   const filter = 'NO_CITY_WILL_MATCH_THIS'
   const promise2 = Promise.resolve([])
   getItems.mockReturnValue(promise2)
@@ -36,20 +35,10 @@ test('useMemo is called properly', async () => {
 
   await waitFor(() => promise2)
 
-  try {
-    expect(container.querySelectorAll('li')).toHaveLength(0)
-  } catch (error) {
-    //
-    //
-    //
-    // these comment lines are just here to keep the next line out of the codeframe
-    // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
-      `There are search results when there shouldn't be. Make sure to pass the inputValue into the dependecy array of the useMemo call. If you're doing that correctly, then make sure that you're calling the getItems function correctly.`,
-    )}\n\n${error.message}`
-
-    throw error
-  }
+  expect(
+    container.querySelectorAll('li'),
+    `There are search results when there shouldn't be. Make sure to pass the inputValue into the dependecy array of the useMemo call. If you're doing that correctly, then make sure that you're calling the getItems function correctly.`,
+  ).toHaveLength(0)
 
   fireEvent.click(forceRerender)
   await waitFor(() => promise2)

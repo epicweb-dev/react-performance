@@ -97,7 +97,7 @@ function downshiftChildren({
       <div>
         <label {...getLabelProps()}>Find a city</label>
         <div>
-          <input {...getInputProps()} />
+          <input {...getInputProps({type: 'text'})} />
         </div>
       </div>
       <Menu

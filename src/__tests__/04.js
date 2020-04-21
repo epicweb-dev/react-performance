@@ -1,7 +1,6 @@
 import React from 'react'
 import {_FixedSizeList as List} from 'react-window'
-import chalk from 'chalk'
-import {render, fireEvent, waitFor} from '@testing-library/react'
+import {render, fireEvent, waitFor, screen} from '@testing-library/react'
 import {getItems} from '../workerized-filter-cities'
 import App from '../final/04'
 // import App from '../exercise/04'
@@ -27,41 +26,31 @@ test('renders react-window properly', async () => {
   const fakeItems = [fakeCity]
   const promise = Promise.resolve(fakeItems)
   getItems.mockReturnValue(promise)
-  const {getByText} = render(<App />)
+  render(<App />)
 
   await waitFor(() => promise)
 
-  try {
-    expect(List).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        children: expect.any(Function),
-        height: 300,
-        width: 300,
-        itemSize: 20,
-        itemCount: 1,
-        itemData: expect.objectContaining({
-          getItemProps: expect.any(Function),
-          highlightedIndex: null,
-          items: fakeItems,
-          selectedItem: null,
-        }),
+  expect(
+    List,
+    'The Menu component must render the List component with the correct props',
+  ).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      children: expect.any(Function),
+      height: 300,
+      width: 300,
+      itemSize: 20,
+      itemCount: 1,
+      itemData: expect.objectContaining({
+        getItemProps: expect.any(Function),
+        highlightedIndex: null,
+        items: fakeItems,
+        selectedItem: null,
       }),
-      expect.any(Object),
-    )
-  } catch (error) {
-    //
-    //
-    //
-    // these comment lines are just here to keep the next line out of the codeframe
-    // so it doesn't confuse people when they see the error message twice.
-    error.message = `🚨  ${chalk.red(
-      'The Menu component must render the List component with the correct props',
-    )}\n\n${error.message}`
+    }),
+    expect.any(Object),
+  )
 
-    throw error
-  }
-
-  fireEvent.click(getByText(fakeCity.name))
+  fireEvent.click(screen.getByText(fakeCity.name))
   await waitFor(() => expect(window.alert).toHaveBeenCalledTimes(1))
   expect(window.alert).toHaveBeenCalledWith(
     expect.stringContaining(fakeCity.name),
