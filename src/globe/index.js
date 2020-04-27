@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useRef, useEffect} from 'react'
+import React from 'react'
 import {useSpring, animated} from 'react-spring'
 import {useWheel} from 'react-use-gesture'
 import {geoOrthographic, geoPath} from 'd3-geo'
@@ -11,8 +11,8 @@ const Countries = feature(jsonData, jsonData.objects.countries).features
 
 const Globe = animated(
   ({lat = 0, lng = 0, zoom, size = 400, onGlobeClick, currentLocation}) => {
-    const svgref = useRef()
-    const projection = useMemo(() => {
+    const svgref = React.useRef()
+    const projection = React.useMemo(() => {
       return geoOrthographic()
         .translate([size / 2, size / 2])
         .scale((size / 2) * zoom)
@@ -92,15 +92,15 @@ const Globe = animated(
   },
 )
 
-export default ({size = 400}) => {
-  const [state, setState] = useState({
+function GlobeContainer({size = 400}) {
+  const [state, setState] = React.useState({
     lat: 0,
     lng: 0,
     userLat: 0,
     userLng: 0,
   })
 
-  useEffect(() => {
+  React.useEffect(() => {
     navigator.geolocation.getCurrentPosition(position =>
       setState({
         userLng: position.coords.longitude,
@@ -163,3 +163,5 @@ export default ({size = 400}) => {
     </div>
   )
 }
+
+export default GlobeContainer
