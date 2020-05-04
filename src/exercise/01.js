@@ -44,10 +44,4 @@ function App() {
 // app actually already has a React.Suspense component higher up in the tree
 // where this component is rendered, so you *could* just rely on that one.
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
 export default App

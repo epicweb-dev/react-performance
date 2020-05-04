@@ -182,13 +182,6 @@ function Cell({cellWidth, cell, rowIndex, columnIndex}) {
 }
 Cell = React.memo(Cell)
 
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//                 Don't make changes below here.                 //
-// But do look at it to see how your code is intended to be used. //
-//                                                                //
-////////////////////////////////////////////////////////////////////
-
 function DogNameInput() {
   const [dogName, setDogName] = React.useState('')
 
