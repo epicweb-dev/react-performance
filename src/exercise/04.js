@@ -19,9 +19,11 @@ function Menu({
   // 💰 I gave you a bit of code to pass the listRef prop here.
   // You can peek down below in the App and I'll explain what I did.
 }) {
-  const {data: items = []} = useAsync(
-    React.useCallback(() => getItems(inputValue), [inputValue]),
-  )
+  const {data: items, run} = useAsync({data: [], status: 'pending'})
+  React.useEffect(() => {
+    run(getItems(inputValue))
+  }, [inputValue, run])
+
   setItemCount(items.length)
   return (
     <ul

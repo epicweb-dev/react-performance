@@ -14,9 +14,11 @@ function Menu({
   selectedItem,
   setItemCount,
 }) {
-  const {data: items = []} = useAsync(
-    React.useCallback(() => getItems(inputValue), [inputValue]),
-  )
+  const {data: items, run} = useAsync({data: [], status: 'pending'})
+  React.useEffect(() => {
+    run(getItems(inputValue))
+  }, [inputValue, run])
+
   const itemsToRender = items.slice(0, 100)
   setItemCount(itemsToRender.length)
   return (

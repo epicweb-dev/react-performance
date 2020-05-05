@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "React Performance Workshop",
   "keywords": [],
-  "homepage": "http://react-performance.netlify.com/",
+  "homepage": "https://react-performance.netlify.app/",
   "license": "GPL-3.0-only",
   "main": "src/index.js",
   "engines": {
@@ -13,13 +13,13 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@kentcdodds/react-workshop-app": "^2.9.7",
+    "@kentcdodds/react-workshop-app": "^2.10.0",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.4",
     "chalk": "^4.0.0",
     "codegen.macro": "^4.0.0",
     "d3-geo": "^1.12.0",
-    "downshift": "^5.2.4",
+    "downshift": "^5.2.5",
     "history": "^4.10.1",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lodash": "^4.17.15",
