@@ -3,7 +3,7 @@
 // http://localhost:3000/isolated/final/03.extra-1.js
 
 import React from 'react'
-import OriginalDownshift from 'downshift'
+import Downshift from 'downshift'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
@@ -95,52 +95,48 @@ ListItem = React.memo(ListItem, (prevProps, nextProps) => {
   return true
 })
 
-const Downshift = React.memo(OriginalDownshift)
-
-const itemToString = item => (item ? item.name : '')
-function handleChange(selection) {
-  alert(selection ? `You selected ${selection.name}` : 'Selection Cleared')
-}
-
-function downshiftChildren({
-  getInputProps,
-  getItemProps,
-  getLabelProps,
-  getMenuProps,
-  isOpen,
-  inputValue,
-  highlightedIndex,
-  selectedItem,
-  setItemCount,
-}) {
-  return (
-    <div>
-      <div>
-        <label {...getLabelProps()}>Find a city</label>
-        <div>
-          <input {...getInputProps({type: 'text'})} />
-        </div>
-      </div>
-      <Menu
-        getMenuProps={getMenuProps}
-        inputValue={inputValue}
-        getItemProps={getItemProps}
-        highlightedIndex={highlightedIndex}
-        selectedItem={selectedItem}
-        setItemCount={setItemCount}
-      />
-    </div>
-  )
-}
-
 function App() {
   const forceRerender = useForceRerender()
 
   return (
     <>
       <button onClick={forceRerender}>force rerender</button>
-      <Downshift onChange={handleChange} itemToString={itemToString}>
-        {downshiftChildren}
+      <Downshift
+        onChange={selection =>
+          alert(
+            selection ? `You selected ${selection.name}` : 'Selection Cleared',
+          )
+        }
+        itemToString={item => (item ? item.name : '')}
+      >
+        {({
+          getInputProps,
+          getItemProps,
+          getLabelProps,
+          getMenuProps,
+          isOpen,
+          inputValue,
+          highlightedIndex,
+          selectedItem,
+          setItemCount,
+        }) => (
+          <div>
+            <div>
+              <label {...getLabelProps()}>Find a city</label>
+              <div>
+                <input {...getInputProps({type: 'text'})} />
+              </div>
+            </div>
+            <Menu
+              getMenuProps={getMenuProps}
+              inputValue={inputValue}
+              getItemProps={getItemProps}
+              highlightedIndex={highlightedIndex}
+              selectedItem={selectedItem}
+              setItemCount={setItemCount}
+            />
+          </div>
+        )}
       </Downshift>
     </>
   )
