@@ -1,4 +1,4 @@
-// Window large lists with react-window
+// Window large lists with react-virtual
 // http://localhost:3000/isolated/exercise/04.js
 
 import React from 'react'
