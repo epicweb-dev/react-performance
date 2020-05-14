@@ -1,0 +1,13 @@
+.city-app ul {
+  height: 300px;
+  width: 300px;
+  overflow-y: scroll;
+  background-color: #eee;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+.city-app ul li {
+  height: 20px;
+}

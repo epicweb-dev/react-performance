@@ -165,7 +165,7 @@ a complete authority.
 - 💪 useMemo for expensive calculations
 - 💪 React.memo for reducing unnecessary re-renders
 - 🌮 30 Minutes
-- 💪 Window large lists with react-window
+- 💪 Window large lists with react-virtual
 - 😴 10 Minutes
 - 💪 Fix "perf death by a thousand cuts"
 - 💪 Optimize context value
@@ -238,6 +238,7 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the

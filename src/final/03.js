@@ -2,47 +2,30 @@
 // http://localhost:3000/isolated/final/03.js
 
 import React from 'react'
-import Downshift from 'downshift'
+import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
 function Menu({
+  items,
   getMenuProps,
-  inputValue,
   getItemProps,
   highlightedIndex,
   selectedItem,
-  setItemCount,
 }) {
-  const {data: items, run} = useAsync({data: [], status: 'pending'})
-  React.useEffect(() => {
-    run(getItems(inputValue))
-  }, [inputValue, run])
-
-  const itemsToRender = items.slice(0, 100)
-  setItemCount(itemsToRender.length)
   return (
-    <ul
-      {...getMenuProps({
-        style: {
-          width: 300,
-          height: 300,
-          overflowY: 'scroll',
-          backgroundColor: '#eee',
-          padding: 0,
-          listStyle: 'none',
-        },
-      })}
-    >
-      {itemsToRender.map((item, index) => (
+    <ul {...getMenuProps()}>
+      {items.map((item, index) => (
         <ListItem
           key={item.id}
           getItemProps={getItemProps}
-          items={items}
-          highlightedIndex={highlightedIndex}
-          selectedItem={selectedItem}
+          item={item}
           index={index}
-        />
+          selectedItem={selectedItem}
+          highlightedIndex={highlightedIndex}
+        >
+          {item.name}
+        </ListItem>
       ))}
     </ul>
   )
@@ -51,78 +34,87 @@ Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
-  items,
-  highlightedIndex,
-  selectedItem,
+  item,
   index,
+  selectedItem,
+  highlightedIndex,
+  ...props
 }) {
-  const item = items[index]
+  const isSelected = selectedItem?.id === item.id
+  const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
         index,
         item,
         style: {
-          backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
-          fontWeight:
-            selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
+          fontWeight: isSelected ? 'bold' : 'normal',
+          backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
         },
+        ...props,
       })}
-    >
-      {item.name}
-    </li>
+    />
   )
 }
 ListItem = React.memo(ListItem)
 
 function App() {
   const forceRerender = useForceRerender()
+  const [inputValue, setInputValue] = React.useState('')
+
+  const {data: allItems, run} = useAsync({data: [], status: 'pending'})
+  React.useEffect(() => {
+    run(getItems(inputValue))
+  }, [inputValue, run])
+  const items = allItems.slice(0, 100)
+
+  const {
+    selectedItem,
+    highlightedIndex,
+    getComboboxProps,
+    getInputProps,
+    getItemProps,
+    getLabelProps,
+    getMenuProps,
+    selectItem,
+  } = useCombobox({
+    items,
+    inputValue,
+    onInputValueChange: ({inputValue: newValue}) => setInputValue(newValue),
+    onSelectedItemChange: ({selectedItem}) =>
+      alert(
+        selectedItem
+          ? `You selected ${selectedItem.name}`
+          : 'Selection Cleared',
+      ),
+    itemToString: item => (item ? item.name : ''),
+  })
 
   return (
-    <>
+    <div className="city-app">
       <button onClick={forceRerender}>force rerender</button>
-      <Downshift
-        onChange={selection =>
-          alert(
-            selection ? `You selected ${selection.name}` : 'Selection Cleared',
-          )
-        }
-        itemToString={item => (item ? item.name : '')}
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getLabelProps,
-          getMenuProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem,
-          setItemCount,
-        }) => (
-          <div>
-            <div>
-              <label {...getLabelProps()}>Find a city</label>
-              <div>
-                <input {...getInputProps({type: 'text'})} />
-              </div>
-            </div>
-            <Menu
-              getMenuProps={getMenuProps}
-              inputValue={inputValue}
-              getItemProps={getItemProps}
-              highlightedIndex={highlightedIndex}
-              selectedItem={selectedItem}
-              setItemCount={setItemCount}
-            />
-          </div>
-        )}
-      </Downshift>
-    </>
+      <div>
+        <label {...getLabelProps()}>Find a city</label>
+        <div {...getComboboxProps()}>
+          <input {...getInputProps({type: 'text'})} />
+          <button onClick={() => selectItem(null)} aria-label="toggle menu">
+            &#10005;
+          </button>
+        </div>
+        <Menu
+          items={items}
+          getMenuProps={getMenuProps}
+          getItemProps={getItemProps}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
+        />
+      </div>
+    </div>
   )
 }
 
 export default App
+
 /*
 eslint
   no-func-assign: 0,

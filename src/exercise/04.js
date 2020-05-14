@@ -2,169 +2,174 @@
 // http://localhost:3000/isolated/exercise/04.js
 
 import React from 'react'
-import Downshift from 'downshift'
-// 🐨 import react-window's FixedSizeList here
-// 💰 import {FixedSizeList as List} from 'react-window'
+// 🐨 import the useVirtual hook from react-virtual
+// import {useVirtual} from 'react-virtual'
+import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
 
+// 💰 I made this for you, you'll need it later:
+const getVirtualRowStyles = ({size, start}) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: size,
+  transform: `translateY(${start}px)`,
+})
+
 function Menu({
+  items,
   getMenuProps,
-  inputValue,
   getItemProps,
   highlightedIndex,
   selectedItem,
-  setItemCount,
-  // 🐨 accept a prop called "listRef" here
-  // 💰 I gave you a bit of code to pass the listRef prop here.
-  // You can peek down below in the App and I'll explain what I did.
+  // 🐨 accept listRef, virtualRows, totalHeight
 }) {
-  const {data: items, run} = useAsync({data: [], status: 'pending'})
-  React.useEffect(() => {
-    run(getItems(inputValue))
-  }, [inputValue, run])
-
-  setItemCount(items.length)
   return (
-    <ul
-      {...getMenuProps({
-        style: {
-          width: 300,
-          height: 300,
-          overflowY: 'scroll',
-          backgroundColor: '#eee',
-          padding: 0,
-          listStyle: 'none',
-        },
-      })}
-    >
-      {/* 💣 remove this items.map call */}
+    // 🐨 pass the listRef to the `getMenuProps` prop getter function below:
+    // 💰  getMenuProps({ref: listRef})
+    <ul {...getMenuProps()}>
+      {/* 🐨 add a li here with an inline style for the height set to the totalHeight */}
+      {/*
+        🦉 this is to ensure that the scrollable area of the <ul /> is the
+        same height it would be if we were actually rendering everything
+      */}
+      {/* instead of mapping the "items" we're going to map over the virtualRows */}
+      {/* 🐨 swap `items` with `virtualRows` */}
+      {/*
+        💰 a virtual row is an object with the following properties:
+        - index: you can use this to get the `item` via `items[index]`
+        - size: set the "height" style to this value
+        - start: this is how many pixels from the scrollTop this item should be
+      */}
+      {/* 💣 delete the second argument of "index", you can get that from the virtualRow object */}
       {items.map((item, index) => (
         <ListItem
           key={item.id}
           getItemProps={getItemProps}
-          items={items}
-          highlightedIndex={highlightedIndex}
-          selectedItem={selectedItem}
+          item={item}
           index={index}
-        />
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
+          // 🐨 pass a style prop, you can get the inline styles from getVirtualRowStyles()
+          // make sure to pass an object with the size (the height of the row)
+          // and start (where the row starts relative to the scrollTop of its container).
+        >
+          {item.name}
+        </ListItem>
       ))}
-      {/*
-        🐨 render the FixedSizeList component here and pass ListItem as children.
-        💰 Here are the props you'll want:
-           ref (listRef)
-           width (300)
-           height (300)
-           itemCount (items.length)
-           itemSize (20)
-           itemData (all the other props we currently have on the ListItem)
-        💰 quick note that react-window accepts your component definition as a prop.
-           which may seem strange, so it'll be something like this: <List>{ListItem}</List>
-      */}
     </ul>
   )
 }
-Menu = React.memo(Menu)
 
 function ListItem({
-  // ListItem will now be rendered by react-window and most of the props we
-  // were accepting before will now be passed into an object prop called "data"
-  // 🐨 rewrite this so the following props are properties of a new "data" prop:
-  // getItemProps, items, highlightedIndex, selectedItem
   getItemProps,
-  items,
-  highlightedIndex,
-  selectedItem,
-  // 💰 index will be passed by react-window
+  item,
   index,
-  // 🐨 accept a new style prop
+  isHighlighted,
+  isSelected,
+  // 🐨 accept the style prop
+  ...props
 }) {
-  const item = items[index]
   return (
     <li
       {...getItemProps({
         index,
         item,
         style: {
-          // spread the style object onto this object to merge the styles
-          // react-window wants to pass with the ones we want to define.
-          backgroundColor: highlightedIndex === index ? 'lightgray' : 'inherit',
-          fontWeight:
-            selectedItem && selectedItem.id === item.id ? 'bold' : 'normal',
+          backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
+          fontWeight: isSelected ? 'bold' : 'normal',
+          // 🐨 spread the incoming styles onto this inline style object
         },
+        ...props,
       })}
-    >
-      {item.name}
-    </li>
+    />
   )
 }
 
 function App() {
   const forceRerender = useForceRerender()
-  // 💰 I made this listRef for you and pass it as a prop to the Menu
-  const listRef = React.useRef()
+  const [inputValue, setInputValue] = React.useState('')
 
-  // 💰 whenever Downshift experiences a state change, it'll call this function
-  // and we use this to interact with react-window's listRef to scroll to
-  // a specific index if Downshift's highlightedIndex changes.
-  // I figured making you do this yourself would just be busy work and not
-  // really help you learn how to tune your apps for performance, so that's why
-  // I did it for you.
-  function handleStateChange(changes, downshiftState) {
-    if (changes.hasOwnProperty('highlightedIndex') && listRef.current) {
-      listRef.current.scrollToItem(changes.highlightedIndex)
-    }
-  }
+  const {data: items, run} = useAsync({data: [], status: 'pending'})
+  React.useEffect(() => {
+    run(getItems(inputValue))
+  }, [inputValue, run])
+
+  // 🐨 create a listRef with React.useRef
+  // which will be used for the parentRef option you pass to useVirtual
+  // and should be applied to the <ul /> for our menu. This is how react-virtual
+  // knows how to scroll our items as the user scrolls.
+
+  // 🐨 call useVirtual with the following configuration options:
+  // - size (the number of items)
+  // - parentRef (the listRef you created above)
+  // - estimateSize (a memoized callback function that returns the size for each item)
+  //   💰 in our case, every item has the same size, so this will do: React.useCallback(() => 20, [])
+  // - overscan (the number of additional rows to render outside the scrollable view)
+  //   💰 You can play around with that number, but you probably don't need more than 10.
+  // 🐨 you can set the return value of your useVirtual call to `rowVirtualizer`
+
+  const {
+    selectedItem,
+    highlightedIndex,
+    getComboboxProps,
+    getInputProps,
+    getItemProps,
+    getLabelProps,
+    getMenuProps,
+    selectItem,
+  } = useCombobox({
+    items,
+    inputValue,
+    onInputValueChange: ({inputValue: newValue}) => setInputValue(newValue),
+    onSelectedItemChange: ({selectedItem}) =>
+      alert(
+        selectedItem
+          ? `You selected ${selectedItem.name}`
+          : 'Selection Cleared',
+      ),
+    itemToString: item => (item ? item.name : ''),
+    // we want to override Downshift's scrollIntoView functionality because
+    // react-virtual will handle scrolling for us:
+    // 🐨 set scrollIntoView to a "no-op" function
+    // 💰 scrollIntoView: () => {},
+    // 🐨 when the highlightedIndex changes, then tell react-virtual to scroll
+    // to that index.
+    // 💰 onHighlightedIndexChange: ({highlightedIndex}) => rowVirtualizer.scrollToIndex(highlightedIndex),
+  })
 
   return (
-    <>
+    <div className="city-app">
       <button onClick={forceRerender}>force rerender</button>
-      <Downshift
-        onStateChange={handleStateChange}
-        onChange={selection =>
-          alert(
-            selection ? `You selected ${selection.name}` : 'Selection Cleared',
-          )
-        }
-        itemToString={item => (item ? item.name : '')}
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getLabelProps,
-          getMenuProps,
-          isOpen,
-          inputValue,
-          highlightedIndex,
-          selectedItem,
-          setItemCount,
-        }) => (
-          <div>
-            <div>
-              <label {...getLabelProps()}>Find a city</label>
-              <div>
-                <input {...getInputProps({type: 'text'})} />
-              </div>
-            </div>
-            <Menu
-              getMenuProps={getMenuProps}
-              inputValue={inputValue}
-              getItemProps={getItemProps}
-              highlightedIndex={highlightedIndex}
-              selectedItem={selectedItem}
-              setItemCount={setItemCount}
-              // 💰 Here's where I added the listRef prop
-              listRef={listRef}
-            />
-          </div>
-        )}
-      </Downshift>
-    </>
+      <div>
+        <label {...getLabelProps()}>Find a city</label>
+        <div {...getComboboxProps()}>
+          <input {...getInputProps({type: 'text'})} />
+          <button onClick={() => selectItem(null)} aria-label="toggle menu">
+            &#10005;
+          </button>
+        </div>
+        <Menu
+          items={items}
+          getMenuProps={getMenuProps}
+          getItemProps={getItemProps}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
+          // 🐨 pass the following props:
+          // listRef: listRef
+          // virtualRows: rowVirtualizer.virtualItems
+          // totalHeight: rowVirtualizer.totalSize
+        />
+      </div>
+    </div>
   )
 }
 
 export default App
+
 /*
 eslint
-  no-func-assign: 0,
+  no-unused-vars: "off",
 */
