@@ -1,13 +1,14 @@
 import React from 'react'
 import {render, fireEvent, screen} from '@testing-library/react'
+import {getItems} from '../filter-cities'
 import App from '../final/02'
 // import App from '../exercise/02'
 
-jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
+jest.mock('../filter-cities', () => {
+  const filterCities = jest.requireActual('../filter-cities')
   return {
-    ...actualReact,
-    useMemo: jest.fn((...args) => actualReact.useMemo(...args)),
+    ...filterCities,
+    getItems: jest.fn((...args) => filterCities.getItems(...args)),
   }
 })
 
@@ -16,11 +17,11 @@ test('useMemo is called properly', () => {
   const forceRerender = screen.getByText(/force rerender/i)
 
   expect(
-    React.useMemo,
-    'The Menu component must call React.useMemo with a function that calls getItems(inputValue) and an array with the inputValue.',
-  ).toHaveBeenCalledWith(expect.any(Function), [''])
+    getItems,
+    'The Menu component must call getItems with the inputValue.',
+  ).toHaveBeenCalledWith('')
 
-  React.useMemo.mockClear()
+  getItems.mockClear()
   const findCity = screen.getByRole('textbox', {name: /find a city/i})
   const filter = 'NO_CITY_WILL_MATCH_THIS'
   fireEvent.change(findCity, {target: {value: filter}})
@@ -29,10 +30,16 @@ test('useMemo is called properly', () => {
     container.querySelectorAll('li'),
     `There are search results when there shouldn't be. Make sure to pass the inputValue into the dependecy array of the useMemo call. If you're doing that correctly, then make sure that you're calling the getItems function correctly.`,
   ).toHaveLength(0)
-  expect(React.useMemo).toHaveBeenCalledWith(expect.any(Function), [filter])
+  expect(getItems).toHaveBeenCalledWith(filter)
+  expect(
+    getItems,
+    'getItems was called even though the inputValue was unchanged. Make sure to wrap it in useMemo with the inputValue as a dependency.',
+  ).toHaveBeenCalledTimes(1)
 
-  React.useMemo.mockClear()
+  getItems.mockClear()
   fireEvent.click(forceRerender)
-  expect(React.useMemo).toHaveBeenCalledTimes(1)
-  expect(React.useMemo).toHaveBeenCalledWith(expect.any(Function), [filter])
+  expect(
+    getItems,
+    'getItems was called even though the inputValue was unchanged. Make sure to wrap it in useMemo with the inputValue as a dependency.',
+  ).toHaveBeenCalledTimes(0)
 })
