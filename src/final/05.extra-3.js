@@ -65,118 +65,127 @@ function UpdateGridOnInterval() {
 }
 UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
+function ChangingGrid() {
+  const [keepUpdated, setKeepUpdated] = React.useState(false)
+  const [, dispatch] = useAppState()
+  const [rows, setRows] = useDebouncedState(initialRowsColumns)
+  const [columns, setColumns] = useDebouncedState(initialRowsColumns)
+  return (
+    <div>
+      <form onSubmit={e => e.preventDefault()}>
+        <div>
+          <button type="button" onClick={() => dispatch({type: 'UPDATE_GRID'})}>
+            Update Grid Data
+          </button>
+        </div>
+        <div>
+          <label htmlFor="keepUpdated">Keep Grid Data updated</label>
+          <input
+            id="keepUpdated"
+            checked={keepUpdated}
+            type="checkbox"
+            onChange={e => setKeepUpdated(e.target.checked)}
+          />
+          {keepUpdated ? <UpdateGridOnInterval /> : null}
+        </div>
+        <div>
+          <label htmlFor="rows">Rows to display: </label>
+          <input
+            id="rows"
+            defaultValue={rows}
+            type="number"
+            min={1}
+            max={dimensions}
+            onChange={e => setRows(e.target.value)}
+          />
+          {` (max: ${dimensions})`}
+        </div>
+        <div>
+          <label htmlFor="columns">Columns to display: </label>
+          <input
+            id="columns"
+            defaultValue={columns}
+            type="number"
+            min={1}
+            max={dimensions}
+            onChange={e => setColumns(e.target.value)}
+          />
+          {` (max: ${dimensions})`}
+        </div>
+      </form>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 410,
+          maxHeight: 820,
+          overflow: 'scroll',
+        }}
+      >
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((row, rowI) => (
+            <div key={rowI} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((cell, cI) => (
+                <Cell key={cI} row={rowI} column={cI} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+ChangingGrid = React.memo(ChangingGrid)
+
 function withStateSlice(Comp, slice) {
   const MemoComp = React.memo(Comp)
-  const Wrapper = props => {
-    const [state, dispatch] = useAppState()
-    return <MemoComp state={slice(state)} dispatch={dispatch} {...props} />
-  }
+  const Wrapper = React.memo(
+    React.forwardRef((props, ref) => {
+      const [state, dispatch] = useAppState()
+      return (
+        <MemoComp
+          ref={ref}
+          state={slice(state, props)}
+          dispatch={dispatch}
+          {...props}
+        />
+      )
+    }),
+  )
   Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
   return Wrapper
 }
 
-const ChangingGrid = withStateSlice(
-  function ChangingGrid({state: grid, dispatch}) {
-    const [keepUpdated, setKeepUpdated] = React.useState(false)
-    const [rows, setRows] = useDebouncedState(initialRowsColumns)
-    const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-    const cellWidth = 40
+const Cell = withStateSlice(
+  function Cell({state: cell}) {
     return (
-      <div>
-        <form onSubmit={e => e.preventDefault()}>
-          <div>
-            <button
-              type="button"
-              onClick={() => dispatch({type: 'UPDATE_GRID'})}
-            >
-              Update Grid Data
-            </button>
-          </div>
-          <div>
-            <label htmlFor="keepUpdated">Keep Grid Data updated</label>
-            <input
-              id="keepUpdated"
-              checked={keepUpdated}
-              type="checkbox"
-              onChange={e => setKeepUpdated(e.target.checked)}
-            />
-            {keepUpdated ? <UpdateGridOnInterval /> : null}
-          </div>
-          <div>
-            <label htmlFor="rows">Rows to display: </label>
-            <input
-              id="rows"
-              defaultValue={rows}
-              type="number"
-              min={1}
-              max={dimensions}
-              onChange={e => setRows(e.target.value)}
-            />
-            {` (max: ${dimensions})`}
-          </div>
-          <div>
-            <label htmlFor="columns">Columns to display: </label>
-            <input
-              id="columns"
-              defaultValue={columns}
-              type="number"
-              min={1}
-              max={dimensions}
-              onChange={e => setColumns(e.target.value)}
-            />
-            {` (max: ${dimensions})`}
-          </div>
-        </form>
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 410,
-            maxHeight: 820,
-            overflow: 'scroll',
-          }}
-        >
-          <div style={{width: columns * cellWidth}}>
-            {grid.slice(0, rows).map((row, i) => (
-              <div key={i} style={{display: 'flex'}}>
-                {row.slice(0, columns).map((cell, cI) => (
-                  <Cell key={cI} cellWidth={cellWidth} cell={cell} />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+      <div
+        style={{
+          outline: `1px solid black`,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 40,
+          height: 40,
+          color: cell > 50 ? 'white' : 'black',
+          backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
+        }}
+      >
+        {Math.floor(cell)}
       </div>
     )
   },
-  state => state.grid,
+  (state, {row, column}) => state.grid[row][column],
 )
 
-function Cell({cellWidth, cell}) {
-  return (
-    <div
-      style={{
-        outline: `1px solid black`,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: cellWidth,
-        height: cellWidth,
-        color: cell > 50 ? 'white' : 'black',
-        backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
-      }}
-    >
-      {Math.floor(cell)}
-    </div>
-  )
-}
-Cell = React.memo(Cell)
-
 function DogNameInput() {
+  // 🐨 replace the useAppState with a normal useState here to manage
+  // the dogName locally within this component
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
   function handleChange(event) {
     const newDogName = event.target.value
+    // 🐨 change this to call your state setter that you get from useState
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
@@ -197,13 +206,11 @@ function DogNameInput() {
     </form>
   )
 }
-// NOTE: This React.memo on the DogNameInput doesn't really do much,
-// but that's kinda the point. Once people start saying they need React.memo
-// all over the place, they start doing it everywhere whether it's actually
-// needed or not
-DogNameInput = React.memo(DogNameInput)
 
 function App() {
+  // 🐨 because the whole app doesn't need access to the AppState context,
+  // we can move that closer to only wrap the <ChangingGrid /> rather than all
+  // the components here
   return (
     <AppStateProvider>
       <div>

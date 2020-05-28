@@ -65,17 +65,11 @@ function UpdateGridOnInterval() {
 }
 UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
-function ChangingGrid(props) {
-  const [state, dispatch] = useAppState()
-  return <ChangingGridImpl grid={state.grid} dispatch={dispatch} {...props} />
-}
-ChangingGrid = React.memo(ChangingGrid)
-
-function ChangingGridImpl({grid, dispatch}) {
+function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
+  const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const cellWidth = 40
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -127,11 +121,11 @@ function ChangingGridImpl({grid, dispatch}) {
           overflow: 'scroll',
         }}
       >
-        <div style={{width: columns * cellWidth}}>
-          {grid.slice(0, rows).map((row, i) => (
-            <div key={i} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((row, rowI) => (
+            <div key={rowI} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((cell, cI) => (
+                <Cell key={cI} row={rowI} column={cI} />
               ))}
             </div>
           ))}
@@ -140,9 +134,16 @@ function ChangingGridImpl({grid, dispatch}) {
     </div>
   )
 }
-ChangingGridImpl = React.memo(ChangingGridImpl)
+ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cellWidth, cell}) {
+function Cell({row, column}) {
+  const [state] = useAppState()
+  const cell = state.grid[row][column]
+  return <CellImpl cell={cell} />
+}
+Cell = React.memo(Cell)
+
+function CellImpl({cell}) {
   return (
     <div
       style={{
@@ -150,8 +151,8 @@ function Cell({cellWidth, cell}) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: cellWidth,
-        height: cellWidth,
+        width: 40,
+        height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
       }}
@@ -160,14 +161,17 @@ function Cell({cellWidth, cell}) {
     </div>
   )
 }
-Cell = React.memo(Cell)
+CellImpl = React.memo(CellImpl)
 
 function DogNameInput() {
+  // 🐨 replace the useAppState with a normal useState here to manage
+  // the dogName locally within this component
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
   function handleChange(event) {
     const newDogName = event.target.value
+    // 🐨 change this to call your state setter that you get from useState
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
@@ -188,13 +192,11 @@ function DogNameInput() {
     </form>
   )
 }
-// NOTE: This React.memo on the DogNameInput doesn't really do much,
-// but that's kinda the point. Once people start saying they need React.memo
-// all over the place, they start doing it everywhere whether it's actually
-// needed or not
-DogNameInput = React.memo(DogNameInput)
 
 function App() {
+  // 🐨 because the whole app doesn't need access to the AppState context,
+  // we can move that closer to only wrap the <ChangingGrid /> rather than all
+  // the components here
   return (
     <AppStateProvider>
       <div>

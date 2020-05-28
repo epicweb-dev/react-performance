@@ -1,7 +1,15 @@
 // Fix "perf death by a thousand cuts"
-// http://localhost:3000/isolated/final/05.js
+// 💯 use recoil
+// http://localhost:3000/isolated/final/05.extra-4.js
 
 import React from 'react'
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
 
@@ -17,6 +25,9 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
+    case 'TYPED_IN_DOG_INPUT': {
+      return {...state, dogName: action.dogName}
+    }
     case 'UPDATE_GRID': {
       return {
         ...state,
@@ -33,8 +44,14 @@ function appReducer(state, action) {
   }
 }
 
+const gridState = atom({
+  key: 'grid',
+  default: initialGrid,
+})
+
 function AppStateProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
+    dogName: '',
     grid: initialGrid,
   })
   const value = [state, dispatch]
@@ -62,9 +79,11 @@ UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const [, dispatch] = useAppState()
+  const [state, dispatch] = useAppState()
+  const [grid, setGrid] = useRecoilState(gridState)
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
+  const cellWidth = 40
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -116,11 +135,11 @@ function ChangingGrid() {
           overflow: 'scroll',
         }}
       >
-        <div style={{width: columns * 40}}>
-          {Array.from({length: rows}).map((row, rowI) => (
-            <div key={rowI} style={{display: 'flex'}}>
-              {Array.from({length: columns}).map((cell, cI) => (
-                <Cell key={cI} row={rowI} column={cI} />
+        <div style={{width: columns * cellWidth}}>
+          {grid.slice(0, rows).map((row, i) => (
+            <div key={i} style={{display: 'flex'}}>
+              {row.slice(0, columns).map((cell, cI) => (
+                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
               ))}
             </div>
           ))}
@@ -131,9 +150,7 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({row, column}) {
-  const [state] = useAppState()
-  const cell = state.grid[row][column]
+function Cell({cellWidth, cell}) {
   return (
     <div
       style={{
@@ -141,8 +158,8 @@ function Cell({row, column}) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 40,
-        height: 40,
+        width: cellWidth,
+        height: cellWidth,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
       }}
@@ -154,11 +171,12 @@ function Cell({row, column}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [dogName, setDogName] = React.useState('')
+  const [state, dispatch] = useAppState()
+  const {dogName} = state
 
   function handleChange(event) {
     const newDogName = event.target.value
-    setDogName(newDogName)
+    dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
   return (
@@ -181,12 +199,14 @@ function DogNameInput() {
 
 function App() {
   return (
-    <div>
-      <DogNameInput />
+    <RecoilRoot>
       <AppStateProvider>
-        <ChangingGrid />
+        <div>
+          <DogNameInput />
+          <ChangingGrid />
+        </div>
       </AppStateProvider>
-    </div>
+    </RecoilRoot>
   )
 }
 

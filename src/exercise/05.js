@@ -69,10 +69,9 @@ UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const [state, dispatch] = useAppState()
+  const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const cellWidth = 40
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -124,11 +123,11 @@ function ChangingGrid() {
           overflow: 'scroll',
         }}
       >
-        <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, i) => (
-            <div key={i} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell key={cI} cellWidth={cellWidth} cell={cell} />
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((row, rowI) => (
+            <div key={rowI} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((cell, cI) => (
+                <Cell key={cI} row={rowI} column={cI} />
               ))}
             </div>
           ))}
@@ -139,7 +138,9 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cellWidth, cell}) {
+function Cell({row, column}) {
+  const [state] = useAppState()
+  const cell = state.grid[row][column]
   return (
     <div
       style={{
@@ -147,8 +148,8 @@ function Cell({cellWidth, cell}) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: cellWidth,
-        height: cellWidth,
+        width: 40,
+        height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
       }}
