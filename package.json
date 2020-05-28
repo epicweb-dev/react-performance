@@ -30,7 +30,6 @@
     "react-spring": "^8.0.27",
     "react-use-gesture": "^7.0.15",
     "react-virtual": "^2.2.0",
-    "recoil": "0.0.7",
     "topojson-client": "^3.1.0",
     "use-interval": "^1.2.1",
     "vanilla-tilt": "^1.7.0",
