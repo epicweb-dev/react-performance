@@ -159,6 +159,7 @@ function Cell({row, column}) {
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
     <button
+      className="cell"
       onClick={handleClick}
       style={{
         display: 'flex',

@@ -11,3 +11,12 @@
 .city-app ul li {
   height: 20px;
 }
+
+.grid-app .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+}
