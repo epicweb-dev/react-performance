@@ -21,19 +21,19 @@ function appReducer(state, action) {
       return {...state, dogName: action.dogName}
     }
     case 'UPDATE_GRID_CELL': {
-      const {rowIndex, columnIndex} = action
+      const {row, column} = action
       return {
         ...state,
-        grid: state.grid.map((row, rI) => {
-          if (rI === rowIndex) {
-            return row.map((cell, cI) => {
-              if (cI === columnIndex) {
+        grid: state.grid.map((cells, rI) => {
+          if (rI === row) {
+            return cells.map((cell, cI) => {
+              if (cI === column) {
                 return Math.random() * 100
               }
               return cell
             })
           }
-          return row
+          return cells
         }),
       }
     }
@@ -83,10 +83,9 @@ UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const [state, dispatch] = useAppState()
+  const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const cellWidth = 40
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -138,17 +137,11 @@ function ChangingGrid() {
           overflow: 'scroll',
         }}
       >
-        <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, rI) => (
-            <div key={rI} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell
-                  key={cI}
-                  cellWidth={cellWidth}
-                  cell={cell}
-                  rowIndex={rI}
-                  columnIndex={cI}
-                />
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((r, row) => (
+            <div key={row} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((c, column) => (
+                <Cell key={column} row={row} column={column} />
               ))}
             </div>
           ))}
@@ -159,10 +152,10 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cellWidth, cell, rowIndex, columnIndex}) {
-  const [, dispatch] = useAppState()
-  const handleClick = () =>
-    dispatch({type: 'UPDATE_GRID_CELL', rowIndex, columnIndex})
+function Cell({row, column}) {
+  const [state, dispatch] = useAppState()
+  const cell = state.grid[row][column]
+  const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
     <button
       onClick={handleClick}
@@ -170,9 +163,8 @@ function Cell({cellWidth, cell, rowIndex, columnIndex}) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        cursor: 'pointer',
-        width: cellWidth,
-        height: cellWidth,
+        width: 40,
+        height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
         border: '1px solid black',
@@ -212,27 +204,21 @@ function DogNameInput() {
 }
 
 function App() {
-  return (
-    <AppProvider>
-      <div>
-        <DogNameInput />
-        <ChangingGrid />
-      </div>
-    </AppProvider>
-  )
-}
-
-function Usage() {
   const forceRerender = useForceRerender()
   return (
-    <div>
+    <div className="grid-app">
       <button onClick={forceRerender}>force rerender</button>
-      <App />
+      <AppProvider>
+        <div>
+          <DogNameInput />
+          <ChangingGrid />
+        </div>
+      </AppProvider>
     </div>
   )
 }
 
-export default Usage
+export default App
 
 /*
 eslint

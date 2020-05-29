@@ -20,6 +20,18 @@ const cellAtoms = atomFamily({
   default: ({row, column}) => initialGrid[row][column],
 })
 
+function useUpdateGrid() {
+  return useRecoilCallback(({set}, {rows, columns}) => {
+    for (let row = 0; row < rows; row++) {
+      for (let column = 0; column < columns; column++) {
+        if (Math.random() > 0.7) {
+          set(cellAtoms({row, column}), Math.random() * 100)
+        }
+      }
+    }
+  })
+}
+
 const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
@@ -53,30 +65,17 @@ function useAppState() {
   return context
 }
 
-function useUpdateGrid() {
-  return useRecoilCallback(({set}, {rows, columns}) => {
-    for (let row = 0; row < rows; row++) {
-      for (let column = 0; column < columns; column++) {
-        if (Math.random() > 0.7) {
-          set(cellAtoms({row, column}), Math.random() * 100)
-        }
-      }
-    }
-  })
-}
-
 function UpdateGridOnInterval({rows, columns}) {
   const updateGrid = useUpdateGrid()
   useInterval(() => updateGrid({rows, columns}), 500)
   return null
 }
-UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
+  const updateGrid = useUpdateGrid()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const updateGrid = useUpdateGrid()
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -131,10 +130,10 @@ function ChangingGrid() {
         }}
       >
         <div style={{width: columns * 40}}>
-          {Array.from({length: rows}).map((row, rowI) => (
-            <div key={rowI} style={{display: 'flex'}}>
-              {Array.from({length: columns}).map((cell, cI) => (
-                <Cell key={cI} row={rowI} column={cI} />
+          {Array.from({length: rows}).map((r, row) => (
+            <div key={row} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((c, column) => (
+                <Cell key={column} row={row} column={column} />
               ))}
             </div>
           ))}
@@ -146,12 +145,11 @@ function ChangingGrid() {
 
 function Cell({row, column}) {
   const [cell, setCell] = useRecoilState(cellAtoms({row, column}))
+  const handleClick = () => setCell(Math.random() * 100)
   return (
-    <div
-      onClick={() => setCell(Math.random() * 100)}
-      tabIndex="0"
+    <button
+      onClick={handleClick}
       style={{
-        outline: `1px solid black`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -159,10 +157,11 @@ function Cell({row, column}) {
         height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
+        border: '1px solid black',
       }}
     >
       {Math.floor(cell)}
-    </div>
+    </button>
   )
 }
 
@@ -194,29 +193,23 @@ function DogNameInput() {
 }
 
 function App() {
-  return (
-    <RecoilRoot>
-      <AppProvider>
-        <div>
-          <DogNameInput />
-          <ChangingGrid />
-        </div>
-      </AppProvider>
-    </RecoilRoot>
-  )
-}
-
-function Usage() {
   const forceRerender = useForceRerender()
   return (
-    <div>
+    <div className="grid-app">
       <button onClick={forceRerender}>force rerender</button>
-      <App />
+      <RecoilRoot>
+        <AppProvider>
+          <div>
+            <DogNameInput />
+            <ChangingGrid />
+          </div>
+        </AppProvider>
+      </RecoilRoot>
     </div>
   )
 }
 
-export default Usage
+export default App
 
 /*
 eslint

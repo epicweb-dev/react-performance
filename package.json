@@ -15,6 +15,7 @@
   "dependencies": {
     "@jackfranklin/test-data-bot": "^1.3.0",
     "@kentcdodds/react-workshop-app": "^2.11.0",
+    "@kentcdodds/recoil-with-utils": "0.0.8-alpha.0",
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^10.0.4",
     "chalk": "^4.0.0",
