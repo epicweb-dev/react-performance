@@ -1,4 +1,5 @@
 import React from 'react'
+import useInterval from 'use-interval'
 
 function useSafeDispatch(dispatch) {
   const mounted = React.useRef(false)
@@ -97,4 +98,111 @@ function useDebouncedState(initialState) {
   return [state, debouncedSetState]
 }
 
-export {useAsync, useForceRerender, useDebouncedState}
+function Interval({onInterval, interval}) {
+  useInterval(onInterval, interval)
+  return null
+}
+
+function AppGrid({
+  onUpdateGrid,
+  rows,
+  handleRowsChange,
+  columns,
+  handleColumnsChange,
+  Cell,
+}) {
+  const [keepUpdated, setKeepUpdated] = React.useState(false)
+  return (
+    <div>
+      <form onSubmit={e => e.preventDefault()}>
+        <div>
+          <button type="button" onClick={onUpdateGrid}>
+            Update Grid Data
+          </button>
+        </div>
+        <div>
+          <label htmlFor="keepUpdated">Keep Grid Data updated</label>
+          <input
+            id="keepUpdated"
+            checked={keepUpdated}
+            type="checkbox"
+            onChange={e => setKeepUpdated(e.target.checked)}
+          />
+          {keepUpdated ? (
+            <Interval onInterval={onUpdateGrid} interval={500} />
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="rows">Rows to display: </label>
+          <input
+            id="rows"
+            defaultValue={rows}
+            type="number"
+            min={1}
+            max={100}
+            onChange={e => handleRowsChange(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="columns">Columns to display: </label>
+          <input
+            id="columns"
+            defaultValue={columns}
+            type="number"
+            min={1}
+            max={100}
+            onChange={e => handleColumnsChange(e.target.value)}
+          />
+        </div>
+      </form>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 410,
+          maxHeight: 820,
+          overflow: 'scroll',
+        }}
+      >
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((r, row) => (
+            <div key={row} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((c, column) => (
+                <Cell key={column} row={row} column={column} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function updateGridState(grid) {
+  return grid.map(row => {
+    return row.map(cell => (Math.random() > 0.7 ? Math.random() * 100 : cell))
+  })
+}
+
+function updateGridCellState(grid, {row, column}) {
+  return grid.map((cells, rI) => {
+    if (rI === row) {
+      return cells.map((cell, cI) => {
+        if (cI === column) {
+          return Math.random() * 100
+        }
+        return cell
+      })
+    }
+    return cells
+  })
+}
+
+export {
+  useAsync,
+  useForceRerender,
+  useDebouncedState,
+  Interval,
+  AppGrid,
+  updateGridState,
+  updateGridCellState,
+}

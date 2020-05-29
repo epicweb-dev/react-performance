@@ -2,18 +2,19 @@
 // http://localhost:3000/isolated/final/05.js
 
 import React from 'react'
-import useInterval from 'use-interval'
-import {useForceRerender, useDebouncedState} from '../utils'
+import {
+  useForceRerender,
+  useDebouncedState,
+  AppGrid,
+  updateGridState,
+  updateGridCellState,
+} from '../utils'
 
 const AppStateContext = React.createContext()
 
-// increase this number to make the speed difference more stark.
-const dimensions = 100
-const initialGrid = Array.from({length: dimensions}, () =>
-  Array.from({length: dimensions}, () => Math.random() * 100),
+const initialGrid = Array.from({length: 100}, () =>
+  Array.from({length: 100}, () => Math.random() * 100),
 )
-
-const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
@@ -21,31 +22,10 @@ function appReducer(state, action) {
       return {...state, dogName: action.dogName}
     }
     case 'UPDATE_GRID_CELL': {
-      const {row, column} = action
-      return {
-        ...state,
-        grid: state.grid.map((cells, rI) => {
-          if (rI === row) {
-            return cells.map((cell, cI) => {
-              if (cI === column) {
-                return Math.random() * 100
-              }
-              return cell
-            })
-          }
-          return cells
-        }),
-      }
+      return {...state, grid: updateGridCellState(state.grid, action)}
     }
     case 'UPDATE_GRID': {
-      return {
-        ...state,
-        grid: state.grid.map(row => {
-          return row.map(cell =>
-            Math.random() > 0.7 ? Math.random() * 100 : cell,
-          )
-        }),
-      }
+      return {...state, grid: updateGridState(state.grid)}
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
@@ -74,80 +54,20 @@ function useAppState() {
   return context
 }
 
-function UpdateGridOnInterval() {
-  const [, dispatch] = useAppState()
-  useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
-  return null
-}
-UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
-
 function Grid() {
-  const [keepUpdated, setKeepUpdated] = React.useState(false)
   const [, dispatch] = useAppState()
-  const [rows, setRows] = useDebouncedState(initialRowsColumns)
-  const [columns, setColumns] = useDebouncedState(initialRowsColumns)
+  const [rows, setRows] = useDebouncedState(50)
+  const [columns, setColumns] = useDebouncedState(50)
+  const updateGridData = () => dispatch({type: 'UPDATE_GRID'})
   return (
-    <div>
-      <form onSubmit={e => e.preventDefault()}>
-        <div>
-          <button type="button" onClick={() => dispatch({type: 'UPDATE_GRID'})}>
-            Update Grid Data
-          </button>
-        </div>
-        <div>
-          <label htmlFor="keepUpdated">Keep Grid Data updated</label>
-          <input
-            id="keepUpdated"
-            checked={keepUpdated}
-            type="checkbox"
-            onChange={e => setKeepUpdated(e.target.checked)}
-          />
-          {keepUpdated ? <UpdateGridOnInterval /> : null}
-        </div>
-        <div>
-          <label htmlFor="rows">Rows to display: </label>
-          <input
-            id="rows"
-            defaultValue={rows}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setRows(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-        <div>
-          <label htmlFor="columns">Columns to display: </label>
-          <input
-            id="columns"
-            defaultValue={columns}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setColumns(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-      </form>
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 410,
-          maxHeight: 820,
-          overflow: 'scroll',
-        }}
-      >
-        <div style={{width: columns * 40}}>
-          {Array.from({length: rows}).map((r, row) => (
-            <div key={row} style={{display: 'flex'}}>
-              {Array.from({length: columns}).map((c, column) => (
-                <Cell key={column} row={row} column={column} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <AppGrid
+      onUpdateGrid={updateGridData}
+      rows={rows}
+      handleRowsChange={setRows}
+      columns={columns}
+      handleColumnsChange={setColumns}
+      Cell={Cell}
+    />
   )
 }
 Grid = React.memo(Grid)

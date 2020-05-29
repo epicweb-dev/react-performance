@@ -3,16 +3,13 @@
 // http://localhost:3000/isolated/final/06.extra-4.js
 
 import React from 'react'
-import useInterval from 'use-interval'
-import {useForceRerender, useDebouncedState} from '../utils'
+import {useForceRerender, useDebouncedState, AppGrid} from '../utils'
 import {RecoilRoot, useRecoilState, useRecoilCallback, atomFamily} from 'recoil'
 
 const AppStateContext = React.createContext()
 
-// increase this number to make the speed difference more stark.
-const dimensions = 100
-const initialGrid = Array.from({length: dimensions}, () =>
-  Array.from({length: dimensions}, () => Math.random() * 100),
+const initialGrid = Array.from({length: 100}, () =>
+  Array.from({length: 100}, () => Math.random() * 100),
 )
 
 const cellAtoms = atomFamily({
@@ -31,8 +28,6 @@ function useUpdateGrid() {
     }
   })
 }
-
-const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
@@ -65,83 +60,23 @@ function useAppState() {
   return context
 }
 
-function UpdateGridOnInterval({rows, columns}) {
-  const updateGrid = useUpdateGrid()
-  useInterval(() => updateGrid({rows, columns}), 500)
-  return null
-}
-
 function Grid() {
-  const [keepUpdated, setKeepUpdated] = React.useState(false)
   const updateGrid = useUpdateGrid()
-  const [rows, setRows] = useDebouncedState(initialRowsColumns)
-  const [columns, setColumns] = useDebouncedState(initialRowsColumns)
+  const [rows, setRows] = useDebouncedState(50)
+  const [columns, setColumns] = useDebouncedState(50)
+  const updateGridData = () => updateGrid({rows, columns})
   return (
-    <div>
-      <form onSubmit={e => e.preventDefault()}>
-        <div>
-          <button type="button" onClick={() => updateGrid({rows, columns})}>
-            Update Grid Data
-          </button>
-        </div>
-        <div>
-          <label htmlFor="keepUpdated">Keep Grid Data updated</label>
-          <input
-            id="keepUpdated"
-            checked={keepUpdated}
-            type="checkbox"
-            onChange={e => setKeepUpdated(e.target.checked)}
-          />
-          {keepUpdated ? (
-            <UpdateGridOnInterval rows={rows} columns={columns} />
-          ) : null}
-        </div>
-        <div>
-          <label htmlFor="rows">Rows to display: </label>
-          <input
-            id="rows"
-            defaultValue={rows}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setRows(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-        <div>
-          <label htmlFor="columns">Columns to display: </label>
-          <input
-            id="columns"
-            defaultValue={columns}
-            type="number"
-            min={1}
-            max={dimensions}
-            onChange={e => setColumns(e.target.value)}
-          />
-          {` (max: ${dimensions})`}
-        </div>
-      </form>
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 410,
-          maxHeight: 820,
-          overflow: 'scroll',
-        }}
-      >
-        <div style={{width: columns * 40}}>
-          {Array.from({length: rows}).map((r, row) => (
-            <div key={row} style={{display: 'flex'}}>
-              {Array.from({length: columns}).map((c, column) => (
-                <Cell key={column} row={row} column={column} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <AppGrid
+      onUpdateGrid={updateGridData}
+      rows={rows}
+      handleRowsChange={setRows}
+      columns={columns}
+      handleColumnsChange={setColumns}
+      Cell={Cell}
+    />
   )
 }
+Grid = React.memo(Grid)
 
 function Cell({row, column}) {
   const [cell, setCell] = useRecoilState(cellAtoms({row, column}))
