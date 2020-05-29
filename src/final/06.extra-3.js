@@ -107,22 +107,13 @@ Grid = React.memo(Grid)
 
 function withStateSlice(Comp, slice) {
   const MemoComp = React.memo(Comp)
-  const Wrapper = React.memo(
-    React.forwardRef((props, ref) => {
-      const state = useAppState()
-      const dispatch = useAppDispatch()
-      return (
-        <MemoComp
-          ref={ref}
-          state={slice(state, props)}
-          dispatch={dispatch}
-          {...props}
-        />
-      )
-    }),
-  )
+  function Wrapper(props, ref) {
+    const state = useAppState()
+    const cell = slice(state, props)
+    return <MemoComp ref={ref} cell={cell} {...props} />
+  }
   Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
-  return Wrapper
+  return React.memo(React.forwardRef(Wrapper))
 }
 
 const Cell = withStateSlice(
