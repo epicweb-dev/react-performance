@@ -162,14 +162,8 @@ function Cell({row, column}) {
       className="cell"
       onClick={handleClick}
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 40,
-        height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
-        border: '1px solid black',
       }}
     >
       {Math.floor(cell)}
