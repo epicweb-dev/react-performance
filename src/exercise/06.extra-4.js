@@ -1,4 +1,5 @@
 // Starting point for the Recoil Extra Credit
+// 💯 use recoil (exercise)
 // http://localhost:3000/isolated/exercise/06.extra-4.js
 
 import React from 'react'

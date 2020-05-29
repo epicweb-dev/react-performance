@@ -1,5 +1,5 @@
 // Fix "perf death by a thousand cuts"
-// 💯 use recoil
+// 💯 use recoil (final)
 // http://localhost:3000/isolated/final/06.extra-4.js
 
 import React from 'react'
