@@ -1,13 +1,12 @@
-// Optimize context value
-// 💯 separate the contexts
-// http://localhost:3000/isolated/final/05.extra-1.js
+// Fix "perf death by a thousand cuts"
+// 💯 limit the work consuming components do
+// http://localhost:3000/isolated/final/06.extra-2.js
 
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
 
 const AppStateContext = React.createContext()
-const AppDispatchContext = React.createContext()
 
 // increase this number to make the speed difference more stark.
 const dimensions = 100
@@ -21,23 +20,6 @@ function appReducer(state, action) {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
-    }
-    case 'UPDATE_GRID_CELL': {
-      const {rowIndex, columnIndex} = action
-      return {
-        ...state,
-        grid: state.grid.map((row, rI) => {
-          if (rI === rowIndex) {
-            return row.map((cell, cI) => {
-              if (cI === columnIndex) {
-                return Math.random() * 100
-              }
-              return cell
-            })
-          }
-          return row
-        }),
-      }
     }
     case 'UPDATE_GRID': {
       return {
@@ -60,11 +42,10 @@ function AppProvider({children}) {
     dogName: '',
     grid: initialGrid,
   })
+  const value = [state, dispatch]
   return (
-    <AppStateContext.Provider value={state}>
-      <AppDispatchContext.Provider value={dispatch}>
-        {children}
-      </AppDispatchContext.Provider>
+    <AppStateContext.Provider value={value}>
+      {children}
     </AppStateContext.Provider>
   )
 }
@@ -77,16 +58,8 @@ function useAppState() {
   return context
 }
 
-function useAppDispatch() {
-  const context = React.useContext(AppDispatchContext)
-  if (!context) {
-    throw new Error('useAppDispatch must be used within the AppProvider')
-  }
-  return context
-}
-
 function UpdateGridOnInterval() {
-  const dispatch = useAppDispatch()
+  const [, dispatch] = useAppState()
   useInterval(() => dispatch({type: 'UPDATE_GRID'}), 500)
   return null
 }
@@ -94,8 +67,7 @@ UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const state = useAppState()
-  const dispatch = useAppDispatch()
+  const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
   return (
@@ -150,10 +122,10 @@ function ChangingGrid() {
         }}
       >
         <div style={{width: columns * 40}}>
-          {state.grid.slice(0, rows).map((row, rI) => (
-            <div key={rI} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell key={cI} cell={cell} rowIndex={rI} columnIndex={cI} />
+          {Array.from({length: rows}).map((row, rowI) => (
+            <div key={rowI} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((cell, cI) => (
+                <Cell key={cI} row={rowI} column={cI} />
               ))}
             </div>
           ))}
@@ -164,38 +136,42 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cell, rowIndex, columnIndex}) {
-  const dispatch = useAppDispatch()
-  const handleClick = () =>
-    dispatch({type: 'UPDATE_GRID_CELL', rowIndex, columnIndex})
+function Cell({row, column}) {
+  const [state] = useAppState()
+  const cell = state.grid[row][column]
+  return <CellImpl cell={cell} />
+}
+Cell = React.memo(Cell)
+
+function CellImpl({cell}) {
   return (
-    <button
-      onClick={handleClick}
+    <div
       style={{
+        outline: `1px solid black`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        cursor: 'pointer',
         width: 40,
         height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
-        border: '1px solid black',
       }}
     >
       {Math.floor(cell)}
-    </button>
+    </div>
   )
 }
-Cell = React.memo(Cell)
+CellImpl = React.memo(CellImpl)
 
 function DogNameInput() {
-  const state = useAppState()
-  const dispatch = useAppDispatch()
+  // 🐨 replace the useAppState with a normal useState here to manage
+  // the dogName locally within this component
+  const [state, dispatch] = useAppState()
   const {dogName} = state
 
   function handleChange(event) {
     const newDogName = event.target.value
+    // 🐨 change this to call your state setter that you get from useState
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
@@ -218,6 +194,9 @@ function DogNameInput() {
 }
 
 function App() {
+  // 🐨 because the whole app doesn't need access to the AppState context,
+  // we can move that closer to only wrap the <ChangingGrid /> rather than all
+  // the components here
   return (
     <AppProvider>
       <div>

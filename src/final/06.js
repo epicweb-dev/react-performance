@@ -1,4 +1,4 @@
-// Optimize context value
+// Fix "perf death by a thousand cuts"
 // http://localhost:3000/isolated/final/06.js
 
 import React from 'react'
@@ -17,23 +17,6 @@ const initialRowsColumns = Math.floor(dimensions / 2)
 
 function appReducer(state, action) {
   switch (action.type) {
-    case 'UPDATE_GRID_CELL': {
-      const {rowIndex, columnIndex} = action
-      return {
-        ...state,
-        grid: state.grid.map((row, rI) => {
-          if (rI === rowIndex) {
-            return row.map((cell, cI) => {
-              if (cI === columnIndex) {
-                return Math.random() * 100
-              }
-              return cell
-            })
-          }
-          return row
-        }),
-      }
-    }
     case 'UPDATE_GRID': {
       return {
         ...state,
@@ -50,11 +33,11 @@ function appReducer(state, action) {
   }
 }
 
-function AppStateProvider({children}) {
+function AppProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
-  const value = React.useMemo(() => [state, dispatch], [state])
+  const value = [state, dispatch]
   return (
     <AppStateContext.Provider value={value}>
       {children}
@@ -65,7 +48,7 @@ function AppStateProvider({children}) {
 function useAppState() {
   const context = React.useContext(AppStateContext)
   if (!context) {
-    throw new Error('useAppState must be used within the AppStateProvider')
+    throw new Error('useAppState must be used within the AppProvider')
   }
   return context
 }
@@ -79,10 +62,9 @@ UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
 function ChangingGrid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
-  const [state, dispatch] = useAppState()
+  const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
   const [columns, setColumns] = useDebouncedState(initialRowsColumns)
-  const cellWidth = 40
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -134,17 +116,11 @@ function ChangingGrid() {
           overflow: 'scroll',
         }}
       >
-        <div style={{width: columns * cellWidth}}>
-          {state.grid.slice(0, rows).map((row, rI) => (
-            <div key={rI} style={{display: 'flex'}}>
-              {row.slice(0, columns).map((cell, cI) => (
-                <Cell
-                  key={cI}
-                  cellWidth={cellWidth}
-                  cell={cell}
-                  rowIndex={rI}
-                  columnIndex={cI}
-                />
+        <div style={{width: columns * 40}}>
+          {Array.from({length: rows}).map((row, rowI) => (
+            <div key={rowI} style={{display: 'flex'}}>
+              {Array.from({length: columns}).map((cell, cI) => (
+                <Cell key={cI} row={rowI} column={cI} />
               ))}
             </div>
           ))}
@@ -155,22 +131,18 @@ function ChangingGrid() {
 }
 ChangingGrid = React.memo(ChangingGrid)
 
-function Cell({cellWidth, cell, rowIndex, columnIndex}) {
-  const [, dispatch] = useAppState()
-  const handleClick = () =>
-    dispatch({type: 'UPDATE_GRID_CELL', rowIndex, columnIndex})
+function Cell({row, column}) {
+  const [state] = useAppState()
+  const cell = state.grid[row][column]
   return (
     <div
-      onClick={handleClick}
       style={{
         outline: `1px solid black`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        cursor: 'pointer',
-        userSelect: 'none',
-        width: cellWidth,
-        height: cellWidth,
+        width: 40,
+        height: 40,
         color: cell > 50 ? 'white' : 'black',
         backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
       }}
@@ -209,12 +181,12 @@ function DogNameInput() {
 
 function App() {
   return (
-    <AppStateProvider>
-      <div>
-        <DogNameInput />
+    <div>
+      <DogNameInput />
+      <AppProvider>
         <ChangingGrid />
-      </div>
-    </AppStateProvider>
+      </AppProvider>
+    </div>
   )
 }
 

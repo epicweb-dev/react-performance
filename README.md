@@ -167,8 +167,8 @@ a complete authority.
 - 🌮 30 Minutes
 - 💪 Window large lists with react-virtual
 - 😴 10 Minutes
-- 💪 Fix "perf death by a thousand cuts"
 - 💪 Optimize context value
+- 💪 Fix "perf death by a thousand cuts"
 - 😴 10 Minutes
 - 💪 Production performance monitoring
 - ❓ Q&A

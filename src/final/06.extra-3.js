@@ -1,6 +1,6 @@
 // Fix "perf death by a thousand cuts"
 // 💯 write an HOC to get a slice of app state
-// http://localhost:3000/isolated/final/05.extra-3.js
+// http://localhost:3000/isolated/final/06.extra-3.js
 
 import React from 'react'
 import useInterval from 'use-interval'
@@ -37,7 +37,7 @@ function appReducer(state, action) {
   }
 }
 
-function AppStateProvider({children}) {
+function AppProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
     dogName: '',
     grid: initialGrid,
@@ -53,7 +53,7 @@ function AppStateProvider({children}) {
 function useAppState() {
   const context = React.useContext(AppStateContext)
   if (!context) {
-    throw new Error('useAppState must be used within the AppStateProvider')
+    throw new Error('useAppState must be used within the AppProvider')
   }
   return context
 }
@@ -212,12 +212,12 @@ function App() {
   // we can move that closer to only wrap the <ChangingGrid /> rather than all
   // the components here
   return (
-    <AppStateProvider>
+    <AppProvider>
       <div>
         <DogNameInput />
         <ChangingGrid />
       </div>
-    </AppStateProvider>
+    </AppProvider>
   )
 }
 
