@@ -1,6 +1,7 @@
 // Fix "perf death by a thousand cuts"
 // 💯 write an HOC to get a slice of app state
 // http://localhost:3000/isolated/final/06.extra-3.js
+
 import React from 'react'
 import useInterval from 'use-interval'
 import {useForceRerender, useDebouncedState} from '../utils'
