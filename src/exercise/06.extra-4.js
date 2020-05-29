@@ -101,6 +101,8 @@ function Grid() {
     />
   )
 }
+// 💣 remove memoization. It's not needed!
+Grid = React.memo(Grid)
 
 function Cell({row, column}) {
   // 🐨 replace these three lines with useRecoilState for the cellAtoms
@@ -124,6 +126,8 @@ function Cell({row, column}) {
   )
 }
 // 🦉 notice we don't need to bother memoizing any of the components!!
+// 💣 remove memoization
+Cell = React.memo(Cell)
 
 function DogNameInput() {
   const [state, dispatch] = useAppState()
