@@ -94,7 +94,7 @@ function UpdateGridOnInterval() {
 }
 UpdateGridOnInterval = React.memo(UpdateGridOnInterval)
 
-function ChangingGrid() {
+function Grid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
   const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
@@ -163,7 +163,7 @@ function ChangingGrid() {
     </div>
   )
 }
-ChangingGrid = React.memo(ChangingGrid)
+Grid = React.memo(Grid)
 
 function Cell({row, column}) {
   const state = useAppState()
@@ -223,7 +223,7 @@ function App() {
       <AppProvider>
         <div>
           <DogNameInput />
-          <ChangingGrid />
+          <Grid />
         </div>
       </AppProvider>
     </div>

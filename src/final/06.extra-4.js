@@ -71,7 +71,7 @@ function UpdateGridOnInterval({rows, columns}) {
   return null
 }
 
-function ChangingGrid() {
+function Grid() {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
   const updateGrid = useUpdateGrid()
   const [rows, setRows] = useDebouncedState(initialRowsColumns)
@@ -196,7 +196,7 @@ function App() {
         <AppProvider>
           <div>
             <DogNameInput />
-            <ChangingGrid />
+            <Grid />
           </div>
         </AppProvider>
       </RecoilRoot>
