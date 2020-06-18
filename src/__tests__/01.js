@@ -1,5 +1,6 @@
 import React from 'react'
-import {render, fireEvent, screen, act} from '@testing-library/react'
+import {render, screen, act} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from '../final/01'
 // import App from '../exercise/01'
 
@@ -24,7 +25,7 @@ test('loads the tile component asynchronously', async () => {
 
   // TODO: figure out why act is needed here because it should not be...
   await act(async () => {
-    fireEvent.click(screen.getByLabelText(/show globe/))
+    userEvent.click(screen.getByLabelText(/show globe/))
   })
 
   expect(await screen.findByTitle(/globe/i)).toBeInTheDocument()

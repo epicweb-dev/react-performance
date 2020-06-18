@@ -14,14 +14,15 @@
   },
   "dependencies": {
     "@jackfranklin/test-data-bot": "^1.3.0",
-    "@kentcdodds/react-workshop-app": "^2.11.0",
-    "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.0.4",
-    "chalk": "^4.0.0",
+    "@kentcdodds/react-workshop-app": "^2.11.1",
+    "@testing-library/jest-dom": "^5.10.1",
+    "@testing-library/react": "^10.3.0",
+    "@testing-library/user-event": "^12.0.2",
+    "chalk": "^4.1.0",
     "codegen.macro": "^4.0.0",
     "d3-geo": "^1.12.1",
-    "downshift": "^5.4.2",
-    "history": "^4.10.1",
+    "downshift": "^5.4.3",
+    "history": "^5.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lodash": "^4.17.15",
     "match-sorter": "^4.1.0",
@@ -30,19 +31,19 @@
     "react-spring": "^8.0.27",
     "react-use-gesture": "^7.0.15",
     "react-virtual": "^2.2.0",
-    "recoil": "0.0.8",
+    "recoil": "0.0.9",
     "topojson-client": "^3.1.0",
     "use-interval": "^1.2.1",
     "vanilla-tilt": "^1.7.0",
     "workerize": "^0.1.8",
-    "workerize-loader": "^1.2.1"
+    "workerize-loader": "^1.3.0"
   },
   "devDependencies": {
     "husky": "^4.2.5",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "react-scripts": "^3.4.1",
-    "serve": "^11.3.1"
+    "serve": "^11.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

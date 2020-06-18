@@ -1,5 +1,6 @@
 import React from 'react'
-import {render, fireEvent, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from '../final/06'
 // import App from '../exercise/06'
 
@@ -37,9 +38,7 @@ test('colocates state properly', () => {
   ).toThrow(/TYPED_IN_DOG_INPUT/i)
 
   const testDogName = 'TEST_DOG_NAME'
-  fireEvent.change(screen.getByLabelText(/dog name/i), {
-    target: {value: testDogName},
-  })
+  userEvent.type(screen.getByLabelText(/dog name/i), testDogName)
   expect(
     screen.getByText(testDogName),
     'The DogName component is not working.',
