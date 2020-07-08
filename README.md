@@ -8,6 +8,7 @@ parts and using proven tools and techniques to make your app fast.
 
 <div align="center">
   <a href="https://epicreact.dev">
+    <h2>EpicReact.Dev</h2>
     <img
       width="500"
       alt="Learn React from Start to Finish"
@@ -15,6 +16,8 @@ parts and using proven tools and techniques to make your app fast.
     />
   </a>
 </div>
+
+<hr />
 
 <!-- prettier-ignore-start -->
 [![Build Status][build-badge]][build]
