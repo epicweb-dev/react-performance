@@ -7,8 +7,8 @@ workshop repo to teach you about profiling React applications to identify slow
 parts and using proven tools and techniques to make your app fast.
 
 <div align="center">
+  <h2><a href="https://epicreact.dev">EpicReact.Dev</a></h2>
   <a href="https://epicreact.dev">
-    <h2>EpicReact.Dev</h2>
     <img
       width="500"
       alt="Learn React from Start to Finish"
