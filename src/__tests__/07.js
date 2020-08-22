@@ -8,8 +8,12 @@ jest.mock('react', () => {
   const actualReact = jest.requireActual('react')
   return {
     ...actualReact,
-    Profiler: jest.fn(({children}) => children),
+    Profiler: jest.fn(),
   }
+})
+
+beforeEach(() => {
+  React.Profiler.mockImplementation(({children}) => children)
 })
 
 test('uses the Profiler correctly', () => {

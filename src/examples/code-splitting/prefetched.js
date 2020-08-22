@@ -2,4 +2,8 @@
 
 import React from 'react'
 
-export default () => <div>Prefetched module</div>
+function Prefetched() {
+  return <div>Prefetched module</div>
+}
+
+export default Prefetched

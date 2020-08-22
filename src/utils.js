@@ -94,6 +94,7 @@ function debounce(cb, time) {
 // that then so much of our hack-perf fixes go away!
 function useDebouncedState(initialState) {
   const [state, setState] = React.useState(initialState)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetState = React.useCallback(debounce(setState, 200), [])
   return [state, debouncedSetState]
 }

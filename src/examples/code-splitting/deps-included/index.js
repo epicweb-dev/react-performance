@@ -3,4 +3,8 @@
 import React from 'react'
 import Dep from './dep'
 
-export default () => <Dep />
+function DepsIncluded() {
+  return <Dep />
+}
+
+export default DepsIncluded

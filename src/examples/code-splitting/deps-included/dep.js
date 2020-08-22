@@ -2,4 +2,7 @@
 
 import React from 'react'
 
-export default () => <div>Hello from a dependency!</div>
+function Dep() {
+  return <div>Hello from a dependency!</div>
+}
+export default Dep

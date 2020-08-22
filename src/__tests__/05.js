@@ -4,12 +4,8 @@ import {render} from '@testing-library/react'
 import App from '../final/05'
 // import App from '../exercise/05'
 
-jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
-  return {
-    ...actualReact,
-    useMemo: jest.fn((...args) => actualReact.useMemo(...args)),
-  }
+beforeEach(() => {
+  jest.spyOn(React, 'useMemo')
 })
 
 test('memoizes state properly', () => {

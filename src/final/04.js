@@ -31,6 +31,7 @@ function Menu({
       <li style={{height: totalHeight}} />
       {virtualRows.map(({index, size, start}) => {
         const item = items[index]
+        if (!item) return null
         return (
           <ListItem
             key={item.id}

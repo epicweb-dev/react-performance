@@ -4,13 +4,9 @@ import userEvent from '@testing-library/user-event'
 import App from '../final/06'
 // import App from '../exercise/06'
 
-jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
-  return {
-    ...actualReact,
-    useState: jest.fn((...args) => actualReact.useState(...args)),
-    useReducer: jest.fn((...args) => actualReact.useReducer(...args)),
-  }
+beforeEach(() => {
+  jest.spyOn(React, 'useState')
+  jest.spyOn(React, 'useReducer')
 })
 
 test('colocates state properly', () => {

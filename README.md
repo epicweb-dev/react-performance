@@ -1,13 +1,14 @@
-# React Performance ⚡
+<div>
+  <h1 align="center"><a href="https://epicreact.dev">⚡ React Performance 🚀 EpicReact.Dev</a></h1>
+  <strong>
+    React is fast, until it isn't
+  </strong>
+  <p>
+    Learn everything you need to diagnose, profile, and fix performance problems
+    in your React application using the Browser Performance Profiler,
+    React DevTools Profiler, and proven React optimization techniques.
+  </p>
 
-> Let's make our apps fast ⚡
-
-👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com)! This is a
-workshop repo to teach you about profiling React applications to identify slow
-parts and using proven tools and techniques to make your app fast.
-
-<div align="center">
-  <h2><a href="https://epicreact.dev">EpicReact.Dev</a></h2>
   <a href="https://epicreact.dev">
     <img
       alt="Learn React from Start to Finish"
@@ -26,57 +27,13 @@ parts and using proven tools and techniques to make your app fast.
 [![Code of Conduct][coc-badge]][coc]
 <!-- prettier-ignore-end -->
 
-## Workshop Topics
+## Prerequisites
 
-Here are the tools and techniques we'll be covering:
-
-- Loading less code via code splitting
-- Install and explore the React DevTools
-- Identify and fix slow components with React DevTools Profiler
-- Identify and fix slow JavaScript with the Chrome DevTools Profiler
-- Use Web Workers to free up the main thread from expensive computations
-- Solve "perf death by a thousand cuts"
-- Optimize context providers
-- Production Monitoring
-
-## Pre-Workshop Instructions/Requirements
-
-In order for us to maximize our efforts during the workshop, please complete the
-following things to prepare.
-
-- 📺 only necessary if the workshop is remote via Zoom
-- 👋 specific to the material for this workshop
-
-- [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
-- [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
-      using (~5 minutes)
-- [ ] 📺 Watch
-      [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
-      (~8 minutes).
-- [ ] Watch
-      [Setup and Logistics for KCD Workshops](https://egghead.io/lessons/egghead-setup-and-logistics-for-kcd-workshops)
-      (~24 minutes). Please do NOT skip this step.
-- [ ] 👋 Install the React DevTools
-      ([Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
-      (recommended),
-      [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/))
-- [ ] 👋 Watch [The Beginner's Guide to React](https://kcd.im/beginner-react)
-      (available free on Egghead.io), or have the equivalent experience (77
-      minutes)
-- [ ] 👋 Watch my talk
-      [Why React Hooks](https://www.youtube.com/watch?v=zWsZcBiwgVE&list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf)
-      (35 minutes)
-- [ ] 👋 Go through my
-      [Learn React Hooks Workshop](https://kentcdodds.com/workshops/hooks), or
-      have the equivalent basic experience of using hooks. You should be
-      experienced with `useState`, `useEffect`, and `useRef`.
-- [ ] 👋 Go through my
-      [Advanced React Hooks Workshop](https://kentcdodds.com/workshops/advanced-react-hooks),
-      or have the equivalent experience. You should be experienced with
-      `useContext` and `useReducer` (experience with `useMemo` and `useCallback`
-      is a bonus).
-
-The more prepared you are for the workshop, the better it will go for you.
+- Install the React DevTools
+  ([Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+  (recommended),
+  [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/))
+- Experience with React and all hooks
 
 ## System Requirements
 
@@ -110,17 +67,12 @@ npm run setup --silent
 
 This may take a few minutes. **It will ask you for your email.** This is
 optional and just automatically adds your email to the links in the project to
-make filling out some forms easier. If you get any errors, please read through
-them and see if you can find out what the problem is. If you can't work it out
-on your own then please [file an issue][issue] and provide _all_ the output from
-the commands you ran (even if it's a lot).
+make filling out some forms easier.
 
-You may be able to work through the entire workshop in the browser. Go to
-[this codesandbox](https://codesandbox.io/s/github/kentcdodds/react-performance)
-and you should be good to go. Note that sometimes people have trouble with
-codesandbox not working quite right with tests, but you should be able to work
-around that. If you're concerned, then it would probably be better to just set
-things up locally.
+If you get any errors, please read through them and see if you can find out what
+the problem is. If you can't work it out on your own then please [file an
+issue][issue] and provide _all_ the output from the commands you ran (even if
+it's a lot).
 
 ## Running the app
 
@@ -147,54 +99,6 @@ play around with it. The tests are there to help you reach the final version,
 however _sometimes_ you can accomplish the task and the tests still fail if you
 implement things differently than I do in my solution, so don't look to them as
 a complete authority.
-
-## Workshop Outline
-
-👋 I'm Kent C. Dodds
-
-- 🏡 Utah
-- 👩 👧 👦 👦 👦 🐕
-- 🏢 https://kentcdodds.com
-- 🐦/🐙 @kentcdodds
-- 🏆 https://TestingJavaScript.com
-- 👩‍🚀 https://EpicReact.Dev
-- 💻 https://kcd.im/workshops
-- 🎙 https://kcd.im/podcast
-- 🥚 https://kcd.im/egghead
-- 🥋 https://kcd.im/fem
-- 💌 https://kcd.im/news
-- 📝 https://kcd.im/blog
-- 📺 https://kcd.im/devtips
-- 👨‍💻 https://kcd.im/coding
-- 📽 https://kcd.im/youtube
-- ❓ https://kcd.im/ama
-
-### Schedule
-
-- 😴 Logistics
-- 💪 Code splitting
-- 😴 10 Minutes
-- 💪 useMemo for expensive calculations
-- 💪 React.memo for reducing unnecessary re-renders
-- 🌮 30 Minutes
-- 💪 Window large lists with react-virtual
-- 😴 10 Minutes
-- 💪 Optimize context value
-- 💪 Fix "perf death by a thousand cuts"
-- 😴 10 Minutes
-- 💪 Production performance monitoring
-- ❓ Q&A
-
-### Questions
-
-Please do ask! Interrupt me. If you have an unrelated question, please ask on
-[my AMA](https://kcd.im/ama).
-
-### Zoom (for remote workshops)
-
-- Help us make this more human by keeping your video on if possible
-- Keep microphone muted unless speaking
-- Breakout rooms
 
 ### Exercises
 
@@ -269,10 +173,10 @@ Thank you! https://kcd.im/rp-ws-feedback
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[build-badge]: https://img.shields.io/travis/com/kentcdodds/react-performance.svg?style=flat-square&logo=travis
-[build]: https://travis-ci.com/kentcdodds/react-performance
+[build-badge]: https://img.shields.io/travis/kentcdodds/react-performance.svg?style=flat-square&logo=travis
+[build]: https://travis-ci.org/kentcdodds/react-performance
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/react-fundamentals/blob/master/LICENSE
+[license]: https://github.com/kentcdodds/react-performance/blob/master/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc]: https://github.com/kentcdodds/react-performance/blob/master/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/kentcdodds/all-contributors#emoji-key

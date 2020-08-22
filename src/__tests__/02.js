@@ -1,16 +1,16 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import {getItems} from '../filter-cities'
 import App from '../final/02'
 // import App from '../exercise/02'
 
-jest.mock('../filter-cities', () => {
+jest.mock('../filter-cities')
+
+beforeEach(() => {
   const filterCities = jest.requireActual('../filter-cities')
-  return {
-    ...filterCities,
-    getItems: jest.fn((...args) => filterCities.getItems(...args)),
-  }
+  getItems.mockImplementation((...args) => {
+    return filterCities.getItems(...args)
+  })
 })
 
 test('useMemo is called properly', () => {

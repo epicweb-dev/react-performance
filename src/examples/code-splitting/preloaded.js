@@ -2,4 +2,8 @@
 
 import React from 'react'
 
-export default () => <div>Preloaded module</div>
+function Preloaded() {
+  return <div>Preloaded module</div>
+}
+
+export default Preloaded

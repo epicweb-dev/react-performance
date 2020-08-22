@@ -2,4 +2,7 @@
 
 import React from 'react'
 
-export default () => <div>Two</div>
+function Two() {
+  return <div>Two</div>
+}
+export default Two
