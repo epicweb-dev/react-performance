@@ -13,6 +13,8 @@
     "npm": ">=6"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
     "@jackfranklin/test-data-bot": "^1.3.0",
     "@kentcdodds/react-workshop-app": "^2.16.4",
     "@testing-library/jest-dom": "^5.11.4",
