@@ -110,7 +110,7 @@ function withStateSlice(Comp, slice) {
   function Wrapper(props, ref) {
     const state = useAppState()
     const cell = slice(state, props)
-    return <MemoComp ref={ref} cell={cell} {...props} />
+    return <MemoComp ref={ref} state={cell} {...props} />
   }
   Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
   return React.memo(React.forwardRef(Wrapper))
