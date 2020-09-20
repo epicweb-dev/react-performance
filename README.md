@@ -178,9 +178,9 @@ Thank you! https://kcd.im/rp-ws-feedback
 [build-badge]: https://img.shields.io/travis/kentcdodds/react-performance.svg?style=flat-square&logo=travis
 [build]: https://travis-ci.org/kentcdodds/react-performance
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/react-performance/blob/master/LICENSE
+[license]: https://github.com/kentcdodds/react-performance/blob/main/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[coc]: https://github.com/kentcdodds/react-performance/blob/master/CODE_OF_CONDUCT.md
+[coc]: https://github.com/kentcdodds/react-performance/blob/main/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/kentcdodds/all-contributors#emoji-key
 [all-contributors]: https://github.com/kentcdodds/all-contributors
 [win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
