@@ -76,7 +76,6 @@ function Grid() {
     />
   )
 }
-Grid = React.memo(Grid)
 
 function Cell({row, column}) {
   const [cell, setCell] = useRecoilState(cellAtoms({row, column}))
