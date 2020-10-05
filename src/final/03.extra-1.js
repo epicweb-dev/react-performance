@@ -63,7 +63,7 @@ ListItem = React.memo(ListItem, (prevProps, nextProps) => {
 
   // these ones are easy if any of these changed, we should re-render
   if (prevProps.getItemProps !== nextProps.getItemProps) return false
-  if (prevProps.items !== nextProps.items) return false
+  if (prevProps.item !== nextProps.item) return false
   if (prevProps.index !== nextProps.index) return false
   if (prevProps.selectedItem !== nextProps.selectedItem) return false
 
