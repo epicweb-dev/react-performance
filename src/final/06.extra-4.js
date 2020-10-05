@@ -18,7 +18,7 @@ const cellAtoms = atomFamily({
 })
 
 function useUpdateGrid() {
-  return useRecoilCallback(({set}, {rows, columns}) => {
+  return useRecoilCallback(({set}) => ({rows, columns}) => {
     for (let row = 0; row < rows; row++) {
       for (let column = 0; column < columns; column++) {
         if (Math.random() > 0.7) {
