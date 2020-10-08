@@ -115,7 +115,7 @@ function App() {
     itemToString: item => (item ? item.name : ''),
     scrollIntoView: () => {},
     onHighlightedIndexChange: ({highlightedIndex}) =>
-      rowVirtualizer.scrollToIndex(highlightedIndex),
+      highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
   })
 
   return (
