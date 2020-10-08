@@ -137,7 +137,7 @@ function App() {
     // 💰 scrollIntoView: () => {},
     // 🐨 when the highlightedIndex changes, then tell react-virtual to scroll
     // to that index.
-    // 💰 onHighlightedIndexChange: ({highlightedIndex}) => rowVirtualizer.scrollToIndex(highlightedIndex),
+    // 💰 onHighlightedIndexChange: ({highlightedIndex}) => highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
   })
 
   return (
