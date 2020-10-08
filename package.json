@@ -52,7 +52,7 @@
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --watchAll=false --coverage",
     "test:exercises": "npm run test -- testing.*exercises\\/ --onlyChanged",
-    "setup": "node ./scripts/setup",
+    "setup": "node setup",
     "lint": "eslint .",
     "validate": "npm-run-all --parallel build:profile test:coverage lint"
   },

@@ -66,7 +66,7 @@ should be able to just run a few commands to get set up:
 ```
 git clone https://github.com/kentcdodds/react-performance.git
 cd react-performance
-npm run setup --silent
+node setup
 ```
 
 This may take a few minutes. **It will ask you for your email.** This is
