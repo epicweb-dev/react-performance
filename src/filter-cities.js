@@ -1,4 +1,4 @@
-import matchSorter from 'match-sorter'
+import {matchSorter} from 'match-sorter'
 import cities from './us-cities.json'
 
 const allItems = cities.map((city, index) => ({
