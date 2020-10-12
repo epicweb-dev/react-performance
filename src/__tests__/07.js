@@ -1,4 +1,5 @@
 import React from 'react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
 import {render} from '@testing-library/react'
 import reportProfile from '../report-profile'
 import App from '../final/07'
@@ -19,15 +20,16 @@ beforeEach(() => {
 test('uses the Profiler correctly', () => {
   render(<App />)
 
-  expect(
-    React.Profiler,
+  alfredTip(
+    () =>
+      expect(React.Profiler).toHaveBeenLastCalledWith(
+        {
+          children: expect.any(Object),
+          id: 'counter',
+          onRender: reportProfile,
+        },
+        expect.any(Object),
+      ),
     'The React.Profiler component must be used with the correct props',
-  ).toHaveBeenLastCalledWith(
-    {
-      children: expect.any(Object),
-      id: 'counter',
-      onRender: reportProfile,
-    },
-    expect.any(Object),
   )
 })

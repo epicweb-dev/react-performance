@@ -1,4 +1,5 @@
 import React from 'react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/06'
@@ -12,31 +13,35 @@ beforeEach(() => {
 test('colocates state properly', () => {
   render(<App />)
 
-  expect(
-    React.useReducer,
+  alfredTip(
+    () =>
+      expect(React.useReducer).not.toHaveBeenCalledWith(
+        expect.any(Function),
+        expect.objectContaining({dogName: expect.anything()}),
+      ),
     'React.useReducer should not be called with an initial state object value that includes a dogName property',
-  ).not.toHaveBeenCalledWith(
-    expect.any(Function),
-    expect.objectContaining({dogName: expect.anything()}),
   )
 
   const [appReducer] = React.useReducer.mock.calls.find(
     ([fn, init]) => init.grid,
   )
-  expect(
-    appReducer,
+  alfredTip(
+    () => expect(appReducer).toBeInstanceOf(Function),
     `Unable to find the appReducer function. Ask the instructor what's going on. You shouldn't see this.`,
-  ).toBeInstanceOf(Function)
+  )
 
-  expect(
-    () => appReducer({}, {type: 'TYPED_IN_DOG_INPUT'}),
+  alfredTip(
+    () =>
+      expect(() => appReducer({}, {type: 'TYPED_IN_DOG_INPUT'})).toThrow(
+        /TYPED_IN_DOG_INPUT/i,
+      ),
     `The appReducer shouldn't handle the event type TYPED_IN_DOG_INPUT anymore`,
-  ).toThrow(/TYPED_IN_DOG_INPUT/i)
+  )
 
   const testDogName = 'TEST_DOG_NAME'
   userEvent.type(screen.getByLabelText(/dog name/i), testDogName)
-  expect(
-    screen.getByText(testDogName),
+  alfredTip(
+    () => expect(screen.getByText(testDogName)).toBeInTheDocument(),
     'The DogName component is not working.',
-  ).toBeInTheDocument()
+  )
 })

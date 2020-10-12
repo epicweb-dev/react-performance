@@ -1,4 +1,5 @@
 import React from 'react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
 import {render, waitFor, screen} from '@testing-library/react'
 import {build, fake, sequence} from '@jackfranklin/test-data-bot'
 import {getItems} from '../workerized-filter-cities'
@@ -26,8 +27,11 @@ test('windows properly', async () => {
 
   await waitFor(() => promise)
 
-  expect(
-    screen.getAllByRole('option').length,
+  alfredTip(
+    () =>
+      expect(screen.getAllByRole('option').length).toBeLessThan(
+        fakeItems.length,
+      ),
     `Looks like all of the items are being rendered. Make sure you're using useVirtual and you're mapping over the virtualRows rather than the actual items.`,
-  ).toBeLessThan(fakeItems.length)
+  )
 })

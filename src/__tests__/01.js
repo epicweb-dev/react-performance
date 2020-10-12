@@ -1,4 +1,5 @@
 import React from 'react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
 import {render, screen, act} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/01'
@@ -18,10 +19,10 @@ beforeEach(() => {
 test('loads the tile component asynchronously', async () => {
   render(<App />)
 
-  expect(
-    screen.queryByTitle(/globe/i),
+  alfredTip(
+    () => expect(screen.queryByTitle(/globe/i)).not.toBeInTheDocument(),
     'The tilt component must be loaded asynchronously via React.lazy and React.Suspense',
-  ).not.toBeInTheDocument()
+  )
 
   // TODO: figure out why act is needed here because it should not be...
   await act(async () => {
