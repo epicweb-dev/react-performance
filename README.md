@@ -182,12 +182,12 @@ Thanks goes to these wonderful people
   </tr>
   <tr>
     <td align="center"><a href="https://www.gwanduke.com"><img src="https://avatars0.githubusercontent.com/u/7443435?v=4" width="100px;" alt=""/><br /><sub><b>Kim Gwan-duk</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=gwanduke" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://rasmusjosefsson.com"><img src="https://avatars2.githubusercontent.com/u/13612444?v=4" width="100px;" alt=""/><br /><sub><b>Rasmus Josefsson</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=rajjejosefsson" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
