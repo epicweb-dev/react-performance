@@ -116,24 +116,23 @@ function withStateSlice(Comp, slice) {
   return React.memo(React.forwardRef(Wrapper))
 }
 
-const Cell = withStateSlice(
-  function Cell({state: cell, dispatch, row, column}) {
-    const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
-    return (
-      <button
-        className="cell"
-        onClick={handleClick}
-        style={{
-          color: cell > 50 ? 'white' : 'black',
-          backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
-        }}
-      >
-        {Math.floor(cell)}
-      </button>
-    )
-  },
-  (state, {row, column}) => state.grid[row][column],
-)
+function Cell({state: cell, row, column}) {
+  const dispatch = useAppDispatch()
+  const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
+  return (
+    <button
+      className="cell"
+      onClick={handleClick}
+      style={{
+        color: cell > 50 ? 'white' : 'black',
+        backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
+      }}
+    >
+      {Math.floor(cell)}
+    </button>
+  )
+}
+Cell = withStateSlice(Cell, (state, {row, column}) => state.grid[row][column])
 
 function DogNameInput() {
   const [state, dispatch] = useDogState()
