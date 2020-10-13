@@ -148,6 +148,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rajjejosefsson",
+      "name": "Rasmus Josefsson",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13612444?v=4",
+      "profile": "https://rasmusjosefsson.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "repoHost": "https://github.com",
