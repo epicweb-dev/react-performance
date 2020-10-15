@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       {/*
-      🐨 Wrap this div in a React.Profile component
+      🐨 Wrap this div in a React.Profiler component
       give it the ID of "counter" and pass reportProfile
       to the onRender prop.
       */}
