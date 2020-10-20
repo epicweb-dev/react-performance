@@ -25,7 +25,7 @@ you'll need to know if you're attending a live version of this workshop.
 ## Pre-Workshop Instructions/Requirements
 
 Please watch the
-[EpicReact.Dev Welcome Videos](https://epicreact.dev/modules/welcome-to-epic-react/welcome-to-epic-react)
+[EpicReact.Dev Welcome Videos](https://epicreact.dev/modules/welcome-to-epic-react)
 (~30 minutes). If you follow along with this repo, you should be all set up by
 the end of it and you'll be ready to go.
 
