@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {useSpring, animated} from 'react-spring'
 import {useWheel} from 'react-use-gesture'
 import {geoOrthographic, geoPath} from 'd3-geo'

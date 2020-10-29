@@ -1,6 +1,6 @@
 // http://localhost:3000/isolated/examples/code-splitting/main.js
 
-import React from 'react'
+import * as React from 'react'
 
 const DepsIncluded = React.lazy(() =>
   import(/* webpackChunkName: "deps" */ './deps-included'),

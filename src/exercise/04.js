@@ -1,7 +1,7 @@
 // Window large lists with react-virtual
 // http://localhost:3000/isolated/exercise/04.js
 
-import React from 'react'
+import * as React from 'react'
 // 🐨 import the useVirtual hook from react-virtual
 // import {useVirtual} from 'react-virtual'
 import {useCombobox} from '../use-combobox'

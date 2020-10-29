@@ -2,7 +2,7 @@
 // 💯 use recoil (final)
 // http://localhost:3000/isolated/final/06.extra-4.js
 
-import React from 'react'
+import * as React from 'react'
 import {useForceRerender, useDebouncedState, AppGrid} from '../utils'
 import {RecoilRoot, useRecoilState, useRecoilCallback, atomFamily} from 'recoil'
 

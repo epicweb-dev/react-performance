@@ -1,6 +1,6 @@
 // http://localhost:3000/isolated/examples/unnecessary-rerenders.js
 
-import React from 'react'
+import * as React from 'react'
 
 function CountButton({count, onClick}) {
   return <button onClick={onClick}>{count}</button>

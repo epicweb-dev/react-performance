@@ -1,7 +1,7 @@
 // Fix "perf death by a thousand cuts"
 // http://localhost:3000/isolated/exercise/06.js
 
-import React from 'react'
+import * as React from 'react'
 import {
   useForceRerender,
   useDebouncedState,

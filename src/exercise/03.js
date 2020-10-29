@@ -1,7 +1,7 @@
 // React.memo for reducing unnecessary re-renders
 // http://localhost:3000/isolated/exercise/03.js
 
-import React from 'react'
+import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'

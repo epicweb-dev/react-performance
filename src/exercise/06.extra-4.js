@@ -2,7 +2,7 @@
 // 💯 use recoil (exercise)
 // http://localhost:3000/isolated/exercise/06.extra-4.js
 
-import React from 'react'
+import * as React from 'react'
 import {
   useForceRerender,
   useDebouncedState,

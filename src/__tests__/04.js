@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
 import {render, waitFor, screen} from '@testing-library/react'
 import {build, fake, sequence} from '@jackfranklin/test-data-bot'

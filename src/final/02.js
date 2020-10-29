@@ -1,7 +1,7 @@
 // useMemo for expensive calculations
 // http://localhost:3000/isolated/final/02.js
 
-import React from 'react'
+import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../filter-cities'
 import {useForceRerender} from '../utils'
