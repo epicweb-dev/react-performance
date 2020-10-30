@@ -202,6 +202,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Wekios",
+      "name": "Veljko Blagojevic",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/28904821?v=4",
+      "profile": "http://www.veljkoblagojevic.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
