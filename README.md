@@ -189,6 +189,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/matchai"><img src="https://avatars0.githubusercontent.com/u/4658208?v=4" width="100px;" alt=""/><br /><sub><b>Matan Kushner</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=matchai" title="Documentation">📖</a></td>
     <td align="center"><a href="https://michaeldeboey.be"><img src="https://avatars3.githubusercontent.com/u/6643991?v=4" width="100px;" alt=""/><br /><sub><b>Michaël De Boey</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=MichaelDeBoey" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://www.veljkoblagojevic.com"><img src="https://avatars2.githubusercontent.com/u/28904821?v=4" width="100px;" alt=""/><br /><sub><b>Veljko Blagojevic</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Wekios" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
