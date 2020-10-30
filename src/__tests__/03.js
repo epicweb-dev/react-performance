@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import chalk from 'chalk'
 import '../final/03'
 // import '../final/03-extra.1'

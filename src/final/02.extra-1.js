@@ -2,7 +2,7 @@
 // 💯 Put getItems into a Web Worker
 // http://localhost:3000/isolated/final/02.extra-1.js
 
-import React from 'react'
+import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'

@@ -2,7 +2,7 @@
 // 💯 Use a custom comparator function
 // http://localhost:3000/isolated/final/03.extra-1.js
 
-import React from 'react'
+import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'

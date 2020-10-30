@@ -2,7 +2,7 @@
 // 💯 pass only primitive values
 // http://localhost:3000/isolated/final/03.extra-2.js
 
-import React from 'react'
+import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'

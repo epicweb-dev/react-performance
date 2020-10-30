@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import useInterval from 'use-interval'
 
 function useSafeDispatch(dispatch) {

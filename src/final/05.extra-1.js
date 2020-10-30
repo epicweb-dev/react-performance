@@ -2,7 +2,7 @@
 // 💯 separate the contexts
 // http://localhost:3000/isolated/final/05.extra-1.js
 
-import React from 'react'
+import * as React from 'react'
 import {
   useForceRerender,
   useDebouncedState,
