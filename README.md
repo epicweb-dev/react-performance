@@ -187,6 +187,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/Snaptags"><img src="https://avatars1.githubusercontent.com/u/1249745?v=4" width="100px;" alt=""/><br /><sub><b>Markus Lasermann</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Snaptags" title="Documentation">📖</a></td>
     <td align="center"><a href="https://vk.com/vasilii_kovalev"><img src="https://avatars0.githubusercontent.com/u/10310491?v=4" width="100px;" alt=""/><br /><sub><b>Vasilii Kovalev</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=vasilii-kovalev" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/matchai"><img src="https://avatars0.githubusercontent.com/u/4658208?v=4" width="100px;" alt=""/><br /><sub><b>Matan Kushner</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=matchai" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://michaeldeboey.be"><img src="https://avatars3.githubusercontent.com/u/6643991?v=4" width="100px;" alt=""/><br /><sub><b>Michaël De Boey</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=MichaelDeBoey" title="Code">💻</a></td>
   </tr>
 </table>
 
