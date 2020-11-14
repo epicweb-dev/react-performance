@@ -198,12 +198,12 @@ Thanks goes to these wonderful people
   </tr>
   <tr>
     <td align="center"><a href="http://www.veljkoblagojevic.com"><img src="https://avatars2.githubusercontent.com/u/28904821?v=4" width="100px;" alt=""/><br /><sub><b>Veljko Blagojevic</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Wekios" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://bobbywarner.com"><img src="https://avatars0.githubusercontent.com/u/554961?v=4" width="100px;" alt=""/><br /><sub><b>Bobby Warner</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=bobbywarner" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
