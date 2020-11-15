@@ -220,6 +220,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Foxandxss",
+      "name": "Jesús Rodríguez",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1087957?v=4",
+      "profile": "http://angular-tips.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
