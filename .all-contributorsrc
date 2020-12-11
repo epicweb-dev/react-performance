@@ -229,6 +229,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "ValentinH",
+      "name": "Valentin Hervieu",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2678610?v=4",
+      "profile": "https://valentin-hervieu.fr",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "repoHost": "https://github.com",
