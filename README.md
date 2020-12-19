@@ -201,6 +201,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://bobbywarner.com"><img src="https://avatars0.githubusercontent.com/u/554961?v=4" width="100px;" alt=""/><br /><sub><b>Bobby Warner</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=bobbywarner" title="Code">💻</a></td>
     <td align="center"><a href="http://angular-tips.com"><img src="https://avatars2.githubusercontent.com/u/1087957?v=4" width="100px;" alt=""/><br /><sub><b>Jesús Rodríguez</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Foxandxss" title="Documentation">📖</a></td>
     <td align="center"><a href="https://valentin-hervieu.fr"><img src="https://avatars2.githubusercontent.com/u/2678610?v=4" width="100px;" alt=""/><br /><sub><b>Valentin Hervieu</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/issues?q=author%3AValentinH" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://davsanchez.com"><img src="https://avatars2.githubusercontent.com/u/2999604?v=4" width="100px;" alt=""/><br /><sub><b>David Sánchez</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=d4vsanchez" title="Documentation">📖</a></td>
   </tr>
 </table>
 
