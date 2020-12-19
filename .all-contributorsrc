@@ -238,6 +238,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "d4vsanchez",
+      "name": "David Sánchez",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2999604?v=4",
+      "profile": "https://davsanchez.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
