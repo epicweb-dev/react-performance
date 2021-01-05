@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://epicreact.dev">⚡ React Performance 🚀 EpicReact.Dev</a></h1>
+  <h1 align="center"><a href="https://epicreact.dev/performance">⚡ React Performance 🚀 EpicReact.Dev</a></h1>
   <strong>
     React is fast, until it isn't
   </strong>
