@@ -43,7 +43,6 @@ function Menu({
         - size: set the "height" style to this value
         - start: this is how many pixels from the scrollTop this item should be
       */}
-      {/* 💣 delete the second argument of "index", you can get that from the virtualRow object */}
       {items.map((item, index) => (
         <ListItem
           key={item.id}
