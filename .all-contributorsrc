@@ -256,6 +256,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "arjenbloemsma",
+      "name": "Arjen Bloemsma",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8061052?v=4",
+      "profile": "https://www.arjenbloemsma.nl",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
