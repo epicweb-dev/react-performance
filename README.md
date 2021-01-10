@@ -203,6 +203,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://valentin-hervieu.fr"><img src="https://avatars2.githubusercontent.com/u/2678610?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Valentin Hervieu</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/issues?q=author%3AValentinH" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://davsanchez.com"><img src="https://avatars2.githubusercontent.com/u/2999604?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Sánchez</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=d4vsanchez" title="Documentation">📖</a></td>
     <td align="center"><a href="http://merott.com"><img src="https://avatars3.githubusercontent.com/u/1757708?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Merott Movahedi</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Merott" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://www.arjenbloemsma.nl"><img src="https://avatars1.githubusercontent.com/u/8061052?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arjen Bloemsma</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=arjenbloemsma" title="Documentation">📖</a></td>
   </tr>
 </table>
 
