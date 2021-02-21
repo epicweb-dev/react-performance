@@ -204,6 +204,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://merott.com"><img src="https://avatars3.githubusercontent.com/u/1757708?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Merott Movahedi</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=Merott" title="Documentation">📖</a></td>
     <td align="center"><a href="https://www.arjenbloemsma.nl"><img src="https://avatars1.githubusercontent.com/u/8061052?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arjen Bloemsma</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=arjenbloemsma" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://www.linkedin.com/in/syed-naveed-elahi/"><img src="https://avatars.githubusercontent.com/u/19769879?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Naveed Elahi</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=BboyStatix" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
