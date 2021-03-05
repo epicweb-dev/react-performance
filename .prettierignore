@@ -1,3 +1,5 @@
 node_modules
 coverage
 build
+src/globe/countries-110m.json
+src/us-cities.json
