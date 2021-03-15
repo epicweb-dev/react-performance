@@ -274,6 +274,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "knappe",
+      "name": "Tyler Knappe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/138048?v=4",
+      "profile": "http://tknappe.com/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
