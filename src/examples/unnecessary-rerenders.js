@@ -32,3 +32,8 @@ function Example() {
 }
 
 export default Example
+
+/*
+eslint
+  no-func-assign: 0,
+*/
