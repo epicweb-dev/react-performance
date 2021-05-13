@@ -5,43 +5,28 @@ import userEvent from '@testing-library/user-event'
 import App from '../final/06'
 // import App from '../exercise/06'
 
-beforeEach(() => {
-  jest.spyOn(React, 'useState')
-  jest.spyOn(React, 'useReducer')
-})
+// sorry, I just couldn't find a reliable way to test your implementation
+// so this test just ensures you don't break anything 😅
 
-test('colocates state properly', () => {
+test('app continues to work', () => {
   render(<App />)
+  alfredTip(() => {
+    const dogNameInput = screen.getByRole('textbox', {name: /dog name/i})
+    userEvent.type(dogNameInput, 'Gemma')
+    expect(screen.getByText('Gemma')).toBeInTheDocument()
+  }, `Unable to type a dog name and have it printed out.`)
 
-  alfredTip(
-    () =>
-      expect(React.useReducer).not.toHaveBeenCalledWith(
-        expect.any(Function),
-        expect.objectContaining({dogName: expect.anything()}),
-      ),
-    'React.useReducer should not be called with an initial state object value that includes a dogName property',
-  )
-
-  const [appReducer] = React.useReducer.mock.calls.find(
-    ([fn, init]) => init.grid,
-  )
-  alfredTip(
-    () => expect(appReducer).toBeInstanceOf(Function),
-    `Unable to find the appReducer function. Ask the instructor what's going on. You shouldn't see this.`,
-  )
-
-  alfredTip(
-    () =>
-      expect(() => appReducer({}, {type: 'TYPED_IN_DOG_INPUT'})).toThrow(
-        /TYPED_IN_DOG_INPUT/i,
-      ),
-    `The appReducer shouldn't handle the event type TYPED_IN_DOG_INPUT anymore`,
-  )
-
-  const testDogName = 'TEST_DOG_NAME'
-  userEvent.type(screen.getByLabelText(/dog name/i), testDogName)
-  alfredTip(
-    () => expect(screen.getByText(testDogName)).toBeInTheDocument(),
-    'The DogName component is not working.',
-  )
+  alfredTip(() => {
+    const firstButton = document.body.querySelector('button.cell')
+    const numberBefore = firstButton.textContent
+    userEvent.click(firstButton)
+    let numberAfter = firstButton.textContent
+    if (numberAfter === numberBefore) {
+      // it's possible that the randomization logic came up with the same number
+      // but it's much less likely that would happen twice 😅
+      userEvent.click(firstButton)
+      numberAfter = firstButton.textContent
+    }
+    expect(numberAfter).not.toBe(numberBefore)
+  }, `Unable to click the first cell to update its value.`)
 })

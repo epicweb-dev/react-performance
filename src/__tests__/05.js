@@ -1,52 +1,32 @@
 import * as React from 'react'
-import chalk from 'chalk'
-import {render} from '@testing-library/react'
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from '../final/05'
 // import App from '../exercise/05'
 
-beforeEach(() => {
-  jest.spyOn(React, 'useMemo')
-})
+// sorry, I just couldn't find a reliable way to test your implementation
+// so this test just ensures you don't break anything 😅
 
-test('memoizes state properly', () => {
+test('app continues to work', () => {
   render(<App />)
-  const memoCall = React.useMemo.mock.calls.find(
-    ([fn, deps]) => deps && deps.some && deps.some(d => d && d.grid),
-  )
-  if (!memoCall) {
-    throw new Error(
-      `🚨  ${chalk.red(
-        'AppProvider must call React.useMemo with the state as a dependency',
-      )}`,
-    )
-  }
-  const [memoFn, deps] = memoCall
-  const [state, dispatch] = memoFn()
+  alfredTip(() => {
+    const dogNameInput = screen.getByRole('textbox', {name: /dog name/i})
+    userEvent.type(dogNameInput, 'Gemma')
+    expect(screen.getByText('Gemma')).toBeInTheDocument()
+  }, `Unable to type a dog name and have it printed out.`)
 
-  if (!state || !dispatch) {
-    throw new Error(
-      `🚨  ${chalk.red(
-        'The useMemo callback must return an array that includes the state object and dispatch function',
-      )}`,
-    )
-  }
-
-  if (typeof dispatch !== 'function') {
-    throw new Error(
-      `🚨  ${chalk.red(
-        'The second element in the array returned from the useMemo callback must be the dispatch function',
-      )}`,
-    )
-  }
-
-  if (
-    !(deps.length === 1 && deps.includes(state)) &&
-    !(deps.length === 2 && deps.includes(state) && deps.includes(dispatch))
-  ) {
-    throw new Error(
-      `🚨  ${chalk.red(
-        'The useMemo dependency array must be an array that includes only the state (and optionally the dispatch function)',
-      )}`,
-    )
-  }
+  alfredTip(() => {
+    const firstButton = document.body.querySelector('button.cell')
+    const numberBefore = firstButton.textContent
+    userEvent.click(firstButton)
+    let numberAfter = firstButton.textContent
+    if (numberAfter === numberBefore) {
+      // it's possible that the randomization logic came up with the same number
+      // but it's much less likely that would happen twice 😅
+      userEvent.click(firstButton)
+      numberAfter = firstButton.textContent
+    }
+    expect(numberAfter).not.toBe(numberBefore)
+  }, `Unable to click the first cell to update its value.`)
 })
