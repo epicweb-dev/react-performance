@@ -293,6 +293,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "esplito",
+      "name": "Emil Esplund",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10499067?v=4",
+      "profile": "https://emildev.netlify.app/",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "repoHost": "https://github.com",
