@@ -9,7 +9,7 @@ beforeEach(() => {
   window.navigator.geolocation = {
     getCurrentPosition: async () => ({
       coords: {
-        logitude: 321,
+        longitude: 321,
         latitude: 123,
       },
     }),
