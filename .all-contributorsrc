@@ -302,6 +302,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "jstheoriginal",
+      "name": "Justin Stanley",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5117473?v=4",
+      "profile": "http://swiftwithjustin.co",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "repoHost": "https://github.com",
