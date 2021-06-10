@@ -16,8 +16,8 @@
   "dependencies": {
     "@jackfranklin/test-data-bot": "^1.3.0",
     "@kentcdodds/react-workshop-app": "^4.3.0",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
     "chalk": "^4.1.1",
     "codegen.macro": "^4.1.0",
@@ -28,7 +28,7 @@
     "match-sorter": "^6.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-spring": "^9.1.2",
+    "react-spring": "^9.2.3",
     "react-use-gesture": "^9.1.3",
     "react-virtual": "^2.7.1",
     "recoil": "0.1.2",
@@ -39,13 +39,13 @@
     "workerize-loader": "^1.3.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.4",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.7",
     "husky": "^4.3.8",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.3.0",
+    "prettier": "^2.3.1",
     "react-scripts": "^4.0.3",
-    "serve": "^11.3.2"
+    "serve": "^12.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
