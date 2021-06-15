@@ -157,9 +157,9 @@ function App() {
           highlightedIndex={highlightedIndex}
           selectedItem={selectedItem}
           // 🐨 pass the following props:
-          // listRef: listRef
-          // virtualRows: rowVirtualizer.virtualItems
-          // totalHeight: rowVirtualizer.totalSize
+          // listRef={listRef}
+          // virtualRows={rowVirtualizer.virtualItems}
+          // totalHeight={rowVirtualizer.totalSize}
         />
       </div>
     </div>
