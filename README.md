@@ -211,6 +211,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/0xnoob"><img src="https://avatars.githubusercontent.com/u/49793844?v=4?s=100" width="100px;" alt=""/><br /><sub><b>0xnoob</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=0xnoob" title="Code">💻</a> <a href="https://github.com/kentcdodds/react-performance/commits?author=0xnoob" title="Documentation">📖</a></td>
     <td align="center"><a href="https://emildev.netlify.app/"><img src="https://avatars.githubusercontent.com/u/10499067?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Emil Esplund</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=esplito" title="Tests">⚠️</a></td>
     <td align="center"><a href="http://swiftwithjustin.co"><img src="https://avatars.githubusercontent.com/u/5117473?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Justin Stanley</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=jstheoriginal" title="Tests">⚠️</a></td>
+    <td align="center"><a href="http://pavlos.dev"><img src="https://avatars.githubusercontent.com/u/100233?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pavlos Vinieratos</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=pvinis" title="Documentation">📖</a></td>
   </tr>
 </table>
 
