@@ -338,6 +338,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mstosio",
+      "name": "Michal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10117225?v=4",
+      "profile": "http://codewars.com/users/mstosio",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "repoHost": "https://github.com",
