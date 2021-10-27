@@ -216,6 +216,7 @@ Thanks goes to these wonderful people
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/LochMess"><img src="https://avatars.githubusercontent.com/u/18762221?v=4?s=100" width="100px;" alt=""/><br /><sub><b>LochMess</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=LochMess" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://codewars.com/users/mstosio"><img src="https://avatars.githubusercontent.com/u/10117225?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michal</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=mstosio" title="Documentation">📖</a></td>
   </tr>
 </table>
 
