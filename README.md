@@ -124,13 +124,28 @@ however _sometimes_ you can accomplish the task and the tests still fail if you
 implement things differently than I do in my solution, so don't look to them as
 a complete authority.
 
+## TypeScript
+
+You can go through this workshop with TypeScript or JavaScript. All the files
+are TypeScript files, but if you run the script in `./scripts/remove-ts` then
+all the files will be renamed and all the TypeScript typing code will be
+removed.
+
+If you have experience with TypeScript then I suggest you go through the
+workshop material with TypeScript. However, if you don't have experience with
+TypeScript, I strongly advise you remove the TypeScript. It's very difficult to
+learn two things at once and you'll likely find yourself frustrated.
+
+If you _do_ want to turn on "strict mode" with TypeScript, you can go to
+`config/tsconfig.exercise.json` and configure it there.
+
 ### Exercises
 
 - `src/exercise/00.md`: Background, Exercise Instructions, Extra Credit
-- `src/exercise/00.js`: Exercise with Emoji helpers
-- `src/__tests__/00.js`: Tests
-- `src/final/00.js`: Final version
-- `src/final/00.extra-0.js`: Final version of extra credit
+- `src/exercise/00.tsx`: Exercise with Emoji helpers
+- `src/__tests__/00.tsx`: Tests
+- `src/final/00.tsx`: Final version
+- `src/final/00.extra-0.tsx`: Final version of extra credit
 
 The purpose of the exercise is **not** for you to work through all the material.
 It's intended to get your brain thinking about the right questions to ask me as
