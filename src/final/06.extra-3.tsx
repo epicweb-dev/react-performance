@@ -11,15 +11,47 @@ import {
   updateGridCellState,
 } from '../utils'
 
-const AppStateContext = React.createContext()
-const AppDispatchContext = React.createContext()
-const DogContext = React.createContext()
+type IAppAction =
+  | {
+      type: 'UPDATE_GRID'
+    }
+  | {
+      type: 'UPDATE_GRID_CELL'
+      row: number
+      column: number
+    }
+
+type IDogAction = {
+  type: 'TYPED_IN_DOG_INPUT'
+  dogName: string
+}
+
+type IAppState = {
+  grid: number[][]
+}
+
+type IDogState = {
+  dogName: string
+}
+
+type ICellProps = {
+  row: number
+  column: number
+  cell?: number
+}
+
+const AppStateContext = React.createContext<IAppState | null>(null)
+const AppDispatchContext =
+  React.createContext<React.Dispatch<IAppAction> | null>(null)
+const DogContext = React.createContext<
+  [IDogState, React.Dispatch<IDogAction>] | null
+>(null)
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state, action) {
+function appReducer(state: IAppState, action: IAppAction) {
   switch (action.type) {
     case 'UPDATE_GRID_CELL': {
       return {...state, grid: updateGridCellState(state.grid, action)}
@@ -28,12 +60,13 @@ function appReducer(state, action) {
       return {...state, grid: updateGridState(state.grid)}
     }
     default: {
+      //@ts-expect-error
       throw new Error(`Unhandled action type: ${action.type}`)
     }
   }
 }
 
-function AppProvider({children}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
@@ -62,7 +95,7 @@ function useAppDispatch() {
   return context
 }
 
-function dogReducer(state, action) {
+function dogReducer(state: IDogState, action: IDogAction) {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -73,9 +106,9 @@ function dogReducer(state, action) {
   }
 }
 
-function DogProvider(props) {
+const DogProvider: React.FunctionComponent = props => {
   const [state, dispatch] = React.useReducer(dogReducer, {dogName: ''})
-  const value = [state, dispatch]
+  const value: [IDogState, React.Dispatch<IDogAction>] = [state, dispatch]
   return <DogContext.Provider value={value} {...props} />
 }
 
@@ -87,7 +120,7 @@ function useDogState() {
   return context
 }
 
-function Grid() {
+let Grid: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -105,17 +138,24 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-function withStateSlice(Comp, slice) {
+function withStateSlice<T>(
+  Comp: React.FunctionComponent<T>,
+  slice: (state: IAppState, props: T) => React.PropsWithRef<T>,
+) {
   const MemoComp = React.memo(Comp)
-  function Wrapper(props, ref) {
+  const Wrapper = (props: T, ref: React.ForwardedRef<HTMLElement>) => {
     const state = useAppState()
-    return <MemoComp ref={ref} state={slice(state, props)} {...props} />
+
+    return <MemoComp ref={ref} {...slice(state, props)} />
   }
+
   Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
   return React.memo(React.forwardRef(Wrapper))
 }
 
-function Cell({state: cell, row, column}) {
+let Cell: React.FunctionComponent<ICellProps> = ({cell, row, column}) => {
+  if (!cell) throw new Error('Cell must be passed via withStateSlice.')
+
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -131,13 +171,16 @@ function Cell({state: cell, row, column}) {
     </button>
   )
 }
-Cell = withStateSlice(Cell, (state, {row, column}) => state.grid[row][column])
+Cell = withStateSlice(Cell, (state, props) => ({
+  ...props,
+  cell: Array.from(state.grid[props.row] ?? [])[props.column] ?? 0,
+}))
 
 function DogNameInput() {
   const [state, dispatch] = useDogState()
   const {dogName} = state
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }

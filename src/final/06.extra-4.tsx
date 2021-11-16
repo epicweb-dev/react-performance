@@ -6,15 +6,34 @@ import * as React from 'react'
 import {useForceRerender, useDebouncedState, AppGrid} from '../utils'
 import {RecoilRoot, useRecoilState, useRecoilCallback, atomFamily} from 'recoil'
 
-const AppStateContext = React.createContext()
+type IAppAction = {
+  type: 'TYPED_IN_DOG_INPUT'
+  dogName: string
+}
+
+type IAppState = {
+  dogName: string
+}
+type ICellProps = {
+  row: number
+  column: number
+  cell?: number
+}
+
+const AppStateContext = React.createContext<
+  [IAppState, React.Dispatch<IAppAction>] | null
+>(null)
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-const cellAtoms = atomFamily({
+const cellAtoms = atomFamily<number, Pick<ICellProps, 'row' | 'column'>>({
   key: 'cells',
-  default: ({row, column}) => initialGrid[row][column],
+
+  // kinda hacky way to fix this issue
+  // there's possible a better way to do this...
+  default: ({row, column}) => Array.from(initialGrid[row] ?? [])[column] ?? 0,
 })
 
 function useUpdateGrid() {
@@ -29,7 +48,7 @@ function useUpdateGrid() {
   })
 }
 
-function appReducer(state, action) {
+function appReducer(state: IAppState, action: IAppAction) {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -40,11 +59,11 @@ function appReducer(state, action) {
   }
 }
 
-function AppProvider({children}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     dogName: '',
   })
-  const value = [state, dispatch]
+  const value: [IAppState, React.Dispatch<IAppAction>] = [state, dispatch]
   return (
     <AppStateContext.Provider value={value}>
       {children}
@@ -77,7 +96,7 @@ function Grid() {
   )
 }
 
-function Cell({row, column}) {
+const Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
   const [cell, setCell] = useRecoilState(cellAtoms({row, column}))
   const handleClick = () => setCell(Math.random() * 100)
   return (
@@ -98,7 +117,7 @@ function DogNameInput() {
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }

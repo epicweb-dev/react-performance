@@ -10,14 +10,34 @@ import {
   updateGridCellState,
 } from '../utils'
 
-const AppStateContext = React.createContext()
-const AppDispatchContext = React.createContext()
+type IAppAction =
+  | {
+      type: 'UPDATE_GRID'
+    }
+  | {
+      type: 'UPDATE_GRID_CELL'
+      row: number
+      column: number
+    }
+
+type IAppState = {
+  grid: number[][]
+}
+
+type ICellProps = {
+  row: number
+  column: number
+}
+
+const AppStateContext = React.createContext<IAppState | null>(null)
+const AppDispatchContext =
+  React.createContext<React.Dispatch<IAppAction> | null>(null)
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state, action) {
+function appReducer(state: IAppState, action: IAppAction) {
   switch (action.type) {
     case 'UPDATE_GRID_CELL': {
       return {...state, grid: updateGridCellState(state.grid, action)}
@@ -26,12 +46,13 @@ function appReducer(state, action) {
       return {...state, grid: updateGridState(state.grid)}
     }
     default: {
+      //@ts-expect-error
       throw new Error(`Unhandled action type: ${action.type}`)
     }
   }
 }
 
-function AppProvider({children}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
@@ -60,7 +81,7 @@ function useAppDispatch() {
   return context
 }
 
-function Grid() {
+let Grid: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -78,9 +99,13 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-function Cell({row, column}) {
+let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
   const state = useAppState()
-  const cell = state.grid[row][column]
+
+  // kinda hacky way to fix this issue
+  // there's possible a better way to do this...
+  const cell = Array.from(state.grid[row] ?? [])[column] ?? 0
+
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -101,7 +126,7 @@ Cell = React.memo(Cell)
 function DogNameInput() {
   const [dogName, setDogName] = React.useState('')
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newDogName = event.target.value
     setDogName(newDogName)
   }

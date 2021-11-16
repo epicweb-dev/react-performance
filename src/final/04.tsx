@@ -6,8 +6,56 @@ import {useVirtual} from 'react-virtual'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../workerized-filter-cities'
 import {useAsync, useForceRerender} from '../utils'
+import {
+  UseComboboxGetMenuPropsOptions,
+  GetPropsCommonOptions,
+  UseComboboxGetItemPropsOptions,
+} from 'downshift'
+import {UnpackArray} from '../types'
 
-const getVirtualRowStyles = ({size, start}) => ({
+type Items = ReturnType<typeof getItems>
+
+type IMenuProps = {
+  items: Items
+  getMenuProps: (
+    options?: UseComboboxGetMenuPropsOptions | undefined,
+    otherOptions?: GetPropsCommonOptions | undefined,
+  ) => any
+  getItemProps: (
+    options: UseComboboxGetItemPropsOptions<{
+      id: string
+      country: string
+      name: string
+      lat: string
+      lng: string
+    }>,
+  ) => any
+  highlightedIndex: number
+  selectedItem: UnpackArray<Items> | null
+  virtualRows: Array<{
+    index: number
+    size: number
+    start: number
+  }>
+  totalHeight: number
+  listRef: React.MutableRefObject<HTMLElement | null>
+}
+
+type IListItemProps = Pick<IMenuProps, 'getItemProps'> & {
+  item: UnpackArray<Items>
+  index: number
+  isHighlighted: boolean
+  isSelected: boolean
+  style: React.CSSProperties
+}
+
+const getVirtualRowStyles = ({
+  size,
+  start,
+}: {
+  size: number
+  start: number
+}): React.CSSProperties => ({
   position: 'absolute',
   top: 0,
   left: 0,
@@ -16,7 +64,7 @@ const getVirtualRowStyles = ({size, start}) => ({
   transform: `translateY(${start}px)`,
 })
 
-function Menu({
+const Menu: React.FunctionComponent<IMenuProps> = ({
   items,
   getMenuProps,
   getItemProps,
@@ -25,7 +73,7 @@ function Menu({
   listRef,
   virtualRows,
   totalHeight,
-}) {
+}) => {
   return (
     <ul {...getMenuProps({ref: listRef})}>
       <li style={{height: totalHeight}} />
@@ -50,7 +98,7 @@ function Menu({
   )
 }
 
-function ListItem({
+const ListItem: React.FunctionComponent<IListItemProps> = ({
   getItemProps,
   item,
   index,
@@ -58,7 +106,7 @@ function ListItem({
   isSelected,
   style,
   ...props
-}) {
+}) => {
   return (
     <li
       {...getItemProps({
@@ -79,12 +127,19 @@ function App() {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 
-  const {data: items, run} = useAsync({data: [], status: 'pending'})
+  const {data, run} = useAsync<Items>({data: [], status: 'pending'})
+  const items = data ?? []
+
   React.useEffect(() => {
-    run(getItems(inputValue))
+    const getItemsPromise = new Promise<Items>(resolve => {
+      const items = getItems(inputValue)
+      resolve(items)
+    })
+
+    run(getItemsPromise)
   }, [inputValue, run])
 
-  const listRef = React.useRef()
+  const listRef = React.useRef<HTMLElement | null>(null)
 
   const rowVirtualizer = useVirtual({
     size: items.length,
@@ -105,7 +160,8 @@ function App() {
   } = useCombobox({
     items,
     inputValue,
-    onInputValueChange: ({inputValue: newValue}) => setInputValue(newValue),
+    onInputValueChange: ({inputValue: newValue}) =>
+      setInputValue(String(newValue)),
     onSelectedItemChange: ({selectedItem}) =>
       alert(
         selectedItem
@@ -115,7 +171,8 @@ function App() {
     itemToString: item => (item ? item.name : ''),
     scrollIntoView: () => {},
     onHighlightedIndexChange: ({highlightedIndex}) =>
-      highlightedIndex !== -1 && rowVirtualizer.scrollToIndex(highlightedIndex),
+      highlightedIndex !== -1 &&
+      rowVirtualizer.scrollToIndex(highlightedIndex ?? 0),
   })
 
   return (
@@ -125,7 +182,10 @@ function App() {
         <label {...getLabelProps()}>Find a city</label>
         <div {...getComboboxProps()}>
           <input {...getInputProps({type: 'text'})} />
-          <button onClick={() => selectItem(null)} aria-label="toggle menu">
+          <button
+            onClick={() => selectItem({} as UnpackArray<Items>)}
+            aria-label="toggle menu"
+          >
             &#10005;
           </button>
         </div>

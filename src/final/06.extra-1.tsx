@@ -1,6 +1,6 @@
-// Optimize context value
-// 💯 separate the contexts
-// http://localhost:3000/isolated/final/05.extra-1.js
+// Fix "perf death by a thousand cuts"
+// 💯 separate contexts
+// http://localhost:3000/isolated/final/06.extra-1.js
 
 import * as React from 'react'
 import {
@@ -11,18 +11,47 @@ import {
   updateGridCellState,
 } from '../utils'
 
-const AppStateContext = React.createContext()
-const AppDispatchContext = React.createContext()
+type IAppAction =
+  | {
+      type: 'UPDATE_GRID'
+    }
+  | {
+      type: 'UPDATE_GRID_CELL'
+      row: number
+      column: number
+    }
+
+type IDogAction = {
+  type: 'TYPED_IN_DOG_INPUT'
+  dogName: string
+}
+
+type IAppState = {
+  grid: number[][]
+}
+
+type IDogState = {
+  dogName: string
+}
+
+type ICellProps = {
+  row: number
+  column: number
+}
+
+const AppStateContext = React.createContext<IAppState | null>(null)
+const AppDispatchContext =
+  React.createContext<React.Dispatch<IAppAction> | null>(null)
+const DogContext = React.createContext<
+  [IDogState, React.Dispatch<IDogAction>] | null
+>(null)
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state, action) {
+function appReducer(state: IAppState, action: IAppAction) {
   switch (action.type) {
-    case 'TYPED_IN_DOG_INPUT': {
-      return {...state, dogName: action.dogName}
-    }
     case 'UPDATE_GRID_CELL': {
       return {...state, grid: updateGridCellState(state.grid, action)}
     }
@@ -30,14 +59,14 @@ function appReducer(state, action) {
       return {...state, grid: updateGridState(state.grid)}
     }
     default: {
+      //@ts-expect-error
       throw new Error(`Unhandled action type: ${action.type}`)
     }
   }
 }
 
-function AppProvider({children}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
-    dogName: '',
     grid: initialGrid,
   })
   return (
@@ -65,7 +94,32 @@ function useAppDispatch() {
   return context
 }
 
-function Grid() {
+function dogReducer(state: IDogState, action: IDogAction) {
+  switch (action.type) {
+    case 'TYPED_IN_DOG_INPUT': {
+      return {...state, dogName: action.dogName}
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
+}
+
+const DogProvider: React.FunctionComponent = props => {
+  const [state, dispatch] = React.useReducer(dogReducer, {dogName: ''})
+  const value: [IDogState, React.Dispatch<IDogAction>] = [state, dispatch]
+  return <DogContext.Provider value={value} {...props} />
+}
+
+function useDogState() {
+  const context = React.useContext(DogContext)
+  if (!context) {
+    throw new Error('useDogState must be used within the DogStateProvider')
+  }
+  return context
+}
+
+let Grid: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -83,9 +137,13 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-function Cell({row, column}) {
+let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
   const state = useAppState()
-  const cell = state.grid[row][column]
+
+  // kinda hacky way to fix this issue
+  // there's possible a better way to do this...
+  const cell = Array.from(state.grid[row] ?? [])[column] ?? 0
+
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -104,11 +162,10 @@ function Cell({row, column}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const state = useAppState()
-  const dispatch = useAppDispatch()
+  const [state, dispatch] = useDogState()
   const {dogName} = state
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
@@ -135,12 +192,14 @@ function App() {
   return (
     <div className="grid-app">
       <button onClick={forceRerender}>force rerender</button>
-      <AppProvider>
-        <div>
+      <div>
+        <DogProvider>
           <DogNameInput />
+        </DogProvider>
+        <AppProvider>
           <Grid />
-        </div>
-      </AppProvider>
+        </AppProvider>
+      </div>
     </div>
   )
 }
