@@ -2,11 +2,27 @@
 
 import * as React from 'react'
 
-function CountButton({count, onClick}) {
+type ICountButtonProps = {
+  count: number
+  onClick: React.MouseEventHandler<HTMLButtonElement>
+}
+
+type INameInputProps = {
+  name: string
+  onNameChange: (changedName: string) => void
+}
+
+const CountButton: React.FunctionComponent<ICountButtonProps> = ({
+  count,
+  onClick,
+}) => {
   return <button onClick={onClick}>{count}</button>
 }
 
-function NameInput({name, onNameChange}) {
+const NameInput: React.FunctionComponent<INameInputProps> = ({
+  name,
+  onNameChange,
+}) => {
   return (
     <label>
       Name: <input value={name} onChange={e => onNameChange(e.target.value)} />
@@ -14,7 +30,7 @@ function NameInput({name, onNameChange}) {
   )
 }
 
-function Example() {
+const Example: React.FunctionComponent = () => {
   const [name, setName] = React.useState('')
   const [count, setCount] = React.useState(0)
   const increment = () => setCount(c => c + 1)
