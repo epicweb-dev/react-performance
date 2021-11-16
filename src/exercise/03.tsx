@@ -91,9 +91,10 @@ const ListItem: React.FunctionComponent<IListItemProps> = ({
     />
   )
 }
+
 // 🐨 Memoize the ListItem here using React.memo
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 

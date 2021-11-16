@@ -113,7 +113,7 @@ ListItem = React.memo(ListItem, (prevProps, nextProps) => {
   return true
 })
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 

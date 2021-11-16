@@ -10,8 +10,7 @@ import {
   GetPropsCommonOptions,
   UseComboboxGetItemPropsOptions,
 } from 'downshift'
-
-type UnpackArray<T extends any[]> = T extends Array<infer R> ? R : never
+import {UnpackArray} from '../types'
 
 type Items = ReturnType<typeof getItems>
 

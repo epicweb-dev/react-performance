@@ -44,7 +44,7 @@ const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state: IAppState, action: IAppAction) {
+const appReducer = (state: IAppState, action: IAppAction) => {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -76,7 +76,7 @@ const AppProvider: React.FunctionComponent = ({children}) => {
   )
 }
 
-function useAppState() {
+const useAppState = () => {
   const context = React.useContext(AppStateContext)
   if (!context) {
     throw new Error('useAppState must be used within the AppProvider')
@@ -84,7 +84,7 @@ function useAppState() {
   return context
 }
 
-function useAppDispatch() {
+const useAppDispatch = () => {
   const context = React.useContext(AppDispatchContext)
   if (!context) {
     throw new Error('useAppDispatch must be used within the AppProvider')
@@ -134,12 +134,12 @@ let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
 }
 Cell = React.memo(Cell)
 
-function DogNameInput() {
+const DogNameInput = () => {
   const state = useAppState()
   const dispatch = useAppDispatch()
   const {dogName} = state
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
@@ -161,7 +161,8 @@ function DogNameInput() {
     </form>
   )
 }
-function App() {
+
+const App = () => {
   const forceRerender = useForceRerender()
   return (
     <div className="grid-app">

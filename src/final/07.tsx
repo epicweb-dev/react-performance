@@ -4,13 +4,13 @@
 import * as React from 'react'
 import reportProfile from '../report-profile'
 
-function Counter() {
+const Counter = () => {
   const [count, setCount] = React.useState(0)
   const increment = () => setCount(c => c + 1)
   return <button onClick={increment}>{count}</button>
 }
 
-function App() {
+const App = () => {
   return (
     <div>
       <React.Profiler id="counter" onRender={reportProfile}>

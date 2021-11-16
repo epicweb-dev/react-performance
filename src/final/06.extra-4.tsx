@@ -36,7 +36,7 @@ const cellAtoms = atomFamily<number, Pick<ICellProps, 'row' | 'column'>>({
   default: ({row, column}) => Array.from(initialGrid[row] ?? [])[column] ?? 0,
 })
 
-function useUpdateGrid() {
+const useUpdateGrid = () => {
   return useRecoilCallback(({set}) => ({rows, columns}) => {
     for (let row = 0; row < rows; row++) {
       for (let column = 0; column < columns; column++) {
@@ -48,7 +48,7 @@ function useUpdateGrid() {
   })
 }
 
-function appReducer(state: IAppState, action: IAppAction) {
+const appReducer = (state: IAppState, action: IAppAction) => {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -71,7 +71,7 @@ const AppProvider: React.FunctionComponent = ({children}) => {
   )
 }
 
-function useAppState() {
+const useAppState = () => {
   const context = React.useContext(AppStateContext)
   if (!context) {
     throw new Error('useAppState must be used within the AppProvider')
@@ -79,7 +79,7 @@ function useAppState() {
   return context
 }
 
-function Grid() {
+const Grid = () => {
   const updateGrid = useUpdateGrid()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -113,11 +113,11 @@ const Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
   )
 }
 
-function DogNameInput() {
+const DogNameInput = () => {
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
@@ -140,7 +140,7 @@ function DogNameInput() {
   )
 }
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   return (
     <div className="grid-app">

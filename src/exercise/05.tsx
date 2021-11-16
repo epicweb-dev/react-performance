@@ -41,7 +41,7 @@ const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state: IAppState, action: IAppAction) {
+const appReducer = (state: IAppState, action: IAppAction) => {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -59,7 +59,7 @@ function appReducer(state: IAppState, action: IAppAction) {
   }
 }
 
-function AppProvider({children}: {children: React.ReactNode}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     dogName: '',
     grid: initialGrid,
@@ -73,7 +73,7 @@ function AppProvider({children}: {children: React.ReactNode}) {
   )
 }
 
-function useAppState() {
+const useAppState = () => {
   const context = React.useContext(AppStateContext)
   if (!context) {
     throw new Error('useAppState must be used within the AppProvider')
@@ -81,7 +81,7 @@ function useAppState() {
   return context
 }
 
-const Grid = React.memo(() => {
+let Grid: React.FunctionComponent = () => {
   const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -96,33 +96,33 @@ const Grid = React.memo(() => {
       Cell={Cell}
     />
   )
-})
+}
+Grid = React.memo(Grid)
 
-const Cell: React.FunctionComponent<ICellProps> = React.memo(
-  ({row, column}) => {
-    const [state, dispatch] = useAppState()
-    const cell = state.grid[row][column]
-    const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
-    return (
-      <button
-        className="cell"
-        onClick={handleClick}
-        style={{
-          color: cell > 50 ? 'white' : 'black',
-          backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
-        }}
-      >
-        {Math.floor(cell)}
-      </button>
-    )
-  },
-)
+let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
+  const [state, dispatch] = useAppState()
+  const cell = state.grid[row][column]
+  const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
+  return (
+    <button
+      className="cell"
+      onClick={handleClick}
+      style={{
+        color: cell > 50 ? 'white' : 'black',
+        backgroundColor: `rgba(0, 0, 0, ${cell / 100})`,
+      }}
+    >
+      {Math.floor(cell)}
+    </button>
+  )
+}
+Cell = React.memo(Cell)
 
-function DogNameInput() {
+const DogNameInput = () => {
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
@@ -145,7 +145,7 @@ function DogNameInput() {
   )
 }
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   return (
     <div className="grid-app">

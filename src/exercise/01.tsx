@@ -8,7 +8,7 @@ import Globe from '../globe'
 // 🐨 use React.lazy to create a Globe component which uses a dynamic import
 // to get the Globe component from the '../globe' module.
 
-function App() {
+const App = () => {
   const [showGlobe, setShowGlobe] = React.useState(false)
 
   // 🐨 wrap the code below in a <React.Suspense /> component
@@ -40,6 +40,7 @@ function App() {
     </div>
   )
 }
+
 // 🦉 Note that if you're not on the isolated page, then you'll notice that this
 // app actually already has a React.Suspense component higher up in the tree
 // where this component is rendered, so you *could* just rely on that one.

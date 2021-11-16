@@ -51,7 +51,7 @@ const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
 )
 
-function appReducer(state: IAppState, action: IAppAction) {
+const appReducer = (state: IAppState, action: IAppAction) => {
   switch (action.type) {
     case 'UPDATE_GRID_CELL': {
       return {...state, grid: updateGridCellState(state.grid, action)}
@@ -79,7 +79,7 @@ const AppProvider: React.FunctionComponent = ({children}) => {
   )
 }
 
-function useAppState() {
+const useAppState = () => {
   const context = React.useContext(AppStateContext)
   if (!context) {
     throw new Error('useAppState must be used within the AppProvider')
@@ -87,7 +87,7 @@ function useAppState() {
   return context
 }
 
-function useAppDispatch() {
+const useAppDispatch = () => {
   const context = React.useContext(AppDispatchContext)
   if (!context) {
     throw new Error('useAppDispatch must be used within the AppProvider')
@@ -95,7 +95,7 @@ function useAppDispatch() {
   return context
 }
 
-function dogReducer(state: IDogState, action: IDogAction) {
+const dogReducer = (state: IDogState, action: IDogAction) => {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -112,7 +112,7 @@ const DogProvider: React.FunctionComponent = props => {
   return <DogContext.Provider value={value} {...props} />
 }
 
-function useDogState() {
+const useDogState = () => {
   const context = React.useContext(DogContext)
   if (!context) {
     throw new Error('useDogState must be used within the DogStateProvider')
@@ -138,10 +138,10 @@ let Grid: React.FunctionComponent = () => {
 }
 Grid = React.memo(Grid)
 
-function withStateSlice<T>(
+const withStateSlice = <T,>(
   Comp: React.FunctionComponent<T>,
   slice: (state: IAppState, props: T) => React.PropsWithRef<T>,
-) {
+) => {
   const MemoComp = React.memo(Comp)
   const Wrapper = (props: T, ref: React.ForwardedRef<HTMLElement>) => {
     const state = useAppState()
@@ -176,11 +176,11 @@ Cell = withStateSlice(Cell, (state, props) => ({
   cell: Array.from(state.grid[props.row] ?? [])[props.column] ?? 0,
 }))
 
-function DogNameInput() {
+const DogNameInput = () => {
   const [state, dispatch] = useDogState()
   const {dogName} = state
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
@@ -203,7 +203,7 @@ function DogNameInput() {
   )
 }
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   return (
     <div className="grid-app">

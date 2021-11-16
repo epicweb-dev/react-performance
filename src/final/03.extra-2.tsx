@@ -91,7 +91,7 @@ let ListItem: React.FunctionComponent<IListItemProps> = ({
 }
 ListItem = React.memo(ListItem)
 
-function App() {
+const App = () => {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 

@@ -6,14 +6,14 @@ import * as React from 'react'
 import {unstable_trace as trace} from 'scheduler/tracing'
 import reportProfile from '../report-profile'
 
-function Counter() {
+const Counter = () => {
   const [count, setCount] = React.useState(0)
   const increment = () =>
     trace('click', performance.now(), () => setCount(c => c + 1))
   return <button onClick={increment}>{count}</button>
 }
 
-function App() {
+const App = () => {
   return (
     <div>
       <React.Profiler id="counter" onRender={reportProfile}>
