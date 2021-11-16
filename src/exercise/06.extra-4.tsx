@@ -13,7 +13,23 @@ import {
 // 🐨 you're gonna need these:
 // import {RecoilRoot, useRecoilState, useRecoilCallback, atomFamily} from 'recoil'
 
-const AppStateContext = React.createContext()
+type IAppAction = {
+  type: 'TYPED_IN_DOG_INPUT'
+  dogName: string
+}
+
+type IAppState = {
+  dogName: string
+}
+type ICellProps = {
+  row: number
+  column: number
+  cell?: number
+}
+
+const AppStateContext = React.createContext<
+  [IAppState, React.Dispatch<IAppAction>] | null
+>(null)
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
@@ -41,7 +57,7 @@ const initialGrid = Array.from({length: 100}, () =>
 //   })
 // }
 
-function appReducer(state, action) {
+function appReducer(state: IAppState, action: IAppAction) {
   switch (action.type) {
     case 'TYPED_IN_DOG_INPUT': {
       return {...state, dogName: action.dogName}
@@ -60,14 +76,14 @@ function appReducer(state, action) {
   }
 }
 
-function AppProvider({children}) {
+const AppProvider: React.FunctionComponent = ({children}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     dogName: '',
     // 💣 we're moving our state outside of React with our atom, delete this:
     grid: initialGrid,
   })
   // 🦉 notice that we don't even need to bother memoizing this value
-  const value = [state, dispatch]
+  const value: [IAppState, React.Dispatch<IAppAction>] = [state, dispatch]
   return (
     <AppStateContext.Provider value={value}>
       {children}
@@ -83,7 +99,7 @@ function useAppState() {
   return context
 }
 
-function Grid() {
+let Grid: React.FunctionComponent = () => {
   // 🐨 we're no longer storing the grid in our app state, so instead you
   // want to get the updateGrid function from useUpdateGrid
   const [, dispatch] = useAppState()
@@ -104,7 +120,7 @@ function Grid() {
 // 💣 remove memoization. It's not needed!
 Grid = React.memo(Grid)
 
-function Cell({row, column}) {
+let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
   // 🐨 replace these three lines with useRecoilState for the cellAtoms
   // 💰 Here's how you calculate the new value for the cell when it's clicked:
   //    Math.random() * 100
@@ -133,7 +149,7 @@ function DogNameInput() {
   const [state, dispatch] = useAppState()
   const {dogName} = state
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newDogName = event.target.value
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }

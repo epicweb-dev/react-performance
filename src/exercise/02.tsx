@@ -5,14 +5,49 @@ import * as React from 'react'
 import {useCombobox} from '../use-combobox'
 import {getItems} from '../filter-cities'
 import {useForceRerender} from '../utils'
+import {
+  UseComboboxGetMenuPropsOptions,
+  GetPropsCommonOptions,
+  UseComboboxGetItemPropsOptions,
+} from 'downshift'
+import {UnpackArray} from '../types'
 
-function Menu({
+type Items = ReturnType<typeof getItems>
+
+type IMenuProps = {
+  items: Items
+  getMenuProps: (
+    options?: UseComboboxGetMenuPropsOptions | undefined,
+    otherOptions?: GetPropsCommonOptions | undefined,
+  ) => any
+  getItemProps: (
+    options: UseComboboxGetItemPropsOptions<{
+      id: string
+      country: string
+      name: string
+      lat: string
+      lng: string
+    }>,
+  ) => any
+  highlightedIndex: number
+  selectedItem: UnpackArray<Items> | null
+}
+
+type IListItemProps = Pick<
+  IMenuProps,
+  'getItemProps' | 'selectedItem' | 'highlightedIndex'
+> & {
+  item: UnpackArray<Items>
+  index: number
+}
+
+const Menu: React.FunctionComponent<IMenuProps> = ({
   items,
   getMenuProps,
   getItemProps,
   highlightedIndex,
   selectedItem,
-}) {
+}) => {
   return (
     <ul {...getMenuProps()}>
       {items.map((item, index) => (
@@ -31,14 +66,14 @@ function Menu({
   )
 }
 
-function ListItem({
+const ListItem: React.FunctionComponent<IListItemProps> = ({
   getItemProps,
   item,
   index,
   selectedItem,
   highlightedIndex,
   ...props
-}) {
+}) => {
   const isSelected = selectedItem?.id === item.id
   const isHighlighted = highlightedIndex === index
   return (
@@ -76,7 +111,8 @@ function App() {
   } = useCombobox({
     items,
     inputValue,
-    onInputValueChange: ({inputValue: newValue}) => setInputValue(newValue),
+    onInputValueChange: ({inputValue: newValue}) =>
+      setInputValue(String(newValue)),
     onSelectedItemChange: ({selectedItem}) =>
       alert(
         selectedItem
@@ -93,7 +129,10 @@ function App() {
         <label {...getLabelProps()}>Find a city</label>
         <div {...getComboboxProps()}>
           <input {...getInputProps({type: 'text'})} />
-          <button onClick={() => selectItem(null)} aria-label="toggle menu">
+          <button
+            onClick={() => selectItem({} as UnpackArray<Items>)}
+            aria-label="toggle menu"
+          >
             &#10005;
           </button>
         </div>
