@@ -1,7 +1,21 @@
-import {useCombobox as useDownshiftCombobox} from 'downshift'
+import {
+  useCombobox as useDownshiftCombobox,
+  UseComboboxStateChange,
+} from 'downshift'
 
-function useCombobox(options = {}) {
-  const {itemToString = item => item || ''} = options
+type IUseComboboxOptions<T> = {
+  items: T[]
+  inputValue: string
+  onInputValueChange: (changes: UseComboboxStateChange<T>) => void
+  onSelectedItemChange: (changes: UseComboboxStateChange<T>) => void
+  itemToString: (item: T | null) => string
+  scrollIntoView?: () => void
+  onHighlightedIndexChange?: (changes: UseComboboxStateChange<T>) => void
+}
+
+const useCombobox = <T>(options: IUseComboboxOptions<T>) => {
+  const {itemToString} = options
+
   return useDownshiftCombobox({
     stateReducer(state, {type, changes}) {
       // downshift's default is to select the highlighted item on blur

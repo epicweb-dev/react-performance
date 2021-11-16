@@ -1,14 +1,66 @@
 import * as React from 'react'
 import useInterval from 'use-interval'
 
-function useSafeDispatch(dispatch) {
+type IUseAsyncState<T> = {
+  data: T | null
+  status: 'idle' | 'pending' | 'resolved' | 'rejected'
+  error: unknown | null
+}
+
+type IUseAsyncAction<T> =
+  | {
+      status: 'pending'
+    }
+  | {
+      status: 'resolved'
+      data: T
+    }
+  | {
+      status: 'rejected'
+      error: unknown
+    }
+  | {
+      data: T
+    }
+  | {
+      error: unknown
+    }
+
+type IUseAsyncParams<T> = Pick<IUseAsyncState<T>, 'data' | 'status'>
+
+type IUseAsyncRunFn<T> = (promise: Promise<T>) => Promise<T>
+
+type ICellProps = {
+  row: number
+  column: number
+  cell?: number
+}
+
+type IAppGridProps = {
+  onUpdateGrid: () => void
+  rows: number
+  columns: number
+  handleRowsChange: (row: string) => void
+  handleColumnsChange: (column: string) => void
+  Cell: React.FunctionComponent<ICellProps>
+}
+
+function useSafeDispatch<T>(dispatch: React.Dispatch<T>) {
   const mounted = React.useRef(false)
   React.useLayoutEffect(() => {
     mounted.current = true
-    return () => (mounted.current = false)
+    return () => {
+      mounted.current = false
+    }
   }, [])
-  return React.useCallback(
-    (...args) => (mounted.current ? dispatch(...args) : void 0),
+  return React.useCallback<(args: T) => void>(
+    args => {
+      if (!mounted.current) {
+        return
+      }
+
+      dispatch(args)
+    },
     [dispatch],
   )
 }
@@ -19,19 +71,19 @@ function useSafeDispatch(dispatch) {
 //   run(fetchPokemon(pokemonName))
 // }, [pokemonName, run])
 const defaultInitialState = {status: 'idle', data: null, error: null}
-function useAsync(initialState) {
+
+function useAsync<T>(initialState?: IUseAsyncParams<T>) {
   const initialStateRef = React.useRef({
-    ...defaultInitialState,
+    ...(defaultInitialState as IUseAsyncState<T>),
     ...initialState,
   })
-  const [{status, data, error}, setState] = React.useReducer(
-    (s, a) => ({...s, ...a}),
-    initialStateRef.current,
-  )
+  const [{status, data, error}, setState] = React.useReducer<
+    React.Reducer<IUseAsyncState<T>, IUseAsyncAction<T>>
+  >((s, a) => ({...s, ...a}), initialStateRef.current)
 
   const safeSetState = useSafeDispatch(setState)
 
-  const run = React.useCallback(
+  const run = React.useCallback<IUseAsyncRunFn<T>>(
     promise => {
       if (!promise || !promise.then) {
         throw new Error(
@@ -53,15 +105,18 @@ function useAsync(initialState) {
     [safeSetState],
   )
 
-  const setData = React.useCallback(data => safeSetState({data}), [
-    safeSetState,
-  ])
-  const setError = React.useCallback(error => safeSetState({error}), [
-    safeSetState,
-  ])
-  const reset = React.useCallback(() => safeSetState(initialStateRef.current), [
-    safeSetState,
-  ])
+  const setData = React.useCallback<(data: T) => void>(
+    data => safeSetState({data}),
+    [safeSetState],
+  )
+  const setError = React.useCallback<(error: unknown | null) => void>(
+    error => safeSetState({error}),
+    [safeSetState],
+  )
+  const reset = React.useCallback(
+    () => safeSetState(initialStateRef.current),
+    [safeSetState],
+  )
 
   return {
     // using the same names that react-query uses for convenience
@@ -82,9 +137,9 @@ function useAsync(initialState) {
 
 const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
-function debounce(cb, time) {
-  let timeout
-  return (...args) => {
+function debounce(cb: React.Dispatch<any>, time: number) {
+  let timeout: number
+  return (...args: any[]) => {
     clearTimeout(timeout)
     timeout = setTimeout(cb, time, ...args)
   }
@@ -92,26 +147,32 @@ function debounce(cb, time) {
 
 // this only needs to exist because concurrent mode isn't here yet. When we get
 // that then so much of our hack-perf fixes go away!
-function useDebouncedState(initialState) {
+function useDebouncedState<T>(initialState: T): [T, (...args: any[]) => void] {
   const [state, setState] = React.useState(initialState)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetState = React.useCallback(debounce(setState, 200), [])
   return [state, debouncedSetState]
 }
 
-function Interval({onInterval, interval}) {
+function Interval({
+  onInterval,
+  interval,
+}: {
+  onInterval: () => void
+  interval: number | false | null
+}) {
   useInterval(onInterval, interval)
   return null
 }
 
-function AppGrid({
+const AppGrid: React.FunctionComponent<IAppGridProps> = ({
   onUpdateGrid,
   rows,
   handleRowsChange,
   columns,
   handleColumnsChange,
   Cell,
-}) {
+}) => {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
   return (
     <div>
@@ -178,13 +239,16 @@ function AppGrid({
   )
 }
 
-function updateGridState(grid) {
+function updateGridState(grid: number[][]) {
   return grid.map(row => {
     return row.map(cell => (Math.random() > 0.7 ? Math.random() * 100 : cell))
   })
 }
 
-function updateGridCellState(grid, {row, column}) {
+function updateGridCellState(
+  grid: number[][],
+  {row, column}: {row: number; column: number},
+) {
   return grid.map((cells, rI) => {
     if (rI === row) {
       return cells.map((cell, cI) => {
