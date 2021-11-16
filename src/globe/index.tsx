@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import * as React from 'react'
 import {useSpring, animated} from 'react-spring'
 import {useWheel} from 'react-use-gesture'
