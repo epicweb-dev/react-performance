@@ -13,8 +13,10 @@ jest.mock('react', () => {
   }
 })
 
+const reactProfilerMock = jest.spyOn(React, 'Profiler')
+
 beforeEach(() => {
-  React.Profiler.mockImplementation(({children}) => children)
+  reactProfilerMock.mockImplementation(({children}) => <>{children}</>)
 })
 
 test('uses the Profiler correctly', () => {

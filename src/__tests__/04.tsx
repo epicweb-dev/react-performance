@@ -19,10 +19,12 @@ jest.mock('../workerized-filter-cities', () => ({
   }),
 }))
 
+const getItemsMock = jest.spyOn({getItems}, 'getItems')
+
 test('windows properly', async () => {
   const fakeItems = Array.from({length: 100}, () => buildItem())
-  const promise = Promise.resolve(fakeItems)
-  getItems.mockReturnValue(promise)
+  const promise = await Promise.resolve(fakeItems)
+  getItemsMock.mockReturnValue(promise)
   render(<App />)
 
   await waitFor(() => promise)

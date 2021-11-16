@@ -5,15 +5,29 @@ import userEvent from '@testing-library/user-event'
 import App from '../final/01'
 // import App from '../exercise/01'
 
+const mockNavigatorGeolocation = () => {
+  const getCurrentPositionMock = jest.fn()
+
+  const geolocation = {
+    getCurrentPosition: getCurrentPositionMock,
+  }
+
+  Object.defineProperty(global.navigator, 'geolocation', {
+    value: geolocation,
+  })
+
+  return {getCurrentPositionMock}
+}
+
 beforeEach(() => {
-  window.navigator.geolocation = {
-    getCurrentPosition: async () => ({
+  mockNavigatorGeolocation().getCurrentPositionMock.mockImplementation(
+    async () => ({
       coords: {
         longitude: 321,
         latitude: 123,
       },
     }),
-  }
+  )
 })
 
 test('loads the globe component asynchronously', async () => {

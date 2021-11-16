@@ -7,9 +7,12 @@ import App from '../final/02'
 
 jest.mock('../filter-cities')
 
+const getItemsMock = jest.spyOn({getItems}, 'getItems')
+
 beforeEach(() => {
   const filterCities = jest.requireActual('../filter-cities')
-  getItems.mockImplementation((...args) => {
+
+  getItemsMock.mockImplementation((...args) => {
     return filterCities.getItems(...args)
   })
 })
@@ -23,7 +26,7 @@ test('useMemo is called properly', () => {
     'The Menu component must call getItems with the inputValue.',
   )
 
-  getItems.mockClear()
+  getItemsMock.mockClear()
   const findCity = screen.getByRole('textbox', {name: /find a city/i})
   const filter = 'NO_CITY_WILL_MATCH_THIS'
   // using fireEvent because we only want 1 change event/re-render here
@@ -39,7 +42,7 @@ test('useMemo is called properly', () => {
     'getItems was called even though the inputValue was unchanged. Make sure to wrap it in useMemo with the inputValue as a dependency.',
   )
 
-  getItems.mockClear()
+  getItemsMock.mockClear()
   // using fireEvent because we do not want to blur the input
   // because downshift will set the input value to an empty string
   // on blur.

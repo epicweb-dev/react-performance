@@ -6,7 +6,20 @@ import '../final/03'
 
 // this gets set as soon as we import the file
 // storing it here so it persists between tests
-const memoCalls = [...React.memo.mock.calls]
+
+const isObject = (
+  value: unknown,
+): value is Record<string | number | symbol, any> => {
+  return Object.prototype.toString.call(value) === '[object Object]'
+}
+
+const isError = (error: unknown): error is {message: string} => {
+  return isObject(error) && 'message' in error
+}
+
+const reactMemoMock = jest.spyOn(React, 'memo')
+
+const memoCalls = [...reactMemoMock.mock.calls]
 
 jest.mock('../workerized-filter-cities', () => ({
   getItems: jest.fn(() => {
@@ -31,6 +44,8 @@ test('Components are memoized', () => {
       expect(memoizedFunctions).toContain('Downshift')
     }
   } catch (error) {
+    if (!isError(error)) return
+
     //
     //
     //

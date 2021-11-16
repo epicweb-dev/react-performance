@@ -18,6 +18,10 @@ test('app continues to work', () => {
 
   alfredTip(() => {
     const firstButton = document.body.querySelector('button.cell')
+    if (firstButton === null) {
+      throw new Error('Button must be in the document.')
+    }
+
     const numberBefore = firstButton.textContent
     userEvent.click(firstButton)
     let numberAfter = firstButton.textContent

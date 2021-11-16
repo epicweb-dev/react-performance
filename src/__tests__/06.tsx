@@ -18,6 +18,12 @@ test('app continues to work', () => {
 
   alfredTip(() => {
     const firstButton = document.body.querySelector('button.cell')
+    if (!firstButton) {
+      throw new Error(
+        'Cannot find the first button in the cell. Make sure that it exists.',
+      )
+    }
+
     const numberBefore = firstButton.textContent
     userEvent.click(firstButton)
     let numberAfter = firstButton.textContent
