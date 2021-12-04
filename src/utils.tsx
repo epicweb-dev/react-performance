@@ -137,9 +137,9 @@ function useAsync<T>(initialState?: IUseAsyncParams<T>) {
 
 const useForceRerender = () => React.useReducer(x => x + 1, 0)[1]
 
-function debounce(cb: React.Dispatch<any>, time: number) {
+function debounce<T>(cb: React.Dispatch<T>, time: number) {
   let timeout: number
-  return (...args: any[]) => {
+  return (...args: T[]) => {
     clearTimeout(timeout)
     timeout = setTimeout(cb, time, ...args)
   }
@@ -147,7 +147,7 @@ function debounce(cb: React.Dispatch<any>, time: number) {
 
 // this only needs to exist because concurrent mode isn't here yet. When we get
 // that then so much of our hack-perf fixes go away!
-function useDebouncedState<T>(initialState: T): [T, (...args: any[]) => void] {
+function useDebouncedState<T>(initialState: T): [T, (...args: T[]) => void] {
   const [state, setState] = React.useState(initialState)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetState = React.useCallback(debounce(setState, 200), [])
