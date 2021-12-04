@@ -65,7 +65,6 @@ ListItem = React.memo(ListItem, (prevProps, nextProps) => {
   if (prevProps.getItemProps !== nextProps.getItemProps) return false
   if (prevProps.item !== nextProps.item) return false
   if (prevProps.index !== nextProps.index) return false
-  if (prevProps.selectedItem !== nextProps.selectedItem) return false
 
   // this is trickier. We should only re-render if this list item:
   // 1. was highlighted before and now it's not
@@ -74,6 +73,13 @@ ListItem = React.memo(ListItem, (prevProps, nextProps) => {
     const wasPrevHighlighted = prevProps.highlightedIndex === prevProps.index
     const isNowHighlighted = nextProps.highlightedIndex === nextProps.index
     return wasPrevHighlighted === isNowHighlighted
+  }
+
+  // similarly handling the selectedItem prop
+  if (prevProps.selectedItem !== nextProps.selectedItem) {
+    const wasPrevSelected = prevProps.selectedItem?.id === prevProps.item.id
+    const isNowSelected = nextProps.selectedItem?.id === nextProps.item.id
+    return wasPrevSelected === isNowSelected
   }
   return true
 })
