@@ -219,6 +219,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://codewars.com/users/mstosio"><img src="https://avatars.githubusercontent.com/u/10117225?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michal</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=mstosio" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/marioleed"><img src="https://avatars.githubusercontent.com/u/1763448?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mario Sannum</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=marioleed" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/CJThornburg"><img src="https://avatars.githubusercontent.com/u/59716885?v=4?s=100" width="100px;" alt=""/><br /><sub><b>CJThornburg</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=CJThornburg" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://www.lucianoayres.com.br"><img src="https://avatars.githubusercontent.com/u/20209393?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luciano Ayres</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=lucianoayres" title="Documentation">📖</a></td>
   </tr>
 </table>
 
