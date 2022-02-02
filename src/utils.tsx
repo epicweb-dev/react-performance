@@ -85,7 +85,7 @@ function useAsync<T>(initialState?: IUseAsyncParams<T>) {
 
   const run = React.useCallback<IUseAsyncRunFn<T>>(
     promise => {
-      if (!promise || !promise.then) {
+      if (!(promise instanceof Promise)) {
         throw new Error(
           `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`,
         )
