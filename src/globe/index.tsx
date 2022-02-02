@@ -1,19 +1,45 @@
-//@ts-nocheck
-
 import * as React from 'react'
 import {useSpring, animated} from 'react-spring'
 import {useWheel} from 'react-use-gesture'
-import {geoOrthographic, geoPath} from 'd3-geo'
+import {geoOrthographic, geoPath, GeoProjection} from 'd3-geo'
 import {feature} from 'topojson-client'
+import {FeatureCollection} from 'geojson'
 import jsonData from './countries-110m.json'
 import {map, clamp, isEmpty} from 'lodash'
 import './globe.css'
 
-const Countries = feature(jsonData, jsonData.objects.countries).features
+type IGlobeProps = {
+  lat: number
+  lng: number
+  zoom: number
+  size: number
+  onGlobeClick: (lat: number, lng: number) => void
+  currentLocation: {
+    userLng: number
+    userLat: number
+  }
+}
+
+const isProjectionInvertDefined = (
+  projection: GeoProjection,
+): projection is GeoProjection & Required<Pick<GeoProjection, 'invert'>> => {
+  return typeof projection.invert !== 'undefined'
+}
+
+const Countries = ( //@ts-ignore
+  feature(jsonData, jsonData.objects.countries) as unknown as FeatureCollection
+).features
 
 const Globe = animated(
-  ({lat = 0, lng = 0, zoom, size = 400, onGlobeClick, currentLocation}) => {
-    const svgref = React.useRef()
+  ({
+    lat = 0,
+    lng = 0,
+    zoom,
+    size = 400,
+    onGlobeClick,
+    currentLocation,
+  }: IGlobeProps) => {
+    const svgref = React.useRef<SVGSVGElement>(null)
     const projection = React.useMemo(() => {
       return geoOrthographic()
         .translate([size / 2, size / 2])
@@ -23,19 +49,22 @@ const Globe = animated(
     }, [size, lat, lng, zoom])
 
     const pathgen = geoPath(projection)
-    const currentCoordinates = [
+
+    const pinSize = size / 60 / zoom
+
+    const currentCoordinates: [number, number] = [
       currentLocation.userLng,
       currentLocation.userLat,
     ]
-    const pinSize = size / 60 / zoom
+
     // Check if it's behind the globe
     const isPinVisible = pathgen({
       type: 'Point',
-      coordinates: [currentCoordinates[0], currentCoordinates[1]],
+      coordinates: currentCoordinates,
     })
 
     return (
-      <svg ref={svgref} width={size} height={size} title="globe">
+      <svg ref={svgref} width={size} height={size}>
         <defs>
           <radialGradient
             id="gradient"
@@ -57,15 +86,23 @@ const Globe = animated(
           cx={size / 2}
           cy={size / 2}
           r={(size / 2) * zoom}
+          style={{cursor: 'pointer'}}
           onClick={e => {
-            let rect = svgref.current.getBoundingClientRect()
-            const [lat, lng] = projection.invert([
-              e.pageX - rect.left,
-              e.pageY - rect.top,
-            ])
+            if (!svgref.current) {
+              return
+            }
+
+            const rect = svgref.current.getBoundingClientRect()
+
+            const [lat, lng] = isProjectionInvertDefined(projection)
+              ? projection.invert([
+                  e.pageX - rect.left,
+                  e.pageY - rect.top,
+                ]) ?? [0, 0]
+              : [0, 0]
+
             onGlobeClick.call(null, lat, lng)
           }}
-          style={{cursor: 'pointer'}}
         />
         <g style={{pointerEvents: 'none'}}>
           {map(Countries, (d, i) => (
@@ -73,22 +110,26 @@ const Globe = animated(
               fill="#63A2FF"
               stroke="#5891E5"
               key={`path-${i}`}
-              d={pathgen(d)}
+              d={pathgen(d) ?? undefined}
             />
           ))}
         </g>
         {currentLocation.userLat &&
           !isEmpty(isPinVisible) &&
-          [0, 1].map(pin => (
-            <circle
-              key={pin}
-              className={`pin-${pin}`}
-              cx={projection(currentCoordinates)[0]}
-              cy={projection(currentCoordinates)[1]}
-              r={pinSize >= 15 ? 5 : size / 60 / zoom}
-              fill="#fff"
-            />
-          ))}
+          [0, 1].map(pin => {
+            const projections = projection(currentCoordinates)
+
+            return (
+              <circle
+                key={pin}
+                className={`pin-${pin}`}
+                cx={(projections ?? [])[0]}
+                cy={(projections ?? [])[1]}
+                r={pinSize >= 15 ? 5 : size / 60 / zoom}
+                fill="#fff"
+              />
+            )
+          })}
       </svg>
     )
   },
@@ -125,7 +166,7 @@ function GlobeContainer({size = 400}) {
     scale: 1,
   })
 
-  const canvasRef = React.useRef()
+  const canvasRef = React.useRef<HTMLDivElement>(null)
 
   const bind = useWheel(
     ({wheeling, metaKey, delta: [deltaX, deltaY], event}) => {
