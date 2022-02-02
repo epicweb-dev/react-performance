@@ -40,78 +40,82 @@ type IListItemProps = Pick<
 > & {
   item: UnpackArray<Items>
   index: number
+  children: React.ReactNode
 }
 
-let Menu: React.FunctionComponent<IMenuProps> = ({
-  items,
-  getMenuProps,
-  getItemProps,
-  highlightedIndex,
-  selectedItem,
-}) => {
-  return (
-    <ul {...getMenuProps()}>
-      {items.map((item, index) => (
-        <ListItem
-          key={item.id}
-          getItemProps={getItemProps}
-          item={item}
-          index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
-        >
-          {item.name}
-        </ListItem>
-      ))}
-    </ul>
-  )
-}
-Menu = React.memo(Menu)
+const Menu = React.memo(
+  ({
+    items,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+    selectedItem,
+  }: IMenuProps) => {
+    return (
+      <ul {...getMenuProps()}>
+        {items.map((item, index) => (
+          <ListItem
+            key={item.id}
+            getItemProps={getItemProps}
+            item={item}
+            index={index}
+            selectedItem={selectedItem}
+            highlightedIndex={highlightedIndex}
+          >
+            {item.name}
+          </ListItem>
+        ))}
+      </ul>
+    )
+  },
+)
 
-let ListItem: React.FunctionComponent<IListItemProps> = ({
-  getItemProps,
-  item,
-  index,
-  selectedItem,
-  highlightedIndex,
-  ...props
-}) => {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
-  return (
-    <li
-      {...getItemProps({
-        index,
-        item,
-        style: {
-          fontWeight: isSelected ? 'bold' : 'normal',
-          backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
-        },
-        ...props,
-      })}
-    />
-  )
-}
-ListItem = React.memo(ListItem, (prevProps, nextProps) => {
-  // true means do NOT rerender
-  // false means DO rerender
+const ListItem = React.memo(
+  ({
+    getItemProps,
+    item,
+    index,
+    selectedItem,
+    highlightedIndex,
+    ...props
+  }: IListItemProps) => {
+    const isSelected = selectedItem?.id === item.id
+    const isHighlighted = highlightedIndex === index
+    return (
+      <li
+        {...getItemProps({
+          index,
+          item,
+          style: {
+            fontWeight: isSelected ? 'bold' : 'normal',
+            backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
+          },
+          ...props,
+        })}
+      />
+    )
+  },
+  (prevProps, nextProps) => {
+    // true means do NOT rerender
+    // false means DO rerender
 
-  // these ones are easy if any of these changed, we should re-render
-  if (prevProps.getItemProps !== nextProps.getItemProps) return false
-  if (prevProps.item !== nextProps.item) return false
-  if (prevProps.index !== nextProps.index) return false
-  if (prevProps.selectedItem !== nextProps.selectedItem) return false
+    // these ones are easy if any of these changed, we should re-render
+    if (prevProps.getItemProps !== nextProps.getItemProps) return false
+    if (prevProps.item !== nextProps.item) return false
+    if (prevProps.index !== nextProps.index) return false
+    if (prevProps.selectedItem !== nextProps.selectedItem) return false
 
-  // this is trickier. We should only re-render if this list item:
-  // 1. was highlighted before and now it's not
-  // 2. was not highlighted before and now it is
-  if (prevProps.highlightedIndex !== nextProps.highlightedIndex) {
-    const wasPrevHighlighted = prevProps.highlightedIndex === prevProps.index
-    const isNowHighlighted = nextProps.highlightedIndex === nextProps.index
-    return wasPrevHighlighted === isNowHighlighted
-  }
-  return true
-})
+    // this is trickier. We should only re-render if this list item:
+    // 1. was highlighted before and now it's not
+    // 2. was not highlighted before and now it is
+    if (prevProps.highlightedIndex !== nextProps.highlightedIndex) {
+      const wasPrevHighlighted = prevProps.highlightedIndex === prevProps.index
+      const isNowHighlighted = nextProps.highlightedIndex === nextProps.index
+      return wasPrevHighlighted === isNowHighlighted
+    }
+    return true
+  },
+)
 
 const App = () => {
   const forceRerender = useForceRerender()

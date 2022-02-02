@@ -12,17 +12,11 @@ type INameInputProps = {
   onNameChange: (changedName: string) => void
 }
 
-const CountButton: React.FunctionComponent<ICountButtonProps> = ({
-  count,
-  onClick,
-}) => {
+const CountButton = ({count, onClick}: ICountButtonProps) => {
   return <button onClick={onClick}>{count}</button>
 }
 
-const NameInput: React.FunctionComponent<INameInputProps> = ({
-  name,
-  onNameChange,
-}) => {
+const NameInput = ({name, onNameChange}: INameInputProps) => {
   return (
     <label>
       Name: <input value={name} onChange={e => onNameChange(e.target.value)} />
@@ -30,7 +24,7 @@ const NameInput: React.FunctionComponent<INameInputProps> = ({
   )
 }
 
-const Example: React.FunctionComponent = () => {
+const Example = () => {
   const [name, setName] = React.useState('')
   const [count, setCount] = React.useState(0)
   const increment = () => setCount(c => c + 1)

@@ -39,57 +39,60 @@ type IListItemProps = Pick<IMenuProps, 'getItemProps'> & {
   index: number
   isSelected: boolean
   isHighlighted: boolean
+  children: React.ReactNode
 }
 
-let Menu: React.FunctionComponent<IMenuProps> = ({
-  items,
-  getMenuProps,
-  getItemProps,
-  highlightedIndex,
-  selectedItem,
-}) => {
-  return (
-    <ul {...getMenuProps()}>
-      {items.map((item, index) => (
-        <ListItem
-          key={item.id}
-          getItemProps={getItemProps}
-          item={item}
-          index={index}
-          isSelected={selectedItem?.id === item.id}
-          isHighlighted={highlightedIndex === index}
-        >
-          {item.name}
-        </ListItem>
-      ))}
-    </ul>
-  )
-}
-Menu = React.memo(Menu)
+const Menu = React.memo(
+  ({
+    items,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+    selectedItem,
+  }: IMenuProps) => {
+    return (
+      <ul {...getMenuProps()}>
+        {items.map((item, index) => (
+          <ListItem
+            key={item.id}
+            getItemProps={getItemProps}
+            item={item}
+            index={index}
+            isSelected={selectedItem?.id === item.id}
+            isHighlighted={highlightedIndex === index}
+          >
+            {item.name}
+          </ListItem>
+        ))}
+      </ul>
+    )
+  },
+)
 
-let ListItem: React.FunctionComponent<IListItemProps> = ({
-  getItemProps,
-  item,
-  index,
-  isHighlighted,
-  isSelected,
-  ...props
-}) => {
-  return (
-    <li
-      {...getItemProps({
-        index,
-        item,
-        style: {
-          backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
-          fontWeight: isSelected ? 'bold' : 'normal',
-        },
-        ...props,
-      })}
-    />
-  )
-}
-ListItem = React.memo(ListItem)
+const ListItem = React.memo(
+  ({
+    getItemProps,
+    item,
+    index,
+    isHighlighted,
+    isSelected,
+    ...props
+  }: IListItemProps) => {
+    return (
+      <li
+        {...getItemProps({
+          index,
+          item,
+          style: {
+            backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
+            fontWeight: isSelected ? 'bold' : 'normal',
+          },
+          ...props,
+        })}
+      />
+    )
+  },
+)
 
 const App = () => {
   const forceRerender = useForceRerender()

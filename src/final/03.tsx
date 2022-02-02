@@ -39,59 +39,62 @@ type IListItemProps = Pick<
 > & {
   item: UnpackArray<Items>
   index: number
+  children: React.ReactNode
 }
 
-let Menu: React.FunctionComponent<IMenuProps> = ({
-  items,
-  getMenuProps,
-  getItemProps,
-  highlightedIndex,
-  selectedItem,
-}) => {
-  return (
-    <ul {...getMenuProps()}>
-      {items.map((item, index) => (
-        <ListItem
-          key={item.id}
-          getItemProps={getItemProps}
-          item={item}
-          index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
-        >
-          {item.name}
-        </ListItem>
-      ))}
-    </ul>
-  )
-}
-Menu = React.memo(Menu)
+const Menu = React.memo(
+  ({
+    items,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+    selectedItem,
+  }: IMenuProps) => {
+    return (
+      <ul {...getMenuProps()}>
+        {items.map((item, index) => (
+          <ListItem
+            key={item.id}
+            getItemProps={getItemProps}
+            item={item}
+            index={index}
+            selectedItem={selectedItem}
+            highlightedIndex={highlightedIndex}
+          >
+            {item.name}
+          </ListItem>
+        ))}
+      </ul>
+    )
+  },
+)
 
-let ListItem: React.FunctionComponent<IListItemProps> = ({
-  getItemProps,
-  item,
-  index,
-  selectedItem,
-  highlightedIndex,
-  ...props
-}) => {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
-  return (
-    <li
-      {...getItemProps({
-        index,
-        item,
-        style: {
-          fontWeight: isSelected ? 'bold' : 'normal',
-          backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
-        },
-        ...props,
-      })}
-    />
-  )
-}
-ListItem = React.memo(ListItem)
+const ListItem = React.memo(
+  ({
+    getItemProps,
+    item,
+    index,
+    selectedItem,
+    highlightedIndex,
+    ...props
+  }: IListItemProps) => {
+    const isSelected = selectedItem?.id === item.id
+    const isHighlighted = highlightedIndex === index
+    return (
+      <li
+        {...getItemProps({
+          index,
+          item,
+          style: {
+            fontWeight: isSelected ? 'bold' : 'normal',
+            backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
+          },
+          ...props,
+        })}
+      />
+    )
+  },
+)
 
 const App = () => {
   const forceRerender = useForceRerender()

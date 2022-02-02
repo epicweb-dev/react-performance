@@ -7,14 +7,12 @@ import '../final/03'
 // this gets set as soon as we import the file
 // storing it here so it persists between tests
 
-const isObject = (
-  value: unknown,
-): value is Record<string | number | symbol, any> => {
+const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
 
 const isError = (error: unknown): error is {message: string} => {
-  return isObject(error) && 'message' in error
+  return isObject(error) && typeof error.message === 'string'
 }
 
 const reactMemoMock = jest.spyOn(React, 'memo')
@@ -28,10 +26,10 @@ jest.mock('../workerized-filter-cities', () => ({
 }))
 
 jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
+  const actualReact = jest.requireActual<typeof React>('react')
   return {
     ...actualReact,
-    memo: jest.fn((...args) => actualReact.memo(...args)),
+    memo: jest.fn((arg: React.FunctionComponent) => actualReact.memo(arg)),
   }
 })
 

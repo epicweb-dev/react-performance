@@ -47,6 +47,7 @@ type IListItemProps = Pick<IMenuProps, 'getItemProps'> & {
   isHighlighted: boolean
   isSelected: boolean
   style: React.CSSProperties
+  children: React.ReactNode
 }
 
 const getVirtualRowStyles = ({
@@ -64,7 +65,7 @@ const getVirtualRowStyles = ({
   transform: `translateY(${start}px)`,
 })
 
-const Menu: React.FunctionComponent<IMenuProps> = ({
+const Menu = ({
   items,
   getMenuProps,
   getItemProps,
@@ -73,7 +74,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   listRef,
   virtualRows,
   totalHeight,
-}) => {
+}: IMenuProps) => {
   return (
     <ul {...getMenuProps({ref: listRef})}>
       <li style={{height: totalHeight}} />
@@ -98,7 +99,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   )
 }
 
-const ListItem: React.FunctionComponent<IListItemProps> = ({
+const ListItem = ({
   getItemProps,
   item,
   index,
@@ -106,7 +107,7 @@ const ListItem: React.FunctionComponent<IListItemProps> = ({
   isSelected,
   style,
   ...props
-}) => {
+}: IListItemProps) => {
   return (
     <li
       {...getItemProps({

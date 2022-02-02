@@ -52,7 +52,7 @@ const appReducer = (state: IAppState, action: IAppAction) => {
   }
 }
 
-const AppProvider: React.FunctionComponent = ({children}) => {
+const AppProvider = ({children}: {children: React.ReactNode}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     grid: initialGrid,
   })
@@ -81,7 +81,7 @@ const useAppDispatch = () => {
   return context
 }
 
-let Grid: React.FunctionComponent = () => {
+const Grid = React.memo(() => {
   const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -96,10 +96,9 @@ let Grid: React.FunctionComponent = () => {
       Cell={Cell}
     />
   )
-}
-Grid = React.memo(Grid)
+})
 
-let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
+const Cell = React.memo(({row, column}: ICellProps) => {
   const state = useAppState()
 
   // kinda hacky way to fix this issue
@@ -120,8 +119,7 @@ let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
       {Math.floor(cell)}
     </button>
   )
-}
-Cell = React.memo(Cell)
+})
 
 const DogNameInput = () => {
   const [dogName, setDogName] = React.useState('')

@@ -6,10 +6,15 @@ import {getItems} from '../workerized-filter-cities'
 import App from '../final/04'
 // import App from '../exercise/04'
 
-const buildItem = build({
+type Items = ReturnType<typeof getItems>[0]
+
+const buildItem = build<Items>({
   fields: {
     id: sequence(),
     name: fake(f => f.name.firstName()),
+    country: fake(f => f.address.country()),
+    lat: sequence(),
+    lng: sequence(),
   },
 })
 

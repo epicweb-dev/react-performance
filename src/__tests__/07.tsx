@@ -6,7 +6,7 @@ import App from '../final/07'
 // import App from '../exercise/07'
 
 jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
+  const actualReact = jest.requireActual<typeof React>('react')
   return {
     ...actualReact,
     Profiler: jest.fn(),

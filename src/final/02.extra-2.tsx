@@ -40,15 +40,16 @@ type IListItemProps = Pick<
 > & {
   item: UnpackArray<Items>
   index: number
+  children: React.ReactNode
 }
 
-const Menu: React.FunctionComponent<IMenuProps> = ({
+const Menu = ({
   items,
   getMenuProps,
   getItemProps,
   highlightedIndex,
   selectedItem,
-}) => {
+}: IMenuProps) => {
   return (
     <ul {...getMenuProps()}>
       {items.map((item, index) => (
@@ -67,14 +68,14 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   )
 }
 
-const ListItem: React.FunctionComponent<IListItemProps> = ({
+const ListItem = ({
   getItemProps,
   item,
   index,
   selectedItem,
   highlightedIndex,
   ...props
-}) => {
+}: IListItemProps) => {
   const isSelected = selectedItem?.id === item.id
   const isHighlighted = highlightedIndex === index
   return (
@@ -92,7 +93,7 @@ const ListItem: React.FunctionComponent<IListItemProps> = ({
   )
 }
 
-const App: React.FunctionComponent = () => {
+const App = () => {
   const forceRerender = useForceRerender()
   const [inputValue, setInputValue] = React.useState('')
 

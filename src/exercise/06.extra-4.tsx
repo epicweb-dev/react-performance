@@ -76,7 +76,7 @@ const appReducer = (state: IAppState, action: IAppAction) => {
   }
 }
 
-const AppProvider: React.FunctionComponent = ({children}) => {
+const AppProvider = ({children}: {children: React.ReactNode}) => {
   const [state, dispatch] = React.useReducer(appReducer, {
     dogName: '',
     // 💣 we're moving our state outside of React with our atom, delete this:
@@ -99,7 +99,8 @@ const useAppState = () => {
   return context
 }
 
-let Grid: React.FunctionComponent = () => {
+// 💣 remove memoization. It's not needed!
+const Grid = React.memo(() => {
   // 🐨 we're no longer storing the grid in our app state, so instead you
   // want to get the updateGrid function from useUpdateGrid
   const [, dispatch] = useAppState()
@@ -116,11 +117,11 @@ let Grid: React.FunctionComponent = () => {
       Cell={Cell}
     />
   )
-}
-// 💣 remove memoization. It's not needed!
-Grid = React.memo(Grid)
+})
 
-let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
+// 🦉 notice we don't need to bother memoizing any of the components!!
+// 💣 remove memoization
+const Cell = React.memo(({row, column}: ICellProps) => {
   // 🐨 replace these three lines with useRecoilState for the cellAtoms
   // 💰 Here's how you calculate the new value for the cell when it's clicked:
   //    Math.random() * 100
@@ -140,10 +141,7 @@ let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
       {Math.floor(cell)}
     </button>
   )
-}
-// 🦉 notice we don't need to bother memoizing any of the components!!
-// 💣 remove memoization
-Cell = React.memo(Cell)
+})
 
 const DogNameInput = () => {
   const [state, dispatch] = useAppState()

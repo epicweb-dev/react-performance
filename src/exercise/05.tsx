@@ -81,7 +81,7 @@ const useAppState = () => {
   return context
 }
 
-let Grid: React.FunctionComponent = () => {
+const Grid = React.memo(() => {
   const [, dispatch] = useAppState()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
@@ -96,10 +96,9 @@ let Grid: React.FunctionComponent = () => {
       Cell={Cell}
     />
   )
-}
-Grid = React.memo(Grid)
+})
 
-let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
+const Cell = React.memo(({row, column}: ICellProps) => {
   const [state, dispatch] = useAppState()
   const cell = state.grid[row][column]
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
@@ -115,8 +114,7 @@ let Cell: React.FunctionComponent<ICellProps> = ({row, column}) => {
       {Math.floor(cell)}
     </button>
   )
-}
-Cell = React.memo(Cell)
+})
 
 const DogNameInput = () => {
   const [state, dispatch] = useAppState()

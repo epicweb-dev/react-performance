@@ -167,14 +167,14 @@ function Interval({
   return null
 }
 
-const AppGrid: React.FunctionComponent<IAppGridProps> = ({
+const AppGrid = ({
   onUpdateGrid,
   rows,
   handleRowsChange,
   columns,
   handleColumnsChange,
   Cell,
-}) => {
+}: IAppGridProps) => {
   const [keepUpdated, setKeepUpdated] = React.useState(false)
   return (
     <div>
