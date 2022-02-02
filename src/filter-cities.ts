@@ -1,7 +1,7 @@
 import {matchSorter} from 'match-sorter'
 import citiesData from './us-cities.json'
 
-const cities = [...citiesData]
+const cities = citiesData
 
 const allItems = cities.map((city, index) => ({
   ...city,
