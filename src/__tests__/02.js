@@ -14,7 +14,7 @@ beforeEach(() => {
   })
 })
 
-test('useMemo is called properly', () => {
+test('useMemo is called properly', async () => {
   const {container} = render(<App />)
   const forceRerender = screen.getByText(/force rerender/i)
 

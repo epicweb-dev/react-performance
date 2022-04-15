@@ -22,7 +22,7 @@ jest.mock('react', () => {
   }
 })
 
-test('Components are memoized', () => {
+test('Components are memoized', async () => {
   const memoizedFunctions = memoCalls.map(call => call[0].name)
   try {
     expect(memoizedFunctions).toContain('Menu')

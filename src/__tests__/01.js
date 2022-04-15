@@ -19,7 +19,7 @@ beforeEach(() => {
 test('loads the globe component asynchronously', async () => {
   render(<App />)
 
-  userEvent.click(screen.getByLabelText(/show globe/))
+  await userEvent.click(screen.getByLabelText(/show globe/))
 
   alfredTip(
     () => expect(screen.queryByTitle(/globe/i)).not.toBeInTheDocument(),
