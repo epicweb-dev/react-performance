@@ -27,11 +27,10 @@ test('windows properly', async () => {
 
   await waitFor(() => promise)
 
+  const options = await screen.findAllByRole('option')
+
   alfredTip(
-    () =>
-      expect(screen.getAllByRole('option').length).toBeLessThan(
-        fakeItems.length,
-      ),
+    () => expect(options.length).toBeLessThan(fakeItems.length),
     `Looks like all of the items are being rendered. Make sure you're using useVirtual and you're mapping over the virtualRows rather than the actual items.`,
   )
 })

@@ -17,7 +17,7 @@ beforeEach(() => {
   React.Profiler.mockImplementation(({children}) => children)
 })
 
-test('uses the Profiler correctly', () => {
+test('uses the Profiler correctly', async () => {
   render(<App />)
 
   alfredTip(
