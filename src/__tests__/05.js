@@ -29,4 +29,4 @@ test('app continues to work', async () => {
   alfredTip(() => {
     expect(numberAfter).not.toBe(numberBefore)
   }, `Unable to click the first cell to update its value.`)
-})
+}, 10_000)
