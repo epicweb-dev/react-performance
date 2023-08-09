@@ -8,6 +8,10 @@ const Globe = React.lazy(() => import('../globe'))
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)
 
+  async function handleEagerLoading() {
+    import('../globe')
+  }
+
   return (
     <div
       style={{
@@ -19,7 +23,11 @@ function App() {
         padding: '2rem',
       }}
     >
-      <label style={{marginBottom: '1rem'}}>
+      <label
+        style={{marginBottom: '1rem'}}
+        onMouseOver={handleEagerLoading}
+        onFocus={handleEagerLoading}
+      >
         <input
           type="checkbox"
           checked={showGlobe}
@@ -28,11 +36,9 @@ function App() {
         {' show globe'}
       </label>
       <div style={{width: 400, height: 400}}>
-        {showGlobe ? (
-          <React.Suspense fallback={<>loading...</>}>
-            <Globe />
-          </React.Suspense>
-        ) : null}
+        <React.Suspense fallback={<>loading...</>}>
+          {showGlobe ? <Globe /> : null}
+        </React.Suspense>
       </div>
     </div>
   )
