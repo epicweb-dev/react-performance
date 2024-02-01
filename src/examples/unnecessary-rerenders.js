@@ -13,6 +13,7 @@ function NameInput({name, onNameChange}) {
     </label>
   )
 }
+NameInput = React.memo(NameInput)
 
 function Example() {
   const [name, setName] = React.useState('')
