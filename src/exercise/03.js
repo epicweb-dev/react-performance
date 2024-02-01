@@ -30,7 +30,6 @@ function Menu({
     </ul>
   )
 }
-// 🐨 Memoize the Menu here using React.memo
 Menu = React.memo(Menu)
 // render time before memo: 5ms total
 // render time after memo: 0.6ms total
@@ -59,10 +58,23 @@ function ListItem({
     />
   )
 }
-// 🐨 Memoize the ListItem here using React.memo
-ListItem = React.memo(ListItem)
+ListItem = React.memo(ListItem, arePropsEqual)
+function arePropsEqual(oldProps, newProps) {
+  const isOldHighlightedItem =
+    oldProps.highlightedIndex === oldProps.index &&
+    newProps.highlightedIndex !== newProps.index
+
+  const isNewHighlightedItem =
+    oldProps.highlightedIndex !== oldProps.index &&
+    newProps.highlightedIndex === newProps.index
+
+  if (isOldHighlightedItem || isNewHighlightedItem) return false
+  else return true
+}
 // render time before memo: 0.1-1.3ms for each, 5ms total
 // render time after memo: 0ms
+// render time before custom comparision function: 4ms
+// render time after custom comparision function: 0.1ms
 
 function App() {
   const forceRerender = useForceRerender()
