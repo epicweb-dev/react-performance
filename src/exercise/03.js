@@ -21,8 +21,8 @@ function Menu({
           getItemProps={getItemProps}
           item={item}
           index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
         >
           {item.name}
         </ListItem>
@@ -38,12 +38,10 @@ function ListItem({
   getItemProps,
   item,
   index,
-  selectedItem,
-  highlightedIndex,
+  isSelected,
+  isHighlighted,
   ...props
 }) {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
@@ -58,19 +56,19 @@ function ListItem({
     />
   )
 }
-ListItem = React.memo(ListItem, arePropsEqual)
-function arePropsEqual(oldProps, newProps) {
-  const isOldHighlightedItem =
-    oldProps.highlightedIndex === oldProps.index &&
-    newProps.highlightedIndex !== newProps.index
+ListItem = React.memo(ListItem)
+// function arePropsEqual(oldProps, newProps) {
+//   const isOldHighlightedItem =
+//     oldProps.highlightedIndex === oldProps.index &&
+//     newProps.highlightedIndex !== newProps.index
 
-  const isNewHighlightedItem =
-    oldProps.highlightedIndex !== oldProps.index &&
-    newProps.highlightedIndex === newProps.index
+//   const isNewHighlightedItem =
+//     oldProps.highlightedIndex !== oldProps.index &&
+//     newProps.highlightedIndex === newProps.index
 
-  if (isOldHighlightedItem || isNewHighlightedItem) return false
-  else return true
-}
+//   if (isOldHighlightedItem || isNewHighlightedItem) return false
+//   else return true
+// }
 // render time before memo: 0.1-1.3ms for each, 5ms total
 // render time after memo: 0ms
 // render time before custom comparision function: 4ms
