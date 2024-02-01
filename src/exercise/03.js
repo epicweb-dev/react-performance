@@ -31,6 +31,9 @@ function Menu({
   )
 }
 // 🐨 Memoize the Menu here using React.memo
+Menu = React.memo(Menu)
+// render time before memo: 5ms total
+// render time after memo: 0.6ms total
 
 function ListItem({
   getItemProps,
@@ -57,6 +60,9 @@ function ListItem({
   )
 }
 // 🐨 Memoize the ListItem here using React.memo
+ListItem = React.memo(ListItem)
+// render time before memo: 0.1-1.3ms for each, 5ms total
+// render time after memo: 0ms
 
 function App() {
   const forceRerender = useForceRerender()
