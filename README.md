@@ -238,6 +238,7 @@ Thanks goes to these wonderful people
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://creador.dev"><img src="https://avatars.githubusercontent.com/u/40248406?v=4?s=100" width="100px;" alt="Pawan Kumar"/><br /><sub><b>Pawan Kumar</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=creador-dev" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xhocopuff"><img src="https://avatars.githubusercontent.com/u/62633485?v=4?s=100" width="100px;" alt="Melesia Thompson"/><br /><sub><b>Melesia Thompson</b></sub></a><br /><a href="https://github.com/kentcdodds/react-performance/commits?author=xhocopuff" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
