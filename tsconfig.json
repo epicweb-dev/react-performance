@@ -1,0 +1,26 @@
+{
+  "files": [],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "exercises/01.code-splitting/01.problem.lazy"
+    },
+    {
+      "path": "exercises/01.code-splitting/01.solution.lazy"
+    },
+    {
+      "path": "exercises/01.code-splitting/02.problem.eager"
+    },
+    {
+      "path": "exercises/01.code-splitting/02.solution.eager"
+    },
+    {
+      "path": "exercises/01.code-splitting/03.problem.transition"
+    },
+    {
+      "path": "exercises/01.code-splitting/03.solution.transition"
+    }
+  ]
+}

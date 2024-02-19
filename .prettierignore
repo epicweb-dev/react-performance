@@ -1,5 +1,11 @@
 node_modules
-coverage
-build
-src/globe/countries-110m.json
-src/us-cities.json
+
+**/build/**
+**/public/build/**
+.env
+
+**/package.json
+**/tsconfig.json
+
+**/package-lock.json
+**/playwright-report/**
