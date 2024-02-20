@@ -1,0 +1,55 @@
+name: deploy
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  setup:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: ▶️ Run setup script
+        run: npm run setup
+
+      - name: ʦ TypeScript
+        run: npm run typecheck
+
+      - name: ⬣ ESLint
+        run: npm run lint
+
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    # only deploy main branch on pushes
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🎈 Setup Fly
+        uses: superfly/flyctl-actions/setup-flyctl@v1.4
+
+      - name: 🚀 Deploy
+        run: flyctl deploy --remote-only
+        working-directory: ./scripts/deployed
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
