@@ -21,6 +21,24 @@
     },
     {
       "path": "exercises/01.code-splitting/03.solution.transition"
+    },
+    {
+      "path": "exercises/02.calculations/01.problem"
+    },
+    {
+      "path": "exercises/02.calculations/01.solution"
+    },
+    {
+      "path": "exercises/02.calculations/02.problem"
+    },
+    {
+      "path": "exercises/02.calculations/02.solution"
+    },
+    {
+      "path": "exercises/02.calculations/03.problem"
+    },
+    {
+      "path": "exercises/02.calculations/03.solution"
     }
   ]
 }

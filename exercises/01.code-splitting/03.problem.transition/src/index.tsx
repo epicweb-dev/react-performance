@@ -18,6 +18,7 @@ function App() {
 				justifyContent: 'center',
 				height: '100%',
 				padding: '2rem',
+				// 🐨 set the opacity to 0.6 if we're currently pending as a simple pending state
 			}}
 		>
 			<label
@@ -42,6 +43,4 @@ function App() {
 	)
 }
 
-const rootEl = document.createElement('div')
-document.body.append(rootEl)
-ReactDOM.createRoot(rootEl).render(<App />)
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />)

@@ -35,6 +35,4 @@ function App() {
 	)
 }
 
-const rootEl = document.createElement('div')
-document.body.append(rootEl)
-ReactDOM.createRoot(rootEl).render(<App />)
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />)

@@ -3,6 +3,7 @@ node_modules
 workspace/
 **/.cache/
 **/build/
+**/dist/
 **/public/build
 **/playwright-report
 data.db
