@@ -1,0 +1,24 @@
+[role='listbox'] {
+	/* now the scroll behavior will be the responsibility of the parent */
+	/* 💣 remove these 👇 */
+	height: 300px;
+	width: 300px;
+	overflow-y: scroll;
+	/* 💣 remove those 👆 */
+	margin: 0;
+	background-color: #eee;
+	padding: 0;
+	list-style: none;
+	position: relative;
+
+	[role='option'] {
+		height: 20px;
+		&[aria-selected='true'] {
+			font-weight: bold;
+		}
+		&[data-hovered='true'],
+		&[data-focused='true'] {
+			background-color: #ddd;
+		}
+	}
+}

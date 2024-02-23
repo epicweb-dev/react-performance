@@ -1,26 +1,34 @@
 import { type UseComboboxPropGetters } from 'downshift'
-import { memo, useEffect, useState } from 'react'
+import { Suspense, memo, use, useState, useTransition } from 'react'
 import { useSpinDelay } from 'spin-delay'
-import { searchItems } from './cities'
-import './index.css'
-import { useAsync, useCombobox, useForceRerender } from './utils'
+import { searchCities } from './cities'
+import { useCombobox, useForceRerender } from './utils'
 
-type Cities = Awaited<ReturnType<typeof searchItems>>
-type City = Cities[number]
+const initialCitiesPromise = searchCities('')
 
 export function App() {
-	const forceRerender = useForceRerender()
-	const [inputValue, setInputValue] = useState('')
+	return (
+		<Suspense fallback="Loading...">
+			<CityChooser initialCitiesPromise={initialCitiesPromise} />
+		</Suspense>
+	)
+}
 
-	const { data: allItems, run, status } = useAsync<Cities>()
-	useEffect(() => {
-		run(searchItems(inputValue))
-	}, [inputValue, run])
-	const items = allItems ?? []
-	const isPending = useSpinDelay(status === 'pending')
+function CityChooser({
+	initialCitiesPromise,
+}: {
+	initialCitiesPromise: ReturnType<typeof searchCities>
+}) {
+	const forceRerender = useForceRerender()
+	const [isTransitionPending, startTransition] = useTransition()
+	const [inputValue, setInputValue] = useState('')
+	const [citiesPromise, setCitiesPromise] = useState(initialCitiesPromise)
+	const cities = use(citiesPromise)
+
+	const isPending = useSpinDelay(isTransitionPending)
 
 	const {
-		selectedItem,
+		selectedItem: selectedCity,
 		highlightedIndex,
 		getInputProps,
 		getItemProps,
@@ -28,18 +36,21 @@ export function App() {
 		getMenuProps,
 		selectItem,
 	} = useCombobox({
-		items,
+		items: cities,
 		inputValue,
 		onInputValueChange: ({ inputValue: newValue = '' }) => {
 			setInputValue(newValue)
+			startTransition(() => {
+				setCitiesPromise(searchCities(newValue))
+			})
 		},
-		onSelectedItemChange: ({ selectedItem }) =>
+		onSelectedItemChange: ({ selectedItem: selectedCity }) =>
 			alert(
-				selectedItem
-					? `You selected ${selectedItem.name}`
+				selectedCity
+					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: item => (item ? item.name : ''),
+		itemToString: city => (city ? city.name : ''),
 	})
 
 	return (
@@ -53,18 +64,14 @@ export function App() {
 						&#10005;
 					</button>
 				</div>
-				<ul
-					{...getMenuProps({
-						style: { opacity: isPending ? 0.6 : 1 },
-					})}
-				>
-					{items.map((item, index) => (
+				<ul {...getMenuProps({ style: { opacity: isPending ? 0.6 : 1 } })}>
+					{cities.map((city, index) => (
 						<ListItem
-							key={item.id}
+							key={city.id}
 							index={index}
-							selectedItem={selectedItem}
+							selectedCity={selectedCity}
 							highlightedIndex={highlightedIndex}
-							item={item}
+							city={city}
 							getItemProps={getItemProps}
 						/>
 					))}
@@ -75,45 +82,45 @@ export function App() {
 }
 
 const ListItem = memo(
-	function ListItem({
+	function ListItem<City extends { id: string; name: string }>({
 		index,
-		item,
-		selectedItem,
+		city,
+		selectedCity,
 		highlightedIndex,
 		getItemProps,
 	}: {
 		index: number
-		item: Cities[number]
-		selectedItem: Cities[number] | null
+		city: City
+		selectedCity: City | null
 		highlightedIndex: number
 		getItemProps: UseComboboxPropGetters<City>['getItemProps']
 	}) {
-		const isSelected = selectedItem?.id === item.id
+		const isSelected = selectedCity?.id === city.id
 		const isHighlighted = highlightedIndex === index
 		return (
 			<li
-				key={item.id}
+				key={city.id}
 				{...getItemProps({
 					index,
-					item,
+					item: city,
 					style: {
 						fontWeight: isSelected ? 'bold' : 'normal',
 						backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
 					},
 				})}
 			>
-				{item.name}
+				{city.name}
 			</li>
 		)
 	},
 	(prevProps, nextProps) => {
-		const prevIsSelected = prevProps.selectedItem?.id === prevProps.item.id
-		const nextIsSelected = nextProps.selectedItem?.id === nextProps.item.id
+		const prevIsSelected = prevProps.selectedCity?.id === prevProps.city.id
+		const nextIsSelected = nextProps.selectedCity?.id === nextProps.city.id
 		const prevIsHighlighted = prevProps.highlightedIndex === prevProps.index
 		const nextIsHighlighted = nextProps.highlightedIndex === nextProps.index
 		return (
 			prevProps.index === nextProps.index &&
-			prevProps.item === nextProps.item &&
+			prevProps.city === nextProps.city &&
 			prevIsSelected === nextIsSelected &&
 			prevIsHighlighted === nextIsHighlighted
 		)

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { searchItems } from './cities'
+import { searchCities } from './cities'
 import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 
@@ -7,11 +7,11 @@ export function App() {
 	const forceRerender = useForceRerender()
 	const [inputValue, setInputValue] = useState('')
 
-	// 🐨 wrap this searchItems in a call to `useMemo`
-	const items = searchItems(inputValue).slice(0, 500)
+	// 🐨 wrap this searchCities in a call to `useMemo`
+	const cities = searchCities(inputValue).slice(0, 500)
 
 	const {
-		selectedItem,
+		selectedItem: selectedCity,
 		highlightedIndex,
 		getInputProps,
 		getItemProps,
@@ -19,17 +19,17 @@ export function App() {
 		getMenuProps,
 		selectItem,
 	} = useCombobox({
-		items,
+		items: cities,
 		inputValue,
 		onInputValueChange: ({ inputValue: newValue = '' }) =>
 			setInputValue(newValue),
-		onSelectedItemChange: ({ selectedItem }) =>
+		onSelectedItemChange: ({ selectedItem: selectedCity }) =>
 			alert(
-				selectedItem
-					? `You selected ${selectedItem.name}`
+				selectedCity
+					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: item => (item ? item.name : ''),
+		itemToString: city => (city ? city.name : ''),
 	})
 
 	return (
@@ -44,22 +44,22 @@ export function App() {
 					</button>
 				</div>
 				<ul {...getMenuProps()}>
-					{items.map((item, index) => {
-						const isSelected = selectedItem?.id === item.id
+					{cities.map((city, index) => {
+						const isSelected = selectedCity?.id === city.id
 						const isHighlighted = highlightedIndex === index
 						return (
 							<li
-								key={item.id}
+								key={city.id}
 								{...getItemProps({
 									index,
-									item,
+									item: city,
 									style: {
 										fontWeight: isSelected ? 'bold' : 'normal',
 										backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
 									},
 								})}
 							>
-								{item.name}
+								{city.name}
 							</li>
 						)
 					})}

@@ -2,6 +2,7 @@
 	height: 300px;
 	width: 300px;
 	overflow-y: scroll;
+	margin: 0;
 	background-color: #eee;
 	padding: 0;
 	list-style: none;

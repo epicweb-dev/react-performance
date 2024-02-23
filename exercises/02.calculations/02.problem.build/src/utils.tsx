@@ -1,7 +1,7 @@
 import { useCombobox as useDownshiftCombobox } from 'downshift'
 import { useReducer } from 'react'
 
-export const useForceRerender = () => useReducer(x => x + 1, 0)[1]
+export const useForceRerender = () => useReducer(() => Symbol(), Symbol())[1]
 
 export function useCombobox<Item>(
 	options: Parameters<typeof useDownshiftCombobox<Item>>[0],

@@ -1,22 +1,33 @@
-import { useEffect, useState } from 'react'
-import { searchItems } from './cities'
-import './index.css'
-import { useAsync, useCombobox, useForceRerender } from './utils'
+import { Suspense, use, useState, useTransition } from 'react'
+import { useSpinDelay } from 'spin-delay'
+import { searchCities } from './cities'
+import { useCombobox, useForceRerender } from './utils'
 
-type Cities = Awaited<ReturnType<typeof searchItems>>
+const initialCitiesPromise = searchCities('')
 
 export function App() {
-	const forceRerender = useForceRerender()
-	const [inputValue, setInputValue] = useState('')
+	return (
+		<Suspense fallback="Loading...">
+			<CityChooser initialCitiesPromise={initialCitiesPromise} />
+		</Suspense>
+	)
+}
 
-	const { data: allItems, run, status } = useAsync<Cities>()
-	useEffect(() => {
-		run(searchItems(inputValue))
-	}, [inputValue, run])
-	const items = allItems ?? []
+function CityChooser({
+	initialCitiesPromise,
+}: {
+	initialCitiesPromise: ReturnType<typeof searchCities>
+}) {
+	const forceRerender = useForceRerender()
+	const [isTransitionPending, startTransition] = useTransition()
+	const [inputValue, setInputValue] = useState('')
+	const [citiesPromise, setCitiesPromise] = useState(initialCitiesPromise)
+	const cities = use(citiesPromise)
+
+	const isPending = useSpinDelay(isTransitionPending)
 
 	const {
-		selectedItem,
+		selectedItem: selectedCity,
 		highlightedIndex,
 		getInputProps,
 		getItemProps,
@@ -24,18 +35,21 @@ export function App() {
 		getMenuProps,
 		selectItem,
 	} = useCombobox({
-		items,
+		items: cities,
 		inputValue,
 		onInputValueChange: ({ inputValue: newValue = '' }) => {
 			setInputValue(newValue)
+			startTransition(() => {
+				setCitiesPromise(searchCities(newValue))
+			})
 		},
-		onSelectedItemChange: ({ selectedItem }) =>
+		onSelectedItemChange: ({ selectedItem: selectedCity }) =>
 			alert(
-				selectedItem
-					? `You selected ${selectedItem.name}`
+				selectedCity
+					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: item => (item ? item.name : ''),
+		itemToString: city => (city ? city.name : ''),
 	})
 
 	return (
@@ -49,27 +63,23 @@ export function App() {
 						&#10005;
 					</button>
 				</div>
-				<ul
-					{...getMenuProps({
-						style: { opacity: status === 'pending' ? 0.6 : 1 },
-					})}
-				>
-					{items.map((item, index) => {
-						const isSelected = selectedItem?.id === item.id
+				<ul {...getMenuProps({ style: { opacity: isPending ? 0.6 : 1 } })}>
+					{cities.map((city, index) => {
+						const isSelected = selectedCity?.id === city.id
 						const isHighlighted = highlightedIndex === index
 						return (
 							<li
-								key={item.id}
+								key={city.id}
 								{...getItemProps({
 									index,
-									item,
+									item: city,
 									style: {
 										fontWeight: isSelected ? 'bold' : 'normal',
 										backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
 									},
 								})}
 							>
-								{item.name}
+								{city.name}
 							</li>
 						)
 					})}

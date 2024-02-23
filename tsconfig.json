@@ -41,12 +41,6 @@
       "path": "exercises/02.calculations/03.solution.worker"
     },
     {
-      "path": "exercises/02.calculations/04.problem.delay"
-    },
-    {
-      "path": "exercises/02.calculations/04.solution.delay"
-    },
-    {
       "path": "exercises/03.rerenders/01.problem.memo"
     },
     {
@@ -63,6 +57,12 @@
     },
     {
       "path": "exercises/03.rerenders/03.solution.primitives"
+    },
+    {
+      "path": "exercises/04.windowing/01.problem"
+    },
+    {
+      "path": "exercises/04.windowing/01.solution"
     }
   ]
 }
