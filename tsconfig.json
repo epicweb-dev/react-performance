@@ -23,22 +23,46 @@
       "path": "exercises/01.code-splitting/03.solution.transition"
     },
     {
-      "path": "exercises/02.calculations/01.problem"
+      "path": "exercises/02.calculations/01.problem.use-memo"
     },
     {
-      "path": "exercises/02.calculations/01.solution"
+      "path": "exercises/02.calculations/01.solution.use-memo"
     },
     {
-      "path": "exercises/02.calculations/02.problem"
+      "path": "exercises/02.calculations/02.problem.build"
     },
     {
-      "path": "exercises/02.calculations/02.solution"
+      "path": "exercises/02.calculations/02.solution.build"
     },
     {
-      "path": "exercises/02.calculations/03.problem"
+      "path": "exercises/02.calculations/03.problem.worker"
     },
     {
-      "path": "exercises/02.calculations/03.solution"
+      "path": "exercises/02.calculations/03.solution.worker"
+    },
+    {
+      "path": "exercises/02.calculations/04.problem.delay"
+    },
+    {
+      "path": "exercises/02.calculations/04.solution.delay"
+    },
+    {
+      "path": "exercises/03.rerenders/01.problem.memo"
+    },
+    {
+      "path": "exercises/03.rerenders/01.solution.memo"
+    },
+    {
+      "path": "exercises/03.rerenders/02.problem.comparator"
+    },
+    {
+      "path": "exercises/03.rerenders/02.solution.comparator"
+    },
+    {
+      "path": "exercises/03.rerenders/03.problem.primitives"
+    },
+    {
+      "path": "exercises/03.rerenders/03.solution.primitives"
     }
   ]
 }
