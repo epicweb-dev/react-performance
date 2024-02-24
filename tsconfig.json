@@ -5,64 +5,64 @@
   ],
   "references": [
     {
-      "path": "exercises/01.code-splitting/01.problem.lazy"
+      "path": "exercises/03.code-splitting/01.problem.lazy"
     },
     {
-      "path": "exercises/01.code-splitting/01.solution.lazy"
+      "path": "exercises/03.code-splitting/01.solution.lazy"
     },
     {
-      "path": "exercises/01.code-splitting/02.problem.eager"
+      "path": "exercises/03.code-splitting/02.problem.eager"
     },
     {
-      "path": "exercises/01.code-splitting/02.solution.eager"
+      "path": "exercises/03.code-splitting/02.solution.eager"
     },
     {
-      "path": "exercises/01.code-splitting/03.problem.transition"
+      "path": "exercises/03.code-splitting/03.problem.transition"
     },
     {
-      "path": "exercises/01.code-splitting/03.solution.transition"
+      "path": "exercises/03.code-splitting/03.solution.transition"
     },
     {
-      "path": "exercises/02.calculations/01.problem.use-memo"
+      "path": "exercises/04.calculations/01.problem.use-memo"
     },
     {
-      "path": "exercises/02.calculations/01.solution.use-memo"
+      "path": "exercises/04.calculations/01.solution.use-memo"
     },
     {
-      "path": "exercises/02.calculations/02.problem.build"
+      "path": "exercises/04.calculations/02.problem.build"
     },
     {
-      "path": "exercises/02.calculations/02.solution.build"
+      "path": "exercises/04.calculations/02.solution.build"
     },
     {
-      "path": "exercises/02.calculations/03.problem.worker"
+      "path": "exercises/04.calculations/03.problem.worker"
     },
     {
-      "path": "exercises/02.calculations/03.solution.worker"
+      "path": "exercises/04.calculations/03.solution.worker"
     },
     {
-      "path": "exercises/03.rerenders/01.problem.memo"
+      "path": "exercises/05.rerenders/01.problem.memo"
     },
     {
-      "path": "exercises/03.rerenders/01.solution.memo"
+      "path": "exercises/05.rerenders/01.solution.memo"
     },
     {
-      "path": "exercises/03.rerenders/02.problem.comparator"
+      "path": "exercises/05.rerenders/02.problem.comparator"
     },
     {
-      "path": "exercises/03.rerenders/02.solution.comparator"
+      "path": "exercises/05.rerenders/02.solution.comparator"
     },
     {
-      "path": "exercises/03.rerenders/03.problem.primitives"
+      "path": "exercises/05.rerenders/03.problem.primitives"
     },
     {
-      "path": "exercises/03.rerenders/03.solution.primitives"
+      "path": "exercises/05.rerenders/03.solution.primitives"
     },
     {
-      "path": "exercises/04.windowing/01.problem"
+      "path": "exercises/06.windowing/01.problem.virtualizer"
     },
     {
-      "path": "exercises/04.windowing/01.solution"
+      "path": "exercises/06.windowing/01.solution.virtualizer"
     }
   ]
 }
