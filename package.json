@@ -33,7 +33,7 @@
     "git": ">=2.18.0"
   },
   "devDependencies": {
-    "@kentcdodds/workshop-utils": "^3.6.5",
+    "@kentcdodds/workshop-utils": "^3.6.7",
     "@testing-library/user-event": "^14.5.2",
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
