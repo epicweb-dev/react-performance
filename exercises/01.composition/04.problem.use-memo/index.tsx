@@ -1,4 +1,4 @@
-import { createContext, use, useMemo, useState } from 'react'
+import { createContext, use, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
 const ColorContext = createContext<string | null>(null)
