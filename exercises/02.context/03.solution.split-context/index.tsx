@@ -5,6 +5,8 @@ const FooterStateContext = createContext<{
 	color: string
 	name: string
 } | null>(null)
+FooterStateContext.displayName = 'FooterStateContext'
+
 const FooterDispatchContext = createContext<{
 	setColor: (color: string) => void
 	setName: (name: string) => void
@@ -12,6 +14,21 @@ const FooterDispatchContext = createContext<{
 	setColor: () => {},
 	setName: () => {},
 })
+FooterDispatchContext.displayName = 'FooterDispatchContext'
+
+function FooterProvider({ children }: { children: React.ReactNode }) {
+	const [color, setColor] = useState('black')
+	const [name, setName] = useState('Kody')
+	const footerStateValue = useMemo(() => ({ color, name }), [color, name])
+	const footerDispatchValue = useMemo(() => ({ setColor, setName }), [])
+	return (
+		<FooterStateContext.Provider value={footerStateValue}>
+			<FooterDispatchContext.Provider value={footerDispatchValue}>
+				{children}
+			</FooterDispatchContext.Provider>
+		</FooterStateContext.Provider>
+	)
+}
 
 function useFooterState() {
 	const context = use(FooterStateContext)
@@ -69,26 +86,17 @@ const FooterSetters = memo(function FooterSetters() {
 })
 
 function App() {
-	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
 	const [appCount, setAppCount] = useState(0)
-	const footerStateValue = useMemo(() => ({ color, name }), [color, name])
-	const footerDispatchValue = useMemo(
-		() => ({ setColor, setName }),
-		[setColor, setName],
-	)
 	return (
-		<FooterStateContext.Provider value={footerStateValue}>
-			<FooterDispatchContext.Provider value={footerDispatchValue}>
-				<div>
-					<FooterSetters />
-					<button onClick={() => setAppCount(c => c + 1)}>
-						The app count is {appCount}
-					</button>
-					<Main footer={<Footer />} />
-				</div>
-			</FooterDispatchContext.Provider>
-		</FooterStateContext.Provider>
+		<FooterProvider>
+			<div>
+				<FooterSetters />
+				<button onClick={() => setAppCount(c => c + 1)}>
+					The app count is {appCount}
+				</button>
+				<Main footer={<Footer />} />
+			</div>
+		</FooterProvider>
 	)
 }
 

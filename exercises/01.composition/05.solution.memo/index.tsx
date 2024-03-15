@@ -30,9 +30,9 @@ function Main({ footer }: { footer: React.ReactNode }) {
 }
 
 function App() {
+	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
-	const [appCount, setAppCount] = useState(0)
 	return (
 		<ColorContext.Provider value={color}>
 			<div>

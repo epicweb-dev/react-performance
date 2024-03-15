@@ -45,7 +45,9 @@
 Here are some resources you can read before taking the workshop to get you up to
 speed on some of the tools and concepts we'll be covering:
 
-- TODO: add resources
+- [Analyze runtime performance](https://developer.chrome.com/docs/devtools/performance)
+- [Performance features reference](https://developer.chrome.com/docs/devtools/performance/reference/)
+- [Profile a React App for Performance](https://kentcdodds.com/blog/profile-a-react-app-for-performance)
 
 ## System Requirements
 

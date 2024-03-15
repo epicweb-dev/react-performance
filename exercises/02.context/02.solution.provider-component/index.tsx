@@ -3,8 +3,22 @@ import * as ReactDOM from 'react-dom/client'
 
 const FooterContext = createContext<{
 	color: string
+	setColor: (color: string) => void
 	name: string
+	setName: (name: string) => void
 } | null>(null)
+
+function FooterProvider({ children }: { children: React.ReactNode }) {
+	const [color, setColor] = useState('black')
+	const [name, setName] = useState('Kody')
+	const value = useMemo(
+		() => ({ color, setColor, name, setName }),
+		[color, name],
+	)
+	return (
+		<FooterContext.Provider value={value}>{children}</FooterContext.Provider>
+	)
+}
 
 function useFooter() {
 	const context = use(FooterContext)
@@ -32,13 +46,8 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
-function FooterSetters({
-	setColor,
-	setName,
-}: {
-	setColor: (color: string) => void
-	setName: (name: string) => void
-}) {
+function FooterSetters() {
+	const { setColor, setName } = useFooter()
 	return (
 		<>
 			<div>
@@ -62,19 +71,16 @@ function FooterSetters({
 
 function App() {
 	const [appCount, setAppCount] = useState(0)
-	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
-	const value = useMemo(() => ({ color, name }), [color, name])
 	return (
-		<FooterContext.Provider value={value}>
+		<FooterProvider>
 			<div>
-				<FooterSetters setColor={setColor} setName={setName} />
+				<FooterSetters />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
 				<Main footer={<Footer />} />
 			</div>
-		</FooterContext.Provider>
+		</FooterProvider>
 	)
 }
 

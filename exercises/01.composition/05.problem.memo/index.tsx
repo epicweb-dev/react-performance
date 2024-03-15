@@ -9,6 +9,7 @@ function useColor() {
 	return color
 }
 
+// 🐨 memoize the Footer component with memo from 'react'
 function Footer({ name }: { name: string }) {
 	const color = useColor()
 	return (
@@ -30,9 +31,10 @@ function Main({ footer }: { footer: React.ReactNode }) {
 }
 
 function App() {
+	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
-	const [appCount, setAppCount] = useState(0)
+	// 💣 remove this
 	const footer = useMemo(() => <Footer name={name} />, [name])
 	return (
 		<ColorContext.Provider value={color}>
@@ -58,6 +60,7 @@ function App() {
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
+				{/* 🐨 pass the <Footer /> here directly with the name as a prop */}
 				<Main footer={footer} />
 			</div>
 		</ColorContext.Provider>

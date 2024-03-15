@@ -1,9 +1,16 @@
 import { createContext, memo, use, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
-const FooterContext = createContext<{ color: string; name: string } | null>(
-	null,
-)
+const FooterContext = createContext<{
+	color: string
+	// 🐨 add setColor to this type
+	name: string
+	// 🐨 add setName to this type
+} | null>(null)
+
+// 🐨 create a FooterProvider component here and move the color and name state
+// and context value to this component.
+// 💰 Make sure to accept a children prop and render the FootContext.Provider with it
 
 function useFooter() {
 	const context = use(FooterContext)
@@ -31,9 +38,15 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
-function FooterSetters() {
-	const setColor = (s: string) => {}
-	const setName = (s: string) => {}
+// 🐨 remove these props
+function FooterSetters({
+	setColor,
+	setName,
+}: {
+	setColor: (color: string) => void
+	setName: (name: string) => void
+}) {
+	// 🐨 get setColor and setName from useFooter()
 	return (
 		<>
 			<div>
@@ -56,14 +69,17 @@ function FooterSetters() {
 }
 
 function App() {
+	const [appCount, setAppCount] = useState(0)
+	// 🐨 move the color, name, and value stuff to the new FooterProvider
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
-	const [appCount, setAppCount] = useState(0)
 	const value = useMemo(() => ({ color, name }), [color, name])
 	return (
+		// 🐨 render the FooterProvider here instead of the FooterContext.Provider
 		<FooterContext.Provider value={value}>
 			<div>
-				<FooterSetters />
+				{/* 🐨 remove these props */}
+				<FooterSetters setColor={setColor} setName={setName} />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
@@ -76,8 +92,3 @@ function App() {
 const rootEl = document.createElement('div')
 document.body.append(rootEl)
 ReactDOM.createRoot(rootEl).render(<App />)
-
-/*
-eslint
-	@typescript-eslint/no-unused-vars: "off",
-*/

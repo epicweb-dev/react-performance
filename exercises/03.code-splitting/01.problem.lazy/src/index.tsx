@@ -34,6 +34,7 @@ function App() {
 				{' show globe'}
 			</label>
 			<div style={{ width: 400, height: 400 }}>
+				{/* 🐨 stick a Suspense boundary around this with a fallback of "loading..." */}
 				{showGlobe ? <Globe /> : null}
 			</div>
 		</div>

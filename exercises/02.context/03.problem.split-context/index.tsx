@@ -1,18 +1,46 @@
 import { createContext, memo, use, useMemo, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
+// 🐨 rename this to FooterStateContext
 const FooterContext = createContext<{
 	color: string
+	// 🐨 move this to the new FooterDispatchContext
+	setColor: (color: string) => void
 	name: string
+	// 🐨 move this to the new FooterDispatchContext
+	setName: (name: string) => void
 } | null>(null)
+// 💯 If you want to be able to easily distinguish between the two providers in
+// the react dev tools, add a .displayName property to the context object:
+// 💰 FooterStateContext.displayName = 'FooterStateContext'
 
+// 🐨 create a FooterDispatchContext that has the setColor and setName properties
+
+function FooterProvider({ children }: { children: React.ReactNode }) {
+	const [color, setColor] = useState('black')
+	const [name, setName] = useState('Kody')
+	// 🐨 split this value into two variables: footerStateValue and footerDispatchValue
+	const value = useMemo(
+		() => ({ color, setColor, name, setName }),
+		[color, name],
+	)
+	return (
+		// 🐨 render both context providers here with the appropriate values
+		<FooterContext.Provider value={value}>{children}</FooterContext.Provider>
+	)
+}
+
+// 🐨 rename this to useFooterState and update the implementation
 function useFooter() {
 	const context = use(FooterContext)
 	if (!context) throw new Error('FooterContext not found')
 	return context
 }
 
+// 🐨 create a useFooterDispatch function similar to the hook above
+
 const Footer = memo(function Footer() {
+	// 🐨 update this to useFooterState
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>
@@ -32,13 +60,10 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
-function FooterSetters({
-	setColor,
-	setName,
-}: {
-	setColor: (color: string) => void
-	setName: (name: string) => void
-}) {
+// 💯 as extra credit, you can memo this component and it will *never* re-render
+function FooterSetters() {
+	// 🐨 update this to useFooterDispatch
+	const { setColor, setName } = useFooter()
 	return (
 		<>
 			<div>
@@ -62,19 +87,16 @@ function FooterSetters({
 
 function App() {
 	const [appCount, setAppCount] = useState(0)
-	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
-	const value = useMemo(() => ({ color, name }), [color, name])
 	return (
-		<FooterContext.Provider value={value}>
+		<FooterProvider>
 			<div>
-				<FooterSetters setColor={setColor} setName={setName} />
+				<FooterSetters />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
 				<Main footer={<Footer />} />
 			</div>
-		</FooterContext.Provider>
+		</FooterProvider>
 	)
 }
 

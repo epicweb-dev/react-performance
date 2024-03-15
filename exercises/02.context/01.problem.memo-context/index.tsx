@@ -1,9 +1,10 @@
 import { createContext, memo, use, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
-const FooterContext = createContext<{ color: string; name: string } | null>(
-	null,
-)
+const FooterContext = createContext<{
+	color: string
+	name: string
+} | null>(null)
 
 function useFooter() {
 	const context = use(FooterContext)
@@ -31,31 +32,44 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
+function FooterSetters({
+	setColor,
+	setName,
+}: {
+	setColor: (color: string) => void
+	setName: (name: string) => void
+}) {
+	return (
+		<>
+			<div>
+				<p>Set the footer color:</p>
+				<div style={{ display: 'flex', gap: 4 }}>
+					<button onClick={() => setColor('black')}>Black</button>
+					<button onClick={() => setColor('blue')}>Blue</button>
+					<button onClick={() => setColor('green')}>Green</button>
+				</div>
+			</div>
+			<div>
+				<p>Set the footer name:</p>
+				<label>
+					Name:
+					<input onChange={e => setName(e.currentTarget.value)} />
+				</label>
+			</div>
+		</>
+	)
+}
+
 function App() {
+	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
-	const [appCount, setAppCount] = useState(0)
+	// 🐨 wrap this in useMemo
+	const value = { color, name }
 	return (
-		<FooterContext.Provider value={{ color, name }}>
+		<FooterContext.Provider value={value}>
 			<div>
-				<div>
-					<p>Set the footer color:</p>
-					<div style={{ display: 'flex', gap: 4 }}>
-						<button onClick={() => setColor('black')}>Black</button>
-						<button onClick={() => setColor('blue')}>Blue</button>
-						<button onClick={() => setColor('green')}>Green</button>
-					</div>
-				</div>
-				<div>
-					<p>Set the footer name:</p>
-					<label>
-						Name:
-						<input
-							value={name}
-							onChange={e => setName(e.currentTarget.value)}
-						/>
-					</label>
-				</div>
+				<FooterSetters setColor={setColor} setName={setName} />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
