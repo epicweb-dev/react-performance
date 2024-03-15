@@ -1,30 +1,16 @@
-import { Suspense, use, useState, useTransition } from 'react'
-import { useSpinDelay } from 'spin-delay'
-import { searchCities } from './cities'
+import { useMemo, useState } from 'react'
+import { searchCities } from './cities/legacy'
+import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 
-const initialCitiesPromise = searchCities('')
-
 export function App() {
-	return (
-		<Suspense fallback="Loading...">
-			<CityChooser initialCitiesPromise={initialCitiesPromise} />
-		</Suspense>
-	)
-}
-
-function CityChooser({
-	initialCitiesPromise,
-}: {
-	initialCitiesPromise: ReturnType<typeof searchCities>
-}) {
 	const forceRerender = useForceRerender()
-	const [isTransitionPending, startTransition] = useTransition()
 	const [inputValue, setInputValue] = useState('')
-	const [citiesPromise, setCitiesPromise] = useState(initialCitiesPromise)
-	const cities = use(citiesPromise)
 
-	const isPending = useSpinDelay(isTransitionPending)
+	const cities = useMemo(
+		() => searchCities(inputValue).slice(0, 500),
+		[inputValue],
+	)
 
 	const {
 		selectedItem: selectedCity,
@@ -37,12 +23,8 @@ function CityChooser({
 	} = useCombobox({
 		items: cities,
 		inputValue,
-		onInputValueChange: ({ inputValue: newValue = '' }) => {
-			setInputValue(newValue)
-			startTransition(() => {
-				setCitiesPromise(searchCities(newValue))
-			})
-		},
+		onInputValueChange: ({ inputValue: newValue = '' }) =>
+			setInputValue(newValue),
 		onSelectedItemChange: ({ selectedItem: selectedCity }) =>
 			alert(
 				selectedCity
@@ -63,7 +45,7 @@ function CityChooser({
 						&#10005;
 					</button>
 				</div>
-				<ul {...getMenuProps({ style: { opacity: isPending ? 0.6 : 1 } })}>
+				<ul {...getMenuProps()}>
 					{cities.map((city, index) => {
 						const isSelected = selectedCity?.id === city.id
 						const isHighlighted = highlightedIndex === index

@@ -23,6 +23,12 @@
 			"options": {
 				"useTabs": false
 			}
+		},
+		{
+			"files": ["**/*.mdx"],
+			"options": {
+				"proseWrap": "preserve"
+			}
 		}
 	]
 }

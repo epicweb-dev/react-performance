@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { searchCities } from './cities'
+import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 
 export function App() {

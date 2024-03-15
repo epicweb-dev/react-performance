@@ -1,30 +1,19 @@
 import { useMemo, useState } from 'react'
+// 🐨 update this to import from './cities/legacy' for now
+// and if you haven't already copied ./cities/index.ts to ./cities/legacy.ts
+// do that now before you change ./cities/index.ts
 import { searchCities } from './cities'
+import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 
-// 🐨 create a variable called initialCitiesPromise and call searchCities here
-// 💰 NOTE: do NOT await the call. You're getting the promise, not the result!
-
-// 🐨 export a new component called App (you'll rename the one below)
-// - App should render a Suspense boundary with a fallback of "Loading..."
-// - In the suspense boundary, render the CityChooser component and pass the initialCitiesPromise to it
-
-// 🐨 rename this component to CityChooser
-// 🐨 also accept a new prop called initialCitiesPromise
-// 💰 ReturnType<typeof searchCities> should be the type you're looking for!
 export function App() {
 	const forceRerender = useForceRerender()
-	// 🐨 add a useTransition here
 	const [inputValue, setInputValue] = useState('')
-	// 🐨 create a new state here called citiesPromise
 
-	// 🐨 get rid of this useMemo and instead call use(citiesPromise) to get the cities
 	const cities = useMemo(
 		() => searchCities(inputValue).slice(0, 500),
 		[inputValue],
 	)
-
-	// 💯 as extra credit, use spin-delay to avoid a flash of pending state
 
 	const {
 		selectedItem: selectedCity,
@@ -37,11 +26,8 @@ export function App() {
 	} = useCombobox({
 		items: cities,
 		inputValue,
-		onInputValueChange: ({ inputValue: newValue = '' }) => {
-			setInputValue(newValue)
-			// 🐨 start a transition here and in the transition callback, call
-			// searchCities(newValue) and set the citiesPromise state to that promise
-		},
+		onInputValueChange: ({ inputValue: newValue = '' }) =>
+			setInputValue(newValue),
 		onSelectedItemChange: ({ selectedItem: selectedCity }) =>
 			alert(
 				selectedCity
@@ -62,7 +48,6 @@ export function App() {
 						&#10005;
 					</button>
 				</div>
-				{/* 🐨 add opacity of 0.6 if we're currently pending */}
 				<ul {...getMenuProps()}>
 					{cities.map((city, index) => {
 						const isSelected = selectedCity?.id === city.id

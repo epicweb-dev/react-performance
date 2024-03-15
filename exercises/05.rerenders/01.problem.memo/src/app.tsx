@@ -2,6 +2,7 @@ import { type UseComboboxPropGetters } from 'downshift'
 import { Suspense, use, useState, useTransition } from 'react'
 import { useSpinDelay } from 'spin-delay'
 import { searchCities } from './cities'
+import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 
 const initialCitiesPromise = searchCities('')
@@ -9,16 +10,12 @@ const initialCitiesPromise = searchCities('')
 export function App() {
 	return (
 		<Suspense fallback="Loading...">
-			<CityChooser initialCitiesPromise={initialCitiesPromise} />
+			<CityChooser />
 		</Suspense>
 	)
 }
 
-function CityChooser({
-	initialCitiesPromise,
-}: {
-	initialCitiesPromise: ReturnType<typeof searchCities>
-}) {
+function CityChooser() {
 	const forceRerender = useForceRerender()
 	const [isTransitionPending, startTransition] = useTransition()
 	const [inputValue, setInputValue] = useState('')

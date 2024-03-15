@@ -2,7 +2,9 @@ import { Suspense, lazy, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import './index.css'
 
-const Globe = lazy(() => import('./globe.tsx'))
+// 🧝‍♂️ I just gave this arrow function a name and passed it to lazy
+const loadGlobe = () => import('./globe.tsx')
+const Globe = lazy(loadGlobe)
 
 function App() {
 	const [showGlobe, setShowGlobe] = useState(false)
@@ -18,7 +20,10 @@ function App() {
 				padding: '2rem',
 			}}
 		>
-			<label style={{ marginBottom: '1rem' }}>
+			<label
+				style={{ marginBottom: '1rem' }}
+				// 🐨 add onFocus and onPointerEnter events and set them to loadGlobe
+			>
 				<input
 					type="checkbox"
 					checked={showGlobe}

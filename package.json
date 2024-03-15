@@ -32,18 +32,22 @@
     "npm": ">=8.16.0",
     "git": ">=2.18.0"
   },
+  "dependencies": {
+    "react": "18.3.0-canary-a870b2d54-20240314",
+    "react-dom": "18.3.0-canary-a870b2d54-20240314"
+  },
   "devDependencies": {
     "@kentcdodds/workshop-utils": "^3.9.5",
-    "@testing-library/user-event": "^14.5.2",
-    "@typescript-eslint/eslint-plugin": "^6.18.0",
-    "@typescript-eslint/parser": "^6.18.0",
     "@remix-run/eslint-config": "^2.4.1",
     "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.2",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/d3-geo": "^3.1.0",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
     "@types/topojson-client": "^3.1.4",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
     "chokidar": "^3.6.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
