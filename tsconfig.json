@@ -41,6 +41,12 @@
       "path": "exercises/04.calculations/03.solution.worker"
     },
     {
+      "path": "exercises/04.calculations/04.problem.async"
+    },
+    {
+      "path": "exercises/04.calculations/04.solution.async"
+    },
+    {
       "path": "exercises/05.rerenders/01.problem.memo"
     },
     {
