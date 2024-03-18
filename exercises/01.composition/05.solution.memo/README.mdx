@@ -1,1 +1,11 @@
 # Memoize Components
+
+👨‍💼 Great work!
+
+🦉 What's interesting is we could actually move the `Footer` to be rendered
+directly in the `Main` at this point if we wanted to and we'd get the same
+behavior as far as rendering the `Footer` only when its props or context change.
+For the most part, it would be a matter of preference. A nuanced bit of
+difference is that doing that would require React to check whether the props are
+different every time you click the `Main` counter. But in practical scenarios,
+this shouldn't really make much of a difference.

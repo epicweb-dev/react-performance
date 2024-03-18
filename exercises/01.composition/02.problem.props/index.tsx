@@ -5,17 +5,16 @@ function Footer({ color }: { color: string }) {
 	return <footer style={{ color }}>I am the ({color}) footer</footer>
 }
 
-// 💣 delete this variable
-const footer = <Footer color="black" />
-
-// 🐨 make the Main component accept a footer prop
-function Main() {
+// 🐨 make the Main component accept a footer prop instead of the color prop
+// 🦺 the type should be a React.ReactNode
+function Main({ color }: { color: string }) {
 	const [count, setCount] = useState(0)
 	const increment = () => setCount(c => c + 1)
 	return (
 		<div>
 			<button onClick={increment}>The count is {count}</button>
-			{footer}
+			{/* 🐨 interpolate the footer here rather than creating a new <Footer /> element every render */}
+			<Footer color={color} />
 		</div>
 	)
 }
@@ -32,8 +31,8 @@ function App() {
 					<button onClick={() => setColor('green')}>Green</button>
 				</div>
 			</div>
-			{/* 🐨 pass the footer prop so you can dynamically determine the color */}
-			<Main />
+			{/* 🐨 pass the footer prop instead of the color prop */}
+			<Main color={color} />
 		</div>
 	)
 }
@@ -41,8 +40,3 @@ function App() {
 const rootEl = document.createElement('div')
 document.body.append(rootEl)
 ReactDOM.createRoot(rootEl).render(<App />)
-
-/*
-eslint
-	@typescript-eslint/no-unused-vars: "off",
-*/

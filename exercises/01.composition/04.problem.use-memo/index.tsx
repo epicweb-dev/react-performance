@@ -9,9 +9,7 @@ function useColor() {
 	return color
 }
 
-// 🐨 add name as a string prop
-function Footer() {
-	const name = 'TODO'
+function Footer({ name }: { name: string }) {
 	const color = useColor()
 	return (
 		<footer style={{ color }}>
@@ -31,14 +29,12 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
-// 🐨 move this to the App component and pass the name prop
-// 🐨 wrap it in useMemo to preserve the element when the name is unchanged
-const footer = <Footer />
-
 function App() {
 	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
+	// 🐨 memoize the footer variable here with useMemo
+	const footer = <Footer name={name} />
 	return (
 		<ColorContext.Provider value={color}>
 			<div>

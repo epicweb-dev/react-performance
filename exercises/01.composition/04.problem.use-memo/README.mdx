@@ -1,1 +1,18 @@
 # Memoize Elements
+
+👨‍💼 Now we want our users to be able to type their name and have that show up in
+the footer. But we don't want to use context for the name like we do with the
+color just yet. We just want to be able to pass the `name` as a regular prop.
+But we still want to make sure that the `Footer` only rerenders when it should
+and no more. So you're going to need to combine `useMemo` with this React
+element optimization.
+
+Remember that `useMemo` allows you to get the same value back if the
+dependencies haven't changed. Well, you can create a React element that depends
+on the `name` and render that:
+
+```tsx
+const someElement = useMemo(() => <MyComponent myProp={myProp} />, [myProp])
+```
+
+Give that a shot! (Double-check your work with the React DevTools).

@@ -1,1 +1,22 @@
 # Memoize Components
+
+🦉 Memoizing elements is such a common idea that React has a built-in optimizer
+called `memo` which allows you to memoize an entire component based on its
+props:
+
+```tsx
+const MyComponent = React.memo(function MyComponent(props) {
+	/* only rerenders if props change */
+})
+```
+
+This effectively turns the `props` object into a dependency array a la `useMemo`
+and applys wherever the component is rendered.
+
+🧝‍♂️ <PrevDiffLink>I've moved the `Footer` out of `useMemo`</PrevDiffLink> so
+we've got it rendering unnecessarily again.
+
+👨‍💼 You're going to use `memo` to get the `Footer` back into a position where
+it only renders when the `name` or `color` change. Good luck!
+
+[📜 Check out the `memo` docs](https://react.dev/reference/react/memo)

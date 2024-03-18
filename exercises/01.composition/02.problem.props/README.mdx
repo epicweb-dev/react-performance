@@ -1,1 +1,16 @@
 # Element Props
+
+🧝‍♂️ I've enhanced our app a bit to add some buttons that will control the color
+of our footer. This means we can't just render the component outside the `App`
+component since we need to pass the `color` as a prop. Feel free
+to <PrevDiffLink>check my work</PrevDiffLink>.
+
+👨‍💼 Yep, to make it work, Kellie had to render the `<Footer />` in `<Main />`
+which means the `<Footer />` gets rerendered every time we click the count
+button even if the color doesn't change.
+
+So your job is to restructure things so the `Footer` only re-renders when the
+`color` is changed.
+
+Make sure to pull up the React DevTools to be certain incrementing the count
+doesn't trigger a rerender of the footer.

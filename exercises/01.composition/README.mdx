@@ -1,1 +1,87 @@
-# Context Optimization
+# Element Optimization
+
+Elements are the fundamentals building blocks of React UI. It was the first
+we started with when you started learning React in this workshop series. And
+React has some smarts under the hood we can take advantage of when we're
+rendering elements.
+
+<callout-success>
+	If you need a quick review of React elements and JSX, read [What is
+	JSX?](https://kentcdodds.com/blog/what-is-jsx)
+</callout-success>
+
+What we're going to be learning about in this exercise can be summed up as:
+
+> If you give React the same element you gave it on the last render, it wont
+> bother re-rendering that element. – [@kentcdodds](https://twitter.com/kentcdodds/status/1143200604065431552)
+
+Here's a simple example:
+
+```tsx
+function Message({ greeting }) {
+	console.log('rendering greeting', greeting)
+	return <div>{greeting}</div>
+}
+
+function Counter() {
+	const [count, setCount] = React.useState(0)
+	const increment = () => setCount(c => c + 1)
+	return (
+		<div>
+			<button onClick={increment}>The count is {count}</button>
+			<Message greeting="Hello!" />
+		</div>
+	)
+}
+```
+
+With this set up, we'll get a log every time the counter is incremented. Meaning
+the `<Message />` component is rerendered every time its parent rerenders
+(which is to be expected). But this is unnecessary since the greeting component
+won't ever change what it's rendering.
+
+What if I refactored things a little bit. For example:
+
+```tsx
+function Message({ greeting }) {
+	console.log('rendering greeting', greeting)
+	return <div>{greeting}</div>
+}
+
+const message = <Message greeting="Hello!" />
+
+function Counter() {
+	const [count, setCount] = React.useState(0)
+	const increment = () => setCount(c => c + 1)
+	return (
+		<div>
+			<button onClick={increment}>The count is {count}</button>
+			{message}
+		</div>
+	)
+}
+```
+
+In this situation, the `<Message />` component only renders once and won't
+rerender whenever the count changes. This is because we're giving React the same
+element every time. How does this work?
+
+When React is given the same element it was given on the last render, it won't
+bother rerendering that element again because that would be pointless. It just
+keeps the same element and moves on.
+
+This is a simple, but powerful optimization that can help you avoid unnecessary
+rerenders in your application. It's not always possible to do this, but you'd be
+surprised how **simply restructuring your components** can make this possible
+more and more often.
+
+<callout-info class="aside">
+	The composition pattern we learned in the Advanced React Patterns workshop
+	also takes advantage of this optimization as well (that pattern sure does pop
+	up a lot!).
+</callout-info>
+
+The optimization we're going to be learning about in this exercise is explained
+with examples in
+[One simple trick to optimize React re-renders](https://kentcdodds.com/blog/optimize-react-re-renders).
+Feel free to check that out for a more in depth explanation for how this works.

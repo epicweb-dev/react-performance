@@ -1,4 +1,4 @@
-import { createContext, use, useMemo, useState } from 'react'
+import { createContext, use, useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
 const ColorContext = createContext<string | null>(null)
@@ -34,8 +34,6 @@ function App() {
 	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
 	const [name, setName] = useState('Kody')
-	// 💣 remove this
-	const footer = useMemo(() => <Footer name={name} />, [name])
 	return (
 		<ColorContext.Provider value={color}>
 			<div>
@@ -60,8 +58,7 @@ function App() {
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
-				{/* 🐨 pass the <Footer /> here directly with the name as a prop */}
-				<Main footer={footer} />
+				<Main footer={<Footer name={name} />} />
 			</div>
 		</ColorContext.Provider>
 	)

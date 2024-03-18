@@ -1,1 +1,16 @@
 # Reusing Elements
+
+👨‍💼 We're going to be building a simple user interface and in the process we want
+to limit unnecessary renders as much as possible (not because it's necessary
+for this specific application, but because it's a useful exercise for you to
+learn how to do for when it is necessary).
+
+Right now, when you click the counter button, both the `App` and `Footer`
+components rerender.
+
+But the `Footer` component doesn't change so that render is unnecessary. So
+please take advantage of React's element optimization by creating a `Footer`
+element outside the `App` so you can render that inline in the `App` component.
+
+Make sure to check the before/after using the React DevTools so you know that
+your work is making a difference.
