@@ -1,8 +1,8 @@
 import { memo, useDeferredValue, useState } from 'react'
 import {
-	type BlogPost,
 	generateGradient,
 	getMatchingPosts,
+	type BlogPost,
 } from '#shared/blog-posts.tsx'
 import { getQueryParam, useSearchParams } from './params'
 import { ButtonWithTooltip } from './tooltip'
@@ -11,15 +11,7 @@ export function MatchingPosts() {
 	const [searchParams] = useSearchParams()
 	const query = getQueryParam(searchParams)
 	const deferredQuery = useDeferredValue(query)
-	return <MatchingPostsImpl query={deferredQuery} />
-}
-
-const MatchingPostsImpl = memo(function MatchingPostsImpl({
-	query,
-}: {
-	query: string
-}) {
-	const matchingPosts = getMatchingPosts(query)
+	const matchingPosts = getMatchingPosts(deferredQuery)
 
 	return (
 		<ul className="post-list">
@@ -28,16 +20,10 @@ const MatchingPostsImpl = memo(function MatchingPostsImpl({
 			))}
 		</ul>
 	)
-})
+}
 
-function Card({ post }: { post: BlogPost }) {
+const Card = memo(function Card({ post }: { post: BlogPost }) {
 	const [isFavorited, setIsFavorited] = useState(false)
-
-	// This artificially slows down rendering
-	let now = performance.now()
-	while (performance.now() - now < 100) {
-		// Do nothing for a bit...
-	}
 
 	return (
 		<li>
@@ -70,6 +56,19 @@ function Card({ post }: { post: BlogPost }) {
 				<h2>{post.title}</h2>
 				<p>{post.description}</p>
 			</a>
+			{post.title.split('').map((c, index) => (
+				<SlowThing key={index} />
+			))}
 		</li>
 	)
+})
+
+function SlowThing() {
+	// This artificially slows down rendering
+	const now = performance.now()
+	while (performance.now() - now < 0.01) {
+		// Do nothing for a bit...
+	}
+
+	return null
 }

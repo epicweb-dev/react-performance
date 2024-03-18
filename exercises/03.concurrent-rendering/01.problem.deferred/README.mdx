@@ -1,0 +1,14 @@
+# useDeferredValue + memo
+
+👨‍💼 We've got a performance problem with our `Card` component in this UI. (🧝‍♂️
+actually, I just added an arbitrary slowdown to simulate a problem to keep this
+exercise simple while still teaching the lesson). As a result, every time we
+type in the `search` the characters are not responsive.
+
+You might think that you can get away with just adding `memo` around the `Card`
+and we absolutely want you to do that, but once you try, you'll notice that
+typing a bunch in the search and then clearing the search is still a really slow
+experience. We need concurrent rendering!
+
+So please `memo`-ize the `Card` component, and add `useDeferredValue` to the
+`query` you use to filter the cards and check the performance difference.

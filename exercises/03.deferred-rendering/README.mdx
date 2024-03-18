@@ -1,1 +1,0 @@
-# Deferred Rendering

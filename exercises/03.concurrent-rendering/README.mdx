@@ -1,0 +1,83 @@
+# Concurrent Rendering
+
+Sometimes, you're rendering so many components or those components are doing
+such complex things that you can't afford to render them all quickly enough.
+
+The human eye perceives things at around 60 frames per second. That means a
+single frame is around 16 milliseconds. So if your JavaScript is taking longer
+than 16ms to render, the browser won't be able to keep up and your users will
+have a janky experience.
+
+Unfortunately, sometimes you really just do have enough work to do that you
+can't keep within that budget. There are certainly things React could do to
+speed things up and it's constantly working on that. One innovation React came
+up with to help with this is called "concurrent rendering."
+
+If you'd like to understand concurrent rendering at a conceptual level, I
+suggest you check out
+[the React v18 release announcement](https://react.dev/blog/2022/03/29/react-v18#what-is-concurrent-react),
+[watch Dan Abramov's Talk at JSConf Iceland](https://www.youtube.com/watch?v=nLF0n9SACd4),
+or [watch the React 18 Keynote](https://youtu.be/FZ0cG47msEk?si=oy9iSsdmryL9IXub&t=1155).
+
+Here's the basic idea: instead of rendering everything all at once, React can
+break up the work into smaller chunks. When the rendering is taking longer than
+a threshold React manages, it will pause its work and let the browser do
+whatever work it needs to do. Then when React gets a turn, it'll continue the
+work it was doing. Continously iterating toward finishing its work before
+finally updating the DOM with the updates of all that work.
+
+In this way, React can keep the browser responsive and the user experience
+smooth even when it's doing a lot of work.
+
+The trick here is that React needs to know what things are priority. For
+example, a user drag-and-drop interaction should be prioritized over rendering
+a list of items. React can't know what's a priority and what's not, so it needs
+you to tell it.
+
+You can do this using the `useDeferredValue` hook. The value you receive from
+React will be a "deferred value" that React will prioritize less than other
+work. This is useful for things like rendering a list of items, where the user
+can still interact with the page even if the list isn't fully rendered yet.
+
+In the Suspense workshop we used this to make a list of items show stale content
+while we loaded more search results, but it is also used to de-prioritize
+rendering of less important things.
+
+Here's the example from the React docs:
+
+```tsx
+function App() {
+	const [text, setText] = useState('')
+	const deferredText = useDeferredValue(text)
+	return (
+		<>
+			<input value={text} onChange={e => setText(e.target.value)} />
+			<SlowList text={deferredText} />
+		</>
+	)
+}
+
+const SlowList = memo(function SlowList({ text }) {
+	// something really slow happens here...
+	return <div>{text}</div>
+})
+```
+
+It's important to understand that the initial render of the `SlowList` will
+still be slow (there's nothing "old" to show the user while React works in the
+background), so as with other performance optimizations, it's better to just
+"make it faster" if you can. However, for if you can't, `useDeferredValue` can
+clue React into the fact that re-rendering the `App` component when the
+`deferredText` changes is less important than other work (like keeping the
+`value` prop on the `input` up-to-date).
+
+For some technical background on how `useDeferredValue` does this, check
+[the documentation](https://react.dev/reference/react/useDeferredValue).
+
+<callout-warning>
+	You must `memo`-ize the slow component. This is because React needs to be able
+	to rerender the component with the previous value very quickly. So if you
+	don't use `memo` on the component, React is forced to rerender the entire
+	component with the old value anyway which defeats the purpose of
+	`useDeferredValue` in this case.
+</callout-warning>
