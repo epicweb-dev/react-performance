@@ -1,1 +1,24 @@
-# React.lazy
+# lazy
+
+👨‍💼 Our app has a neat Globe component that shows the user where they are on the
+globe. Cool right? It's super duper fun.
+
+But one day users started complaining the app is taking too long to load. We're
+using several sizeable libraries to have the really cool globe, but users only
+need to load it if they click the "show globe" button and loading it ahead of
+time makes the app load slower.
+
+So your job as a performance professional is to load the code on-demand so the
+user doesn't have to wait to see the checkbox.
+
+For this one, you'll need to open the solution in isolation and open the Chrome
+DevTools Network tab to watch the webpack chunks load when you click "show
+globe." Your objective is to have the network load those same chunks so they're
+not in the bundle to begin with.
+
+💰 Here's a quick tip: In the Network tab, there's a dropdown for artificially
+throttling your network speed. It defaults to "Online" but you can change it to
+"Fast 3G", "Slow 3G", etc.
+
+Also, spend a bit of time playing with
+[the coverage feature of the dev tools](https://developer.chrome.com/docs/devtools/coverage).
