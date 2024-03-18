@@ -1,1 +1,14 @@
 # Provider Component
+
+👨‍💼 We've noticed that when we change some of the Footer context stuff, we're
+actually rerendering the `App` and `Main` components even though those don't
+have anything to do with the Footer context.
+
+So we're going to take advantage of React's optimizations for reusing elements
+by creating a `FooterProvider` component and accepting `children`. That way
+whenever the Footer context changes, only the `FooterProvider` component and its
+consumers will rerender. React will be able to reuse the `children` element
+since that doesn't change when the Footer's state changes.
+
+When you're finished, changing the footer color of setting the footer name
+should not cause the `App` or `Main` components to rerender.

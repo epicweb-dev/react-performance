@@ -1,1 +1,36 @@
 # Split Context
+
+👨‍💼 Something you may have noticed is that the `FooterSetters` component is
+rerendering whenever the footer state changes, but that component doesn't
+actually depend on the footer state at all. All it cares about is the setter
+functions which never change!
+
+Let's assume that `FooterSetters` is an expensive component to render. How could
+we prevent it from rerendering unnecessarily when the footer state changes?
+
+How about you split the context into two separate contexts: one for the state
+and one for the setters. For example:
+
+```tsx
+function SomeProvider() {
+	const [state, setState] = useState()
+	const setters = useMemo(() => ({ setState }), [setState])
+	const stateValue = useMemo(() => ({ state }), [state])
+	return (
+		<StateContext.Provider value={stateValue}>
+			<SettersContext.Provider value={setters}>
+				{children}
+			</SettersContext.Provider>
+		</StateContext.Provider>
+	)
+}
+```
+
+This way, `FooterSetters` can consume only the setters
+(which never change)!
+
+Give that a shot in this exercise (and for extra credit you can also `memo`-ize
+the `FooterSetters` component and it will _never_ rerender!).
+
+This is going to require a fair bit of refactoring, but it should be pretty
+quick. Make sure you check out how components rerender in the React DevTools!

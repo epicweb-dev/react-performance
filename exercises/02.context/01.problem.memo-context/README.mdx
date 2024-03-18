@@ -1,1 +1,16 @@
 # Memoize Context
+
+🧝‍♂️ I've taken the `name` and `color` state and combined them into a single
+`FooterContext` as well as extracted some of the UI into a `FooterSetters`
+component (for all the stuff that allows you to control the `Footer`). Feel free
+to <PrevDiffLink>check my work</PrevDiffLink> to inspect the changes if you
+want.
+
+👨‍💼 Great, now if you pull up the React DevTools, you'll notice all the
+components rerender whenever you change the counter in the App component. This
+is happening because the `FooterContext.Provider` is a new `value` prop every
+render.
+
+So if you memoize the `value` prop with `useMemo`, you can prevent the
+unnecessary rerender of consuming components when the `value` prop doesn't
+change.
