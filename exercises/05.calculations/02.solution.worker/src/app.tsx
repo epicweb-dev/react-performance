@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
-import { searchCities } from './cities/index.ts'
+import { searchCities } from './cities/legacy'
+// This is just here temporarily. We'll access it's exports next...
+import './cities/index.ts'
 import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 

@@ -1,7 +1,7 @@
 import { type UseComboboxPropGetters } from 'downshift'
 import { Suspense, memo, use, useState, useTransition } from 'react'
 import { useSpinDelay } from 'spin-delay'
-import { searchCities } from './cities'
+import { searchCities } from './cities/index.ts'
 import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 

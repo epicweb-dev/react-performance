@@ -1,1 +1,22 @@
 # Transitions
+
+👨‍💼 By default, when a component suspends (like our `lazy` component is while
+we're lazy-loading some code), React will render the fallback of our suspense
+boundary immediately. Go ahead and try it now. Hover over the checkbox for long
+enough for the code to load and then check it. You'll notice even though the
+code is ready to go, it still shows our fallback UI.
+
+The reason this happens is React wants to help us avoid a flash of loading
+state. So React will actually wait a little bit before switching from the
+fallback to the real content. This is a good default, but it's definitely not
+optimial.
+
+So instead, we can wrap our state update `setShowGlobe` in a transition so React
+doesn't go to the suspense fallback and instead we can show a pending UI if we
+so decide.
+
+This is similar to what we've done in the past, so if you'd like you can add
+`useSpinDelay` from [`spin-delay`](https://npm.im/spin-delay) to prevent pushing
+the flash of loading state to later if the globe's code isn't quite ready yet.
+
+[📜 `useTransition`](https://react.dev/reference/react/useTransition)

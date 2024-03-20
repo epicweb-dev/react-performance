@@ -9,6 +9,8 @@ function App() {
 	const [showGlobe, setShowGlobe] = useState(false)
 	// 🐨 get the startTransition function from useTransition
 
+	// 💯 use useSpinDelay to avoid a flash of pending state here
+
 	return (
 		<div
 			style={{
@@ -30,7 +32,7 @@ function App() {
 					type="checkbox"
 					checked={showGlobe}
 					// 🐨 wrap setShowGlobe in startTransition
-					onChange={e => setShowGlobe(e.target.checked)}
+					onChange={e => setShowGlobe(e.currentTarget.checked)}
 				/>
 				{' show globe'}
 			</label>

@@ -1,5 +1,8 @@
 import { useMemo, useState } from 'react'
-import { searchCities } from './cities/index.ts'
+import { searchCities } from './cities/legacy'
+// 🐨 uncomment this import and then check the DevTools -> Sources -> Threads
+// and you should see an entry for the filter-cities.worker.ts when you're finished
+// import './cities/index.ts'
 import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 

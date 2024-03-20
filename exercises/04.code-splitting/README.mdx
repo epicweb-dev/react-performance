@@ -12,7 +12,7 @@ the user loads the login screen? Nope! We could load that on-demand.
 Luckily for us, there's a built-in way to do this with JavaScript standards.
 It's called a dynamic import and the syntax looks like this:
 
-```javascript
+```tsx
 import('/some-module.js').then(
 	module => {
 		// do stuff with the module's exports
@@ -32,17 +32,15 @@ you have to use the `<React.Suspense />` component to render a fallback value
 while the user waits for the module to be loaded.
 
 ```tsx
-// smiley-face.js
-function SmileyFace() {
+// smiley-face.tsx
+export default function SmileyFace() {
 	return <div>😃</div>
 }
 
-export default SmileyFace
-
-// app.js
+// app.tsx
 import { lazy, Suspense } from 'react'
 
-const SmileyFace = lazy(() => import('./smiley-face'))
+const SmileyFace = lazy(() => import('./smiley-face.tsx'))
 
 function App() {
 	return (
@@ -58,64 +56,3 @@ function App() {
 🦉 One great way to analyze your app to determine the need/benefit of code
 splitting for a certain feature/page/interaction, is to use
 [the "Coverage" feature of the developer tools](https://developer.chrome.com/docs/devtools/coverage).
-
-{/* TODO: finish moving this stuff */}
-
-## Extra Credit
-
-### 1. 💯 eager loading
-
-[Production deploy](https://react-performance.netlify.app/isolated/final/01.extra-1.js)
-
-So it's great that the users can get the app loaded faster, but it's annoying
-when 99% of the time the reason the users are using the app is so they can
-interact with our globe. We don't want to have to make them wait first to load
-the app and then again to load the globe. Wouldn't it be cool if we could have
-globe start loading as soon as the user hovers over the checkbox? So if they
-`mouseOver` or `focus` the `<label>` for the checkbox, we should kick off a
-dynamic import for the globe module.
-
-See if you can make that work.
-
-> 💰 Hint: it doesn't matter how many times you call
-> `import('./path-to-module')`, webpack will only actually load the module once.
-
-### 2. 💯 webpack magic comments
-
-[Production deploy](https://react-performance.netlify.app/isolated/final/01.extra-2.js)
-
-If you're using webpack to bundle your application, then you can use webpack
-[magic comments](https://webpack.js.org/api/module-methods/#magic-comments) to
-have webpack instruct the browser to prefetch dynamic imports:
-
-```javascript
-import(/* webpackPrefetch: true */ './some-module.js')
-```
-
-When webpack sees this comment, it adds this to your document's `head`:
-
-```javascript
-<link rel="prefetch" as="script" href="/static/js/1.chunk.js">
-```
-
-With this, the browser will automatically load this JavaScript file into the
-browser cache so it's ready ahead of time.
-
-The change itself is minimal, but pull up the DevTools to make sure it's loading
-properly (you'll need to uncheck the "Disable cache" button to observe any
-changes).
-
-## Notes
-
-Another thing which we won't cover in this workshop, but you should look into
-later, is using the `webpackChunkName` magic comment which will allow webpack to
-place common modules in the same chunk. This is good for components which you
-want loaded together in the same chunk (to reduce multiple requests for multiple
-modules which will likely be needed together).
-
-You can play around with this in the `src/examples/code-splitting` directory.
-
-## 🦉 Feedback
-
-Fill out
-[the feedback form](https://ws.kcd.im/?ws=React%20Performance%20%E2%9A%A1&e=01%3A%20Code%20splitting&em=).

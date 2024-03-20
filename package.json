@@ -13,6 +13,8 @@
     "postinstall": "cd ./kcdshop && npm install",
     "start": "npx --prefix ./kcdshop kcdshop start",
     "dev": "npx --prefix ./kcdshop kcdshop start",
+    "build": "cd ./playground && npm run build",
+    "preview": "cd ./playground && npm run preview",
     "setup": "node ./setup.js",
     "setup:custom": "node ./scripts/setup-custom.js",
     "lint": "eslint .",

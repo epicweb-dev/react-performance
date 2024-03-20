@@ -1,1 +1,14 @@
-# React.lazy
+# lazy
+
+👨‍💼 Great! That makes our initial page load **much** lighter than before. Based
+on my count in the development environment, we've gone from 2.0 MB JavaScript
+downloaded to 1.4 MB. That's a 30% reduction in the amount of JavaScript we're
+sending to the client. That's a big win!
+
+If you're curious, you could try running the production version of this app
+(`npm run build` and `npm run preview` in the playground directory) and you'll
+find we go from 376 KB to 189 KB. That's over a 50% reduction! Huge!
+
+Of course, once you show the globe we have to load the rest of it, but there are
+things you can do to optimize even that so the user's waiting less. Let's try
+that next.

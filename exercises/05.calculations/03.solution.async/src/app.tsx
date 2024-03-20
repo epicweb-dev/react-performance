@@ -1,4 +1,3 @@
-import { type UseComboboxPropGetters } from 'downshift'
 import { Suspense, use, useState, useTransition } from 'react'
 import { useSpinDelay } from 'spin-delay'
 import { searchCities } from './cities/index.ts'
@@ -62,51 +61,27 @@ function CityChooser() {
 					</button>
 				</div>
 				<ul {...getMenuProps({ style: { opacity: isPending ? 0.6 : 1 } })}>
-					{cities.map((city, index) => (
-						<ListItem
-							key={city.id}
-							index={index}
-							selectedCity={selectedCity}
-							highlightedIndex={highlightedIndex}
-							city={city}
-							getItemProps={getItemProps}
-						/>
-					))}
+					{cities.map((city, index) => {
+						const isSelected = selectedCity?.id === city.id
+						const isHighlighted = highlightedIndex === index
+						return (
+							<li
+								key={city.id}
+								{...getItemProps({
+									index,
+									item: city,
+									style: {
+										fontWeight: isSelected ? 'bold' : 'normal',
+										backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
+									},
+								})}
+							>
+								{city.name}
+							</li>
+						)
+					})}
 				</ul>
 			</div>
 		</div>
-	)
-}
-
-// 🐨 wrap this in memo from React
-function ListItem<City extends { id: string; name: string }>({
-	index,
-	city,
-	selectedCity,
-	highlightedIndex,
-	getItemProps,
-}: {
-	index: number
-	city: City
-	selectedCity: City | null
-	highlightedIndex: number
-	getItemProps: UseComboboxPropGetters<City>['getItemProps']
-}) {
-	const isSelected = selectedCity?.id === city.id
-	const isHighlighted = highlightedIndex === index
-	return (
-		<li
-			key={city.id}
-			{...getItemProps({
-				index,
-				item: city,
-				style: {
-					fontWeight: isSelected ? 'bold' : 'normal',
-					backgroundColor: isHighlighted ? 'lightgray' : 'inherit',
-				},
-			})}
-		>
-			{city.name}
-		</li>
 	)
 }

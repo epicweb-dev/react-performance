@@ -1,1 +1,22 @@
 # useMemo
+
+👨‍💼 We have a combobox that's calling `searchCities` every render. This function
+is really slow because it's attempting to intelligently sort thousands of items
+based on the user's filter input.
+
+Your job is to improve performance by wrapping `searchCities` in `useMemo`.
+
+To observe the performance problem with `searchCities`, open the Chrome DevTools
+"Performance" tab, click the settings gear and set CPU from "no throttling" to
+"6x slowdown." Then select any item from the dropdown. Next, click the "Record"
+circle icon in the devtools to start a recording. Then click on "force rerender"
+and then click the "Record" circle again to stop the recording. You'll notice
+that `searchCities` was called when it should not have been (and it took a LONG
+time to run). Your goal is to make it so `searchCities` is only called when the
+filter changes.
+
+<callout-info>
+	Tip: Below the flame graph, you'll find a few tabs. One of those is "Call
+	Tree" and in that you can search the functions that were called. You'll know
+	you got this right when `searchCities` doesn't appear.
+</callout-info>

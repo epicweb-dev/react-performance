@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { searchCities } from './cities'
+import { searchCities } from './cities/index.ts'
 import './index.css'
 import { useCombobox, useForceRerender } from './utils'
 

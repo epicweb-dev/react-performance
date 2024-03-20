@@ -1,0 +1,14 @@
+# Async Results
+
+👨‍💼 Great job! Now if you take some measurements with the dev tools, you'll
+notice that doing searches is much faster than before. Offloading this work is
+a nice improvement!
+
+## Why not `useDeferredValue`?
+
+You may think this would be a case for `useDeferredValue` rather than
+`useTransition`. However, `useTransition` is better for this situation because
+the state we're changing is not the input value itself, but rather the matching
+cities which are being fetched from the web worker. The transition will preserve
+the existing UI (including the input we can still type in) while the new cities
+are being fetched.

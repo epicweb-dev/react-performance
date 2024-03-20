@@ -1,13 +1,16 @@
 import { Suspense, lazy, useState, useTransition } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import './index.css'
+import { useSpinDelay } from 'spin-delay'
 
 const loadGlobe = () => import('./globe.tsx')
 const Globe = lazy(loadGlobe)
 
 function App() {
 	const [showGlobe, setShowGlobe] = useState(false)
-	const [isPending, startTransition] = useTransition()
+	const [isTransitionPending, startTransition] = useTransition()
+
+	const isPending = useSpinDelay(isTransitionPending)
 
 	return (
 		<div
@@ -29,7 +32,9 @@ function App() {
 				<input
 					type="checkbox"
 					checked={showGlobe}
-					onChange={e => startTransition(() => setShowGlobe(e.target.checked))}
+					onChange={e =>
+						startTransition(() => setShowGlobe(e.currentTarget.checked))
+					}
 				/>
 				{' show globe'}
 			</label>

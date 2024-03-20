@@ -29,22 +29,16 @@
       "path": "exercises/05.calculations/01.solution.use-memo"
     },
     {
-      "path": "exercises/05.calculations/02.problem.build"
+      "path": "exercises/05.calculations/02.problem.worker"
     },
     {
-      "path": "exercises/05.calculations/02.solution.build"
+      "path": "exercises/05.calculations/02.solution.worker"
     },
     {
-      "path": "exercises/05.calculations/03.problem.worker"
+      "path": "exercises/05.calculations/03.problem.async"
     },
     {
-      "path": "exercises/05.calculations/03.solution.worker"
-    },
-    {
-      "path": "exercises/05.calculations/04.problem.async"
-    },
-    {
-      "path": "exercises/05.calculations/04.solution.async"
+      "path": "exercises/05.calculations/03.solution.async"
     },
     {
       "path": "exercises/06.rerenders/01.problem.memo"

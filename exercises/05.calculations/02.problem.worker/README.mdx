@@ -1,0 +1,51 @@
+# Web Worker
+
+<callout-warning>
+	Warning, this one's _really_ cool, but kinda tricky... Also, the intent isn't
+	necessarily for you to learn about [web
+	workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers),
+	but just to expose you to a good use case for them. You can get started
+	learning about web workers in [Speed up your app with web
+	workers](https://kentcdodds.com/blog/speed-up-your-app-with-web-workers).
+</callout-warning>
+
+👨‍💼 It's awesome that we reduced how often we have to call `searchCities`.
+Unfortunately, on low-powered devices, `searchCities` is still quite slow when
+it actually _does_ need to run and we'd like to speed it up. So I was thinking
+that we need to ditch [`match-sorter`](https://npm.im/match-sorter) in favor of
+a simple string `includes` because the experience is not fast enough (even
+though `match-sorter` does provide a much superior UX).
+
+But no! We must have the better UX! There may be ways to optimize `match-sorter`
+itself, but let's try throwing this all into a web worker instead...
+
+<callout-warning>
+	This change is going to take two steps. So when we're finished with this bit,
+	we actually won't see any improvement until we take advantage of it in the
+	next step.
+</callout-warning>
+
+🧝‍♂️ To avoid distrupting our existing `App` component, I have
+copied <InlineFile file="src/cities/index.ts" />
+into <InlineFile file="src/cities/legacy.ts" /> and update the import
+in <InlineFile file="src/app.tsx" />. Feel free
+to <PrevDiffLink>check it out</PrevDiffLink>.
+
+👨‍💼 Thanks Kellie! Now you're ready to make changes
+in <InlineFile file="src/cities/index.ts" />
+and <InlineFile file="src/cities/filter-cities.worker.ts" /> for this exercise.
+
+Oh, and when you're finished with that, then go
+into <InlineFile file="src/app.tsx" /> and add an import for `./cities/index.ts`
+just so you can see the web worker get loaded into our sources tab of the
+DevTools like this:
+
+![Sources tab in devtools showing another thread called filter-cities.worker.ts](/img/worker-thread.png)
+
+🦉 We'll be using a library called [`comlink`](https://npm.im/comlink) to manage
+communication with this web worker and have some nice type safety. You may find
+it useful to view the docs a bit for that project before proceeding.
+
+We'll also be taking advantage of
+[Vite's web workers feature](https://vitejs.dev/guide/features.html#web-workers).
+Those docs would also be useful to peruse just a bit.
