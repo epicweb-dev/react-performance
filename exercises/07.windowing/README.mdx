@@ -51,7 +51,7 @@ React ecosystem for solving this problem. My personal favorite is called
 `react-virtual`. Here's an example of how you would adapt a list to use
 `react-virtual`'s `useVirtual` hook:
 
-```jsx
+```tsx
 // before
 function MyListOfData({ items }) {
 	return (
@@ -64,7 +64,7 @@ function MyListOfData({ items }) {
 }
 ```
 
-```jsx
+```tsx
 // after
 function MyListOfData({ items }) {
 	const listRef = React.useRef()

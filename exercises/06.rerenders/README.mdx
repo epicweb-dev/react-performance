@@ -1,13 +1,5 @@
 # Optimize Rendering
 
-# React.memo for reducing unnecessary re-renders
-
-## 📝 Your Notes
-
-Elaborate on your learnings here in `src/exercise/03.md`
-
-## Background
-
 Here's the lifecycle of a React app:
 
 ```
@@ -27,12 +19,12 @@ slowest part of this process. By separating us from the DOM, React can perform
 the most surgically optimal updates to the DOM to speed things up for us
 big-time.
 
-A React Component can re-render for any of the following reasons:
+A React Component can rerender for any of the following reasons:
 
 1. Its props change
 2. Its internal state changes
 3. It is consuming context values which have changed
-4. Its parent re-renders
+4. Its parent rerenders
 
 React is really fast, however, _sometimes_ it can be useful to give React little
 tips about certain parts of the React tree when there's a state update. You can
@@ -43,7 +35,7 @@ built-in rendering bail-out utilities: `React.PureComponent`, `React.memo`, or
 I want to emphasize that I've seen many projects make the mistake of using these
 utilities as band-aids over more problematic performance problems in their apps.
 Please read more about this in my blog post:
-[Fix the slow render before you fix the re-render](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render).
+[Fix the slow render before you fix the rerender](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render).
 
 Let's look at an example to learn how this works. You can pull this example up
 at
@@ -51,7 +43,7 @@ at
 (and feel free to play with it in `src/examples/unnecessary-rerenders.js`). Pull
 this up and profile it with the React DevTools.
 
-```jsx
+```tsx
 function CountButton({ count, onClick }) {
 	return <button onClick={onClick}>{count}</button>
 }
@@ -83,8 +75,8 @@ function Example() {
 ```
 
 Based on how this is implemented, when you click on the counter button, the
-`<CountButton />` re-renders (so we can update the `count` value). But the
-`<NameInput />` is also re-rendered. If you have
+`<CountButton />` rerenders (so we can update the `count` value). But the
+`<NameInput />` is also rerendered. If you have
 `Record why each component rendered while profiling.` enabled in React DevTools,
 then you'll see that under "Why did this render?" it says "The parent component
 rendered."
@@ -96,15 +88,15 @@ DOM. This is what's called an "unnecessary rerender" and if that
 render/reconciliation process is expensive, then it can be worthwhile to prevent
 it.
 
-Using one of the bail-out APIs, you can instruct React when to re-render.
+Using one of the bail-out APIs, you can instruct React when to rerender.
 `React.PureComponent` is for class components and `React.memo` is for function
 components and they do basically the same thing by default. They make it so your
-component will not re-render simply because its parent re-rendered which could
+component will not rerender simply because its parent rerendered which could
 improve the performance of your app overall.
 
 So here's how we can improve our example:
 
-```jsx
+```tsx
 function CountButton({ count, onClick }) {
 	return <button onClick={onClick}>{count}</button>
 }
@@ -121,7 +113,7 @@ NameInput = React.memo(NameInput)
 // etc... no other changes necessary
 ```
 
-If you try that out, then you'll notice the `<NameInput />` no longer re-renders
+If you try that out, then you'll notice the `<NameInput />` no longer rerenders
 when you click on the counter button, saving React the work of having to call
 the `NameInput` function and compare the previous react elements with the new
 ones.
@@ -136,7 +128,7 @@ prevent unnecessary renders. It wouldn't work without wrapping `increment` in
 `React.useCallback`.
 
 It's much better to use `React.memo` more intentionally and further, there are other things
-you can do to reduce the amount of unnecessary re-renders throughout your application
+you can do to reduce the amount of unnecessary rerenders throughout your application
 (which we'll talk about more later).
 
 ## Exercise
@@ -148,8 +140,8 @@ Production deploys:
 
 In this exercise, pull up the React DevTools and observe when you click the
 "force rerender" button, the `Downshift`, `Menu`, and `ListItem` components are
-all re-rendered even though no DOM updates were needed. This is an unnecessary
-re-render and a bottleneck in our application (especially if we want to start
+all rerendered even though no DOM updates were needed. This is an unnecessary
+rerender and a bottleneck in our application (especially if we want to start
 showing all of the results rather than just the first 100... I've heard rumors
 that the product manager 👨‍💼 wants us to do that). If you enable 6x throttle on
 the CPU (under the Performance tab in Chrome DevTools) then you'll notice the
@@ -173,7 +165,7 @@ function that allows us to compare the props and return `true` if rendering the
 component again is **unnecessary** and `false` if it is necessary.
 
 See if you can figure out how to use that function to make it so changing the
-highlighted index only re-renders the components that need the change.
+highlighted index only rerenders the components that need the change.
 
 > NOTE: You can do the same for `selectedItem`, though that one may be trickier
 > to test and I tried it and couldn't get it to work 😅 I spent 20 minutes on it
@@ -192,13 +184,8 @@ to our `ListItem`. That way they are primitive values and we can take advantage
 of React's built-in comparison function and remove ours altogether.
 
 The additional benefit to this is when you select an item, only the selected
-item needs a re-render.
+item needs a rerender.
 
 So for this extra credit, try to accept an `isSelected` and `isHighlighted` prop
 to `ListItem` so you don't have to pass the frequently changing values for
 `selectedItem` and `highlightedIndex`.
-
-## 🦉 Feedback
-
-Fill out
-[the feedback form](https://ws.kcd.im/?ws=React%20Performance%20%E2%9A%A1&e=03%3A%20React.memo%20for%20reducing%20unnecessary%20re-renders&em=).
