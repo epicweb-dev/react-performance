@@ -1,19 +1,14 @@
 # Windowing
 
-# Window large lists with react-virtual
-
-## 📝 Your Notes
-
-Elaborate on your learnings here in `src/exercise/04.md`
-
-> NOTE: We're going to be using a library called `react-virtual`. Some of you
-> may have used this before and others may not have used it or anything else
-> like it. I normally like to build up to abstractions like this one by building
-> a simple version of the abstraction ourselves, but that would be a workshop
-> entirely to itself! Implementing this is nontrivial, so try to focus on the
-> concepts even though we're using a library.
-
-## Background
+<callout-info class="aside">
+	NOTE: We're going to be using a library called
+	[`@tanstack/react-virtual`](https://npm.im/@tanstack/react-virtual). Some of
+	you may have used this before and others may not have used it or anything else
+	like it. I normally like to build up to abstractions like this one by building
+	a simple version of the abstraction ourselves, but that would be a workshop
+	entirely to itself! Implementing this is nontrivial, so try to focus on the
+	concepts even though we're using a library.
+</callout-info>
 
 As we learned in the last exercise, React is really optimized at updating the
 DOM during the commit phase.
@@ -31,8 +26,9 @@ conclude that we're simply running too much code (or running the same small
 amount of code too many times).
 
 But here's the trick. Often you don't need to actually display tens of thousands
-of list items, table cells, or data points to users. So if that content isn't
-displayed, then you can kinda cheat by doing some "lazy" just-in-time rendering.
+of list items, table cells, or data points to users. Users can't process it all
+anyway. So if that content isn't displayed, then you can kinda cheat by doing
+some "lazy" just-in-time rendering.
 
 So let's say you had a grid of data that rendered 100 columns and had 5000 rows.
 Do you really need to render all 500000 cells for the user all at once? They
@@ -48,8 +44,8 @@ doing this "lazy" just-in-time rendering.
 This is a concept called "windowing" and in some cases it can really speed up
 your components that render lots of data. There are various libraries in the
 React ecosystem for solving this problem. My personal favorite is called
-`react-virtual`. Here's an example of how you would adapt a list to use
-`react-virtual`'s `useVirtual` hook:
+`@tanstack/react-virtual`. Here's an example of how you would adapt a list to
+use `@tanstack/react-virtual`'s `useVirtualizer` hook:
 
 ```tsx
 // before
@@ -68,27 +64,27 @@ function MyListOfData({ items }) {
 // after
 function MyListOfData({ items }) {
 	const listRef = React.useRef()
-	const rowVirtualizer = useVirtual({
+	const rowVirtualizer = useVirtualizer({
 		size: items.length,
-		parentRef: listRef,
-		estimateSize: React.useCallback(() => 20, []),
-		overscan: 10,
+		getScrollElement: () => listRef.current,
+		estimateSize: () => 20,
 	})
 
 	return (
 		<ul ref={listRef} style={{ position: 'relative', height: 300 }}>
-			<li style={{ height: rowVirtualizer.totalSize }} />
-			{rowVirtualizer.virtualItems.map(({ index, size, start }) => {
+			<li style={{ height: `${rowVirtualizer.getTotalSize()}px` }} />
+			{rowVirtualizer.getVirtualItems().map(virtualItem => {
+				const { index, key, size, start } = virtualItem
 				const item = items[index]
 				return (
 					<li
-						key={item.id}
+						key={key}
 						style={{
 							position: 'absolute',
 							top: 0,
 							left: 0,
 							width: '100%',
-							height: size,
+							height: `${size}px`,
 							transform: `translateY(${start}px)`,
 						}}
 					>
@@ -102,41 +98,11 @@ function MyListOfData({ items }) {
 ```
 
 In summary, rather than iterating over all the items in your list, you simply
-tell `useVirtual` how many rows are in your list, give it a callback that it can
-use to determine what size they each should be, and then it will give you back
-`virtualItems` and a `totalSize` which you can then use to only render the items
-the user should be able to see within the window.
+tell `useVirtualizer` how many rows are in your list, give it a callback that it
+can use to determine what size they each should be, and then it will give you
+back `getVirtualItems()` and a `totalSize` which you can then use to only render
+the items the user should be able to see within the window.
 
-[react-virtual](https://github.com/tannerlinsley/react-virtual) has some really
-awesome capabilities for all sorts of lists (including variable sizes and
+[@tanstack/react-virtual](https://npm.im/@tanstack/react-virtual) has some
+really awesome capabilities for all sorts of lists (including variable sizes and
 grids). Definitely give it a look to speed up your lists.
-
-## Exercise
-
-Production deploys:
-
-- [Exercise](https://react-performance.netlify.app/isolated/exercise/04.js)
-- [Final](https://react-performance.netlify.app/isolated/final/04.js)
-
-👨‍💼 The product manager noticed that we're only rendering the top 100 matches and
-they're frustrated because they like scrolling for eternity. We tried to explain
-to them about React's reconciliation and commit phases, but they just smiled,
-gave us a high five and said "You're smart! I'm sure you can do this!"
-
-So in this exercise, we've removed the `items.slice(0, 100)` and now we're
-rendering all the items. Even without throttling your CPU, you should notice a
-serious performance problem here any time there's any render of any kind. Go
-ahead and try doing some profiling if you like, but I think you know what you
-need to do. You need to window this stuff! Run less code, and speed up your
-component.
-
-Note that 💰 Marty the Money Bag has done a tiny bit of work for you that's
-specific to how you integrate Downshift and react-virtual. He's done a good job
-documenting what he's done so you can read about the changes he made if you
-want. 🐨 Kody the Koala will be there to help you know what changes you need to
-make. Good luck!
-
-## 🦉 Feedback
-
-Fill out
-[the feedback form](https://ws.kcd.im/?ws=React%20Performance%20%E2%9A%A1&e=04%3A%20Window%20large%20lists%20with%20react-virtual&em=).

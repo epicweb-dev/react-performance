@@ -2,3 +2,23 @@
 
 Hover over one of the items with CPU 6x throttle and it's crazy slow despite
 only re-rendering the ListItem
+
+👨‍💼 I've noticed that we're only rendering the top 500 matches and our users are
+frustrated because they like scrolling for eternity. We tried to explain to
+them about React's reconciliation and commit phases, but they just smiled, gave
+us a high five and said "You're smart! I'm sure you can do this!" 🤷‍♂️
+
+🧝‍♂️ I've <PrevDiffLink>removed the `.slice(0, 500)`</PrevDiffLink> and now we're
+rendering all the items. Even without throttling your CPU, you should notice a
+serious performance problem here any time there's any render of any kind. You'll
+notice this especially when React needs to render all the items. For example,
+you can type a search query, then clear it and you'll definitely notice it then.
+
+Go ahead and try doing some profiling if you like, but I think you know what you
+need to do. You need to window this stuff! Run less code, and speed up your
+component.
+
+👨‍💼 Ok, you should be good to go! Note that 💰 Marty the Money Bag will be
+holding your hand for some stuff a tiny bit for things that are specific to how
+you integrate `downshift` and `@tanstack/react-virtual`. 🐨 Kody the Koala will
+be there to help you know what changes you need to make. Good luck!
