@@ -28,9 +28,8 @@ A React Component can rerender for any of the following reasons:
 
 React is really fast, however, _sometimes_ it can be useful to give React little
 tips about certain parts of the React tree when there's a state update. You can
-opt-out of state updates for a part of the React tree by using one of React's
-built-in rendering bail-out utilities: `React.PureComponent`, `React.memo`, or
-`shouldComponentUpdate`.
+opt-out of state updates for a part of the React tree by using
+[`memo`](https://react.dev/reference/react/memo).
 
 I want to emphasize that I've seen many projects make the mistake of using these
 utilities as band-aids over more problematic performance problems in their apps.
@@ -38,17 +37,30 @@ Please read more about this in my blog post:
 [Fix the slow render before you fix the rerender](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render).
 
 Let's look at an example to learn how this works. You can pull this example up
-at
-[localhost:3000/isolated/examples/unnecessary-rerenders.js](http://localhost:3000/isolated/examples/unnecessary-rerenders.js)
-(and feel free to play with it in `src/examples/unnecessary-rerenders.js`). Pull
-this up and profile it with the React DevTools.
+at <a target="_blank" href="/app/examples/unnecessary-rerenders">/app/examples/unnecessary-rerenders</a>
+(and feel free to play with it in `examples/unnecessary-rerenders`). Pull this
+up and profile it with the React DevTools.
+
+Here's the implementation:
 
 ```tsx
-function CountButton({ count, onClick }) {
+function CountButton({
+	count,
+	onClick,
+}: {
+	count: number
+	onClick: () => void
+}) {
 	return <button onClick={onClick}>{count}</button>
 }
 
-function NameInput({ name, onNameChange }) {
+function NameInput({
+	name,
+	onNameChange,
+}: {
+	name: string
+	onNameChange: (name: string) => void
+}) {
 	return (
 		<label>
 			Name: <input value={name} onChange={e => onNameChange(e.target.value)} />
@@ -56,12 +68,12 @@ function NameInput({ name, onNameChange }) {
 	)
 }
 
-function Example() {
-	const [name, setName] = React.useState('')
-	const [count, setCount] = React.useState(0)
+function App() {
+	const [name, setName] = useState('')
+	const [count, setCount] = useState(0)
 	const increment = () => setCount(c => c + 1)
 	return (
-		<div>
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
 			<div>
 				<CountButton count={count} onClick={increment} />
 			</div>
@@ -89,29 +101,44 @@ render/reconciliation process is expensive, then it can be worthwhile to prevent
 it.
 
 Using one of the bail-out APIs, you can instruct React when to rerender.
-`React.PureComponent` is for class components and `React.memo` is for function
-components and they do basically the same thing by default. They make it so your
-component will not rerender simply because its parent rerendered which could
-improve the performance of your app overall.
+The only relevant API these days is `memo`. What happens is that React will
+compare the previous props with the new props and if they're the same, then
+React will not call the component function and will not update the DOM.
 
 So here's how we can improve our example:
 
 ```tsx
-function CountButton({ count, onClick }) {
+import { memo } from 'react'
+
+function CountButton({
+	count,
+	onClick,
+}: {
+	count: number
+	onClick: () => void
+}) {
 	return <button onClick={onClick}>{count}</button>
 }
 
-function NameInput({ name, onNameChange }) {
+const NameInput = memo(function NameInput({
+	name,
+	onNameChange,
+}: {
+	name: string
+	onNameChange: (name: string) => void
+}) {
 	return (
 		<label>
 			Name: <input value={name} onChange={e => onNameChange(e.target.value)} />
 		</label>
 	)
-}
-NameInput = React.memo(NameInput)
+})
 
 // etc... no other changes necessary
 ```
+
+The only change there was to wrap the `NameInput` component in react's `memo`
+utility.
 
 If you try that out, then you'll notice the `<NameInput />` no longer rerenders
 when you click on the counter button, saving React the work of having to call
@@ -119,36 +146,21 @@ the `NameInput` function and compare the previous react elements with the new
 ones.
 
 Again, I want to mention that people can make the mistake of wrapping
-_everything_ in `React.memo` which can actually slow down your app in some cases
-and in all cases it makes your code more complex.
+_everything_ in `memo` which can actually slow down your app in some cases and
+in all cases it makes your code more complex.
 
-That's why we didn't memoize `<CountButton />`, its parent is re-initializing
-`increment` every render, but `React.memo` relies on the same props each call to
-prevent unnecessary renders. It wouldn't work without wrapping `increment` in
-`React.useCallback`.
+In fact, why don't you try wrapping the `CountButton` in `memo` and see what
+happens. You'll notice that it doesn't work.
 
-It's much better to use `React.memo` more intentionally and further, there are other things
-you can do to reduce the amount of unnecessary rerenders throughout your application
-(which we'll talk about more later).
+This is because its parent is passing `increment` and that function is new every
+render (as it's defined in the `App`). Because `memo` relies on the same props
+each call to prevent unnecessary renders, we're not getting any benefit! If we
+really wanted to take advantage of `memo` here, we'd have to wrap `increment` in
+`useCallback`. Feel free to try that if you'd like.
 
-## Exercise
-
-Production deploys:
-
-- [Exercise](https://react-performance.netlify.app/isolated/exercise/03.js)
-- [Final](https://react-performance.netlify.app/isolated/final/03.js)
-
-In this exercise, pull up the React DevTools and observe when you click the
-"force rerender" button, the `Downshift`, `Menu`, and `ListItem` components are
-all rerendered even though no DOM updates were needed. This is an unnecessary
-rerender and a bottleneck in our application (especially if we want to start
-showing all of the results rather than just the first 100... I've heard rumors
-that the product manager 👨‍💼 wants us to do that). If you enable 6x throttle on
-the CPU (under the Performance tab in Chrome DevTools) then you'll notice the
-issue is more stark.
-
-Your job is to optimize the `Menu` and `ListItem` components to be memoized via
-`React.memo`. Make note of the before/after render times.
+It's much better to use `memo` more intentionally and further, there are other
+things you can do to reduce the amount of unnecessary rerenders throughout your
+application (some of which we've done already).
 
 ### 1. 💯 Use a custom comparator function
 
@@ -160,7 +172,7 @@ changes for all the `ListItem` components, but it doesn't mean that they all
 need DOM updates. The only ListItems that need a DOM update are 1) the old
 highlighted item, and 2) the new highlighted item.
 
-Luckily for us, `React.memo` accepts a second argument which is a custom compare
+Luckily for us, `memo` accepts a second argument which is a custom compare
 function that allows us to compare the props and return `true` if rendering the
 component again is **unnecessary** and `false` if it is necessary.
 

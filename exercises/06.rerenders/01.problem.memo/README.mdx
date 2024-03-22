@@ -1,6 +1,21 @@
 # Component Memoization
 
-Click "force re-render"
+👨‍💼 We've got a problem. Here's how you reproduce it in our component.
 
-- In browser devtools search for ListItem function call
-- In React devtools search for the ListItem in the Ranked view
+In this exercise, pull up the React DevTools Profiler and start a recording.
+Observe when you click the "force rerender" button, the `CityChooser` and
+`ListItem` components are rerendered even though no DOM updates were needed.
+This is an unnecessary rerender and a bottleneck in our application (especially
+if we want to start showing all of the results rather than just the first 500...
+which we do want to do eventually). If you enable 6x throttle on the CPU (under
+the Performance tab in Chrome DevTools) then you'll notice the issue is more
+stark.
+
+Your job is to optimize the `ListItem` component to be memoized via `memo`. Make
+note of the before/after render times.
+
+Make sure to check both the React Profiler and the Chrome DevTools Performance
+tab.
+
+As with most of these exercises, the code changes are minimal, but the impact
+is significant!

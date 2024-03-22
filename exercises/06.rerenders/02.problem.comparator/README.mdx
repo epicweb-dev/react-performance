@@ -1,3 +1,39 @@
 # Custom Comparator
 
-Hover over one of the list items and notice they all re-render
+👨‍💼 We've improved things so the `ListItem` components don't rerender when there
+are unrelated changes, but what if there are changes to the list item state?
+
+Hover over one of the list items and notice they all rerender. But we really
+only need the hovered item to rerender (as well as the one that's no longer
+highlighted).
+
+So let's add a custom comparator to the `memo` call in `ListItem` to only
+rerender when the changed props will affect the output.
+
+Here's an example of the comparator:
+
+```tsx
+const Avatar = memo(
+	function Avatar({ user }: { user: User }) {
+		return <img src={user.avatarUrl} alt={user.name} />
+	},
+	(prevProps, nextProps) => {
+		const avatarChanged = prevProps.user.avatarUrl !== nextProps.user.avatarUrl
+		const nameChanged = prevProps.user.name !== nextProps.user.name
+		return avatarChanged || nameChanged
+	},
+)
+```
+
+So even if the user object changes, the `Avatar` component will only rerender if
+the `avatarUrl` or `name` properties change.
+
+By default, React just checks the reference of the props, so by providing a
+custom comparator, we override that default behavior to have a more fine-grained
+control over when the component should rerender.
+
+So let's add a custom comparator to the `ListItem` component so it only rerenders
+when absolutely necessary.
+
+Pull up the React Profiler and the DevTools Performance tab to see the impact
+of this optimization as you hover over different list items.

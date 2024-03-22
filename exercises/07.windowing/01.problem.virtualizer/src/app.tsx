@@ -55,9 +55,12 @@ function CityChooser() {
 					: 'Selection Cleared',
 			),
 		itemToString: city => (city ? city.name : ''),
-		// we want to override Downshift's scrollIntoView functionality because
-		// the virtualizer will handle scrolling for us:
+		// 🦉 we want to override Downshift's scrollIntoView functionality because
+		// the virtualizer will handle scrolling for us as the user uses the arrow keys:
+
 		// 🐨 set scrollIntoView to a "no-op" function
+		// 💰 "no-op" means "no operation" or "a function that does nothing"... So: () => {}
+
 		// 🐨 when the highlightedIndex changes, then tell the virtualizer to scroll
 		// to that index.
 		// 💰 because you're not here to learn the downshift API I'm just gonna give
@@ -80,42 +83,45 @@ function CityChooser() {
 						&#10005;
 					</button>
 				</div>
-				<div
-				// 🐨 add the ref to the div
-				// 🐨 give this div a fixed height (300px), width (300px), and overflow (auto)
+				<ul
+					{...getMenuProps({
+						// 🐨 add the ref to the ul
+						style: {
+							opacity: isPending ? 0.6 : 1,
+							position: 'relative',
+						},
+					})}
 				>
-					<ul
-						{...getMenuProps({
-							style: {
-								opacity: isPending ? 0.6 : 1,
-								// 🐨 make this ul have a height equal to the rowVirtualizer.getTotalSize() (in pixels)
-								// it should also have 100% width and relative position
-							},
-						})}
-					>
-						{/* 🐨 change this to map over rowVirtualizer.getVirtualItems() */}
-						{/* 💰 you'll no longer need the index from the map, you'll get it from the virtualItem instead */}
-						{cities.map((city, index) => {
-							// 🐨 get the item from items[virtualItem.index]
-							// 🐨 get the index, key, size, and start from the virtualItem
-							const isSelected = selectedCity?.id === city.id
-							const isHighlighted = highlightedIndex === index
-							return (
-								<ListItem
-									// 🐨 use the key from the virtualItem here
-									key={city.id}
-									// 🐨 use the index from the virtualItem here
-									index={index}
-									isSelected={isSelected}
-									isHighlighted={isHighlighted}
-									city={city}
-									getItemProps={getItemProps}
-									// 🐨 add start and size props here (from the virtualItem)
-								/>
-							)
-						})}
-					</ul>
-				</div>
+					{/*
+						🦉 to make this ul have a scrollbar that makes it appear we're
+						rendering all items, we're going to toss in an invisible element
+						that's really tall.
+						🐨 add an <li /> with no content that has a height equal to the
+						total size of the scrollable list (💰 `${rowVirtualizer.getTotalSize()}px`)
+					*/}
+
+					{/* 🐨 change this to map over rowVirtualizer.getVirtualItems() */}
+					{/* 💰 you'll no longer need the index from the map, you'll get it from the virtualItem instead */}
+					{cities.map((city, index) => {
+						// 🐨 get the item from items[virtualItem.index]
+						// 🐨 get the index, key, size, and start from the virtualItem
+						const isSelected = selectedCity?.id === city.id
+						const isHighlighted = highlightedIndex === index
+						return (
+							<ListItem
+								// 🐨 use the key from the virtualItem here
+								key={city.id}
+								// 🐨 use the index from the virtualItem here
+								index={index}
+								isSelected={isSelected}
+								isHighlighted={isHighlighted}
+								city={city}
+								getItemProps={getItemProps}
+								// 🐨 add start and size props here (from the virtualItem)
+							/>
+						)
+					})}
+				</ul>
 			</div>
 		</div>
 	)

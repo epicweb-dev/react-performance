@@ -10,6 +10,9 @@ import { ButtonWithTooltip } from './tooltip'
 export function MatchingPosts() {
 	const [searchParams] = useSearchParams()
 	const query = getQueryParam(searchParams)
+	// 🐨 make a deferredQuery with useDeferredValue
+	// 🐨 pass the deferredQuery to getMatchingPosts here
+	// so React can defer the Cards we render with the matching posts.
 	const matchingPosts = getMatchingPosts(query)
 
 	return (
@@ -21,6 +24,7 @@ export function MatchingPosts() {
 	)
 }
 
+// 🐨 wrap this in memo
 function Card({ post }: { post: BlogPost }) {
 	const [isFavorited, setIsFavorited] = useState(false)
 
