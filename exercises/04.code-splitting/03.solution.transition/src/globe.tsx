@@ -1,6 +1,6 @@
 import { useWheel } from '@use-gesture/react'
 import { type GeoPermissibleObjects, geoOrthographic, geoPath } from 'd3-geo'
-import * as React from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { feature } from 'topojson-client'
 import jsonData from './countries-110m.json'
@@ -24,8 +24,8 @@ const Globe = animated(
 		onGlobeClick: (lat: number, lng: number) => void
 		currentLocation: { userLat: number; userLng: number }
 	}) => {
-		const svgref = React.useRef<SVGSVGElement>(null)
-		const projection = React.useMemo(() => {
+		const svgref = useRef<SVGSVGElement>(null)
+		const projection = useMemo(() => {
 			return geoOrthographic()
 				.translate([size / 2, size / 2])
 				.scale((size / 2) * zoom)
@@ -110,14 +110,14 @@ const Globe = animated(
 )
 
 function GlobeContainer({ size = 400 }) {
-	const [state, setState] = React.useState({
+	const [state, setState] = useState({
 		lat: 0,
 		lng: 0,
 		userLat: 0,
 		userLng: 0,
 	})
 
-	React.useEffect(() => {
+	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(position =>
 			setState({
 				userLng: position.coords.longitude,
@@ -135,12 +135,12 @@ function GlobeContainer({ size = 400 }) {
 	})
 
 	// Zooming (use cmd/ctrl + scroll to zoom)
-	const [zoom, setZoom] = React.useState({
+	const [zoom, setZoom] = useState({
 		wheeling: false,
 		scale: 1,
 	})
 
-	const canvasRef = React.useRef<HTMLDivElement>(null)
+	const canvasRef = useRef<HTMLDivElement>(null)
 
 	const bind = useWheel(
 		({ wheeling, metaKey, delta: [_deltaX, deltaY], event }) => {

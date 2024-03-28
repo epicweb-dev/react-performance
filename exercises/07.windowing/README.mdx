@@ -63,7 +63,7 @@ function MyListOfData({ items }) {
 ```tsx
 // after
 function MyListOfData({ items }) {
-	const listRef = React.useRef()
+	const listRef = useRef()
 	const rowVirtualizer = useVirtualizer({
 		size: items.length,
 		getScrollElement: () => listRef.current,
