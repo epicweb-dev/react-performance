@@ -4,8 +4,8 @@ import './index.css'
 // 💣 remove this import
 import Globe from './globe.tsx'
 
-// 🐨 use React.lazy to create a Globe component which uses a dynamic import
-// to get the Globe component from the '../globe' module.
+// 🐨 use lazy to create a Globe component which uses a dynamic import
+// to get the Globe component from the './globe' module.
 
 function App() {
 	const [showGlobe, setShowGlobe] = useState(false)
