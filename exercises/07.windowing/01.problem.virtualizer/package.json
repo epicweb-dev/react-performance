@@ -13,18 +13,22 @@
     "comlink": "^4.4.1",
     "downshift": "^8.3.2",
     "match-sorter": "^6.3.4",
-    "react": "18.3.0-canary-a870b2d54-20240314",
-    "react-dom": "18.3.0-canary-a870b2d54-20240314",
+    "react": "19.0.0-beta-94eed63c49-20240425",
+    "react-dom": "19.0.0-beta-94eed63c49-20240425",
     "spin-delay": "^2.0.0"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/node": "^20.9.1",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "npm:types-react@19.0.0-alpha.5",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-alpha.5",
     "@vitejs/plugin-react": "^4.0.3",
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",
     "vite": "^5.2.10"
+  },
+  "overrides": {
+    "@types/react": "$@types/react",
+    "@types/react-dom": "$@types/react-dom"
   }
 }
