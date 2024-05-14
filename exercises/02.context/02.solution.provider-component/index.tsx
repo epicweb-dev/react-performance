@@ -10,14 +10,12 @@ const FooterContext = createContext<{
 
 function FooterProvider({ children }: { children: React.ReactNode }) {
 	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
+	const [name, setName] = useState('')
 	const value = useMemo(
 		() => ({ color, setColor, name, setName }),
 		[color, name],
 	)
-	return (
-		<FooterContext.Provider value={value}>{children}</FooterContext.Provider>
-	)
+	return <FooterContext value={value}>{children}</FooterContext>
 }
 
 function useFooter() {
@@ -30,7 +28,7 @@ const Footer = memo(function Footer() {
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 })

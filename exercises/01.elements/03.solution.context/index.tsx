@@ -31,7 +31,7 @@ function App() {
 	const [color, setColor] = useState('black')
 	const [appCount, setAppCount] = useState(0)
 	return (
-		<ColorContext.Provider value={color}>
+		<ColorContext value={color}>
 			<div>
 				<div>
 					<p>Set the footer color:</p>
@@ -46,7 +46,7 @@ function App() {
 				</button>
 				<Main footer={footer} />
 			</div>
-		</ColorContext.Provider>
+		</ColorContext>
 	)
 }
 

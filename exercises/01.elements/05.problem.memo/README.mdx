@@ -5,7 +5,9 @@ called `memo` which allows you to memoize an entire component based on its
 props:
 
 ```tsx
-const MyComponent = React.memo(function MyComponent(props) {
+import { memo } from 'react'
+
+const MyComponent = memo(function MyComponent(props) {
 	/* only rerenders if props change */
 })
 ```

@@ -10,7 +10,7 @@ const FooterContext = createContext<{
 
 // 🐨 create a FooterProvider component here and move the color and name state
 // and context value to this component.
-// 💰 Make sure to accept a children prop and render the FootContext.Provider with it
+// 💰 Make sure to accept a children prop and render the FootContext with it
 
 function useFooter() {
 	const context = use(FooterContext)
@@ -22,7 +22,7 @@ const Footer = memo(function Footer() {
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 })
@@ -72,20 +72,20 @@ function App() {
 	const [appCount, setAppCount] = useState(0)
 	// 🐨 move the color, name, and value stuff to the new FooterProvider
 	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
+	const [name, setName] = useState('')
 	const value = useMemo(() => ({ color, name }), [color, name])
 	return (
-		// 🐨 render the FooterProvider here instead of the FooterContext.Provider
-		<FooterContext.Provider value={value}>
+		// 🐨 render the FooterProvider here instead of the FooterContext
+		<FooterContext value={value}>
 			<div>
 				{/* 🐨 remove these props */}
-				<FooterSetters setColor={setColor} setName={setName} />
+				<FooterSetters setName={setName} setColor={setColor} />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
 				<Main footer={<Footer />} />
 			</div>
-		</FooterContext.Provider>
+		</FooterContext>
 	)
 }
 

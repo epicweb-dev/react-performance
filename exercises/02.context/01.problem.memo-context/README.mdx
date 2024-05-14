@@ -8,7 +8,7 @@ want.
 
 👨‍💼 Great, now if you pull up the React DevTools, you'll notice all the
 components rerender whenever you change the counter in the App component. This
-is happening because the `FooterContext.Provider` is a new `value` prop every
+is happening because the `FooterContext` is a new `value` prop every
 render.
 
 So if you memoize the `value` prop with `useMemo`, you can prevent the

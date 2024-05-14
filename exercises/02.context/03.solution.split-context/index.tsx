@@ -18,15 +18,15 @@ FooterDispatchContext.displayName = 'FooterDispatchContext'
 
 function FooterProvider({ children }: { children: React.ReactNode }) {
 	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
+	const [name, setName] = useState('')
 	const footerStateValue = useMemo(() => ({ color, name }), [color, name])
 	const footerDispatchValue = useMemo(() => ({ setColor, setName }), [])
 	return (
-		<FooterStateContext.Provider value={footerStateValue}>
-			<FooterDispatchContext.Provider value={footerDispatchValue}>
+		<FooterStateContext value={footerStateValue}>
+			<FooterDispatchContext value={footerDispatchValue}>
 				{children}
-			</FooterDispatchContext.Provider>
-		</FooterStateContext.Provider>
+			</FooterDispatchContext>
+		</FooterStateContext>
 	)
 }
 
@@ -46,7 +46,7 @@ const Footer = memo(function Footer() {
 	const { color, name } = useFooterState()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 })

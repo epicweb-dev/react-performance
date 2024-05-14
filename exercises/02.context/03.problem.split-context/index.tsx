@@ -18,7 +18,7 @@ const FooterContext = createContext<{
 
 function FooterProvider({ children }: { children: React.ReactNode }) {
 	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
+	const [name, setName] = useState('')
 	// 🐨 split this value into two variables: footerStateValue and footerDispatchValue
 	const value = useMemo(
 		() => ({ color, setColor, name, setName }),
@@ -26,7 +26,7 @@ function FooterProvider({ children }: { children: React.ReactNode }) {
 	)
 	return (
 		// 🐨 render both context providers here with the appropriate values
-		<FooterContext.Provider value={value}>{children}</FooterContext.Provider>
+		<FooterContext value={value}>{children}</FooterContext>
 	)
 }
 
@@ -44,7 +44,7 @@ const Footer = memo(function Footer() {
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 })

@@ -17,11 +17,9 @@ function SomeProvider() {
 	const setters = useMemo(() => ({ setState }), [setState])
 	const stateValue = useMemo(() => ({ state }), [state])
 	return (
-		<StateContext.Provider value={stateValue}>
-			<SettersContext.Provider value={setters}>
-				{children}
-			</SettersContext.Provider>
-		</StateContext.Provider>
+		<StateContext value={stateValue}>
+			<SettersContext value={setters}>{children}</SettersContext>
+		</StateContext>
 	)
 }
 ```

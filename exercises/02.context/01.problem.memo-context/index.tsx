@@ -16,7 +16,7 @@ const Footer = memo(function Footer() {
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 })
@@ -33,11 +33,11 @@ function Main({ footer }: { footer: React.ReactNode }) {
 }
 
 function FooterSetters({
-	setColor,
 	setName,
+	setColor,
 }: {
-	setColor: (color: string) => void
 	setName: (name: string) => void
+	setColor: (color: string) => void
 }) {
 	return (
 		<>
@@ -63,19 +63,19 @@ function FooterSetters({
 function App() {
 	const [appCount, setAppCount] = useState(0)
 	const [color, setColor] = useState('black')
-	const [name, setName] = useState('Kody')
+	const [name, setName] = useState('')
 	// 🐨 wrap this in useMemo
 	const value = { color, name }
 	return (
-		<FooterContext.Provider value={value}>
+		<FooterContext value={value}>
 			<div>
-				<FooterSetters setColor={setColor} setName={setName} />
+				<FooterSetters setName={setName} setColor={setColor} />
 				<button onClick={() => setAppCount(c => c + 1)}>
 					The app count is {appCount}
 				</button>
 				<Main footer={<Footer />} />
 			</div>
-		</FooterContext.Provider>
+		</FooterContext>
 	)
 }
 

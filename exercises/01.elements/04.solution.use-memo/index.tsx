@@ -13,7 +13,7 @@ function Footer({ name }: { name: string }) {
 	const color = useColor()
 	return (
 		<footer style={{ color }}>
-			I am the ({color}) footer, {name}
+			I am the ({color}) footer, {name || 'Unnamed'}
 		</footer>
 	)
 }
@@ -35,7 +35,7 @@ function App() {
 	const [name, setName] = useState('Kody')
 	const footer = useMemo(() => <Footer name={name} />, [name])
 	return (
-		<ColorContext.Provider value={color}>
+		<ColorContext value={color}>
 			<div>
 				<div>
 					<p>Set the footer color:</p>
@@ -60,7 +60,7 @@ function App() {
 				</button>
 				<Main footer={footer} />
 			</div>
-		</ColorContext.Provider>
+		</ColorContext>
 	)
 }
 

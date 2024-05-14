@@ -13,7 +13,7 @@ const CountContext = createContext<CountContextValue | null>(null)
 function CountProvider(props) {
 	const [count, setCount] = useState(0)
 	const value = [count, setCount]
-	return <CountContext.Provider value={value} {...props} />
+	return <CountContext value={value} {...props} />
 }
 ```
 
@@ -33,7 +33,7 @@ const CountContext = createContext<CountContextValue | null>(null)
 function CountProvider(props) {
 	const [count, setCount] = useState(0)
 	const value = useMemo(() => [count, setCount], [count])
-	return <CountContext.Provider value={value} {...props} />
+	return <CountContext value={value} {...props} />
 }
 ```
 
