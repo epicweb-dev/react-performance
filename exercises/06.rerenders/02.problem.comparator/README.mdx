@@ -18,9 +18,11 @@ const Avatar = memo(
 		return <img src={user.avatarUrl} alt={user.name} />
 	},
 	(prevProps, nextProps) => {
-		const avatarChanged = prevProps.user.avatarUrl !== nextProps.user.avatarUrl
-		const nameChanged = prevProps.user.name !== nextProps.user.name
-		return avatarChanged || nameChanged
+		const avatarUnchanged =
+			prevProps.user.avatarUrl === nextProps.user.avatarUrl
+		const nameUnchanged = prevProps.user.name === nextProps.user.name
+		// return true if we don't want to re-render
+		return avatarUnchanged || nameUnchanged
 	},
 )
 ```

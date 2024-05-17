@@ -118,6 +118,7 @@ const ListItem = memo(
 		return (
 			prevProps.index === nextProps.index &&
 			prevProps.city === nextProps.city &&
+			prevProps.getItemProps === nextProps.getItemProps &&
 			prevIsSelected === nextIsSelected &&
 			prevIsHighlighted === nextIsHighlighted
 		)

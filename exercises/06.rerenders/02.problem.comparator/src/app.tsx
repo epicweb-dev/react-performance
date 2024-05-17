@@ -111,7 +111,7 @@ const ListItem = memo(
 		)
 	},
 	// 🐨 add a custom comparator function here make sure to handle the following cases:
-	// 1. if the index or item change
+	// 1. if the props "index", "city", or "getItemProps" change
 	// 2. if the item's "selected" state has changed
 	// 3. if the item's "highlighted" state has changed
 )
