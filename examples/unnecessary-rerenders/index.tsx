@@ -20,7 +20,8 @@ function NameInput({
 }) {
 	return (
 		<label>
-			Name: <input value={name} onChange={e => onNameChange(e.target.value)} />
+			Name:{' '}
+			<input value={name} onChange={e => onNameChange(e.currentTarget.value)} />
 		</label>
 	)
 }

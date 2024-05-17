@@ -24,7 +24,7 @@ function CityChooser() {
 
 	const isPending = useSpinDelay(isTransitionPending)
 
-	// 🐨 create a ref here for HTMLDivElement
+	// 🐨 create a ref here for HTMLUListElement
 
 	// 🐨 create a rowVirtualizer with useVirtualizer from "@tanstack/react-virtual"
 	// - the count should be the length of the items

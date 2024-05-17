@@ -63,19 +63,21 @@ function MyListOfData({ items }) {
 ```tsx
 // after
 function MyListOfData({ items }) {
-	const listRef = useRef()
+	const parentRef = useRef<HTMLUListElement>(null)
+
 	const rowVirtualizer = useVirtualizer({
-		size: items.length,
-		getScrollElement: () => listRef.current,
+		count: cities.length,
+		getScrollElement: () => parentRef.current,
 		estimateSize: () => 20,
 	})
 
 	return (
-		<ul ref={listRef} style={{ position: 'relative', height: 300 }}>
+		<ul ref={parentRef} style={{ position: 'relative', height: 300 }}>
 			<li style={{ height: `${rowVirtualizer.getTotalSize()}px` }} />
 			{rowVirtualizer.getVirtualItems().map(virtualItem => {
-				const { index, key, size, start } = virtualItem
 				const item = items[index]
+				if (!item) return null
+				const { index, key, size, start } = virtualItem
 				return (
 					<li
 						key={key}
