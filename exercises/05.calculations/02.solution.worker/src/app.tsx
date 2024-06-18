@@ -33,7 +33,7 @@ export function App() {
 					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: city => (city ? city.name : ''),
+		itemToString: (city) => (city ? city.name : ''),
 	})
 
 	return (

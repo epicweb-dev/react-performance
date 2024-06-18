@@ -15,7 +15,7 @@ export function MatchingPosts() {
 
 	return (
 		<ul className="post-list">
-			{matchingPosts.map(post => (
+			{matchingPosts.map((post) => (
 				<Card key={post.id} post={post} />
 			))}
 		</ul>
@@ -48,7 +48,7 @@ const Card = memo(function Card({ post }: { post: BlogPost }) {
 			/>
 			<a
 				href={post.id}
-				onClick={event => {
+				onClick={(event) => {
 					event.preventDefault()
 					alert(`Great! Let's go to ${post.id}!`)
 				}}

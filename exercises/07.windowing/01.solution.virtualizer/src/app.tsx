@@ -56,7 +56,7 @@ function CityChooser() {
 					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: city => (city ? city.name : ''),
+		itemToString: (city) => (city ? city.name : ''),
 		scrollIntoView: () => {},
 		onHighlightedIndexChange: ({ highlightedIndex }) => {
 			if (highlightedIndex === undefined || highlightedIndex === -1) return
@@ -85,7 +85,7 @@ function CityChooser() {
 					})}
 				>
 					<li style={{ height: `${rowVirtualizer.getTotalSize()}px` }} />
-					{rowVirtualizer.getVirtualItems().map(virtualItem => {
+					{rowVirtualizer.getVirtualItems().map((virtualItem) => {
 						const city = cities[virtualItem.index]
 						if (!city) return null
 						const { index, key, start, size } = virtualItem

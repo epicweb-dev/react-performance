@@ -9,7 +9,7 @@ const footer = <Footer />
 
 function App() {
 	const [count, setCount] = useState(0)
-	const increment = () => setCount(c => c + 1)
+	const increment = () => setCount((c) => c + 1)
 	return (
 		<div>
 			<button onClick={increment}>The count is {count}</button>

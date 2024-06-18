@@ -51,7 +51,7 @@ function App() {
 	const deferredText = useDeferredValue(text)
 	return (
 		<>
-			<input value={text} onChange={e => setText(e.currentTarget.value)} />
+			<input value={text} onChange={(e) => setText(e.currentTarget.value)} />
 			<SlowList text={deferredText} />
 		</>
 	)

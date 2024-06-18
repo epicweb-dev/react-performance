@@ -11,7 +11,7 @@ function Footer({ color }: { color: string }) {
 
 function Main({ footer }: { footer: React.ReactNode }) {
 	const [count, setCount] = useState(0)
-	const increment = () => setCount(c => c + 1)
+	const increment = () => setCount((c) => c + 1)
 	return (
 		<div>
 			<button onClick={increment}>The count is {count}</button>
@@ -36,7 +36,7 @@ function App() {
 					<button onClick={() => setColor('green')}>Green</button>
 				</div>
 			</div>
-			<button onClick={() => setAppCount(c => c + 1)}>
+			<button onClick={() => setAppCount((c) => c + 1)}>
 				The app count is {appCount}
 			</button>
 			{/* 🐨 remove the color prop and move this outside the component again */}

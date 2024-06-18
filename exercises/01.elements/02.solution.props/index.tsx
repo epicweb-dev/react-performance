@@ -7,7 +7,7 @@ function Footer({ color }: { color: string }) {
 
 function Main({ footer }: { footer: React.ReactNode }) {
 	const [count, setCount] = useState(0)
-	const increment = () => setCount(c => c + 1)
+	const increment = () => setCount((c) => c + 1)
 	return (
 		<div>
 			<button onClick={increment}>The count is {count}</button>

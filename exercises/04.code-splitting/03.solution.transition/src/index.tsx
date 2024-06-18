@@ -32,7 +32,7 @@ function App() {
 				<input
 					type="checkbox"
 					checked={showGlobe}
-					onChange={e =>
+					onChange={(e) =>
 						startTransition(() => setShowGlobe(e.currentTarget.checked))
 					}
 				/>

@@ -6,7 +6,7 @@ export const useForceRerender = () => useReducer(() => Symbol(), Symbol())[1]
 export function useCombobox<Item>(
 	options: Parameters<typeof useDownshiftCombobox<Item>>[0],
 ) {
-	const { itemToString = item => item || '' } = options
+	const { itemToString = (item) => item || '' } = options
 	return useDownshiftCombobox({
 		stateReducer(state, { type, changes }) {
 			// downshift's default is to select the highlighted item on blur

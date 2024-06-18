@@ -21,7 +21,10 @@ function NameInput({
 	return (
 		<label>
 			Name:{' '}
-			<input value={name} onChange={e => onNameChange(e.currentTarget.value)} />
+			<input
+				value={name}
+				onChange={(e) => onNameChange(e.currentTarget.value)}
+			/>
 		</label>
 	)
 }
@@ -29,7 +32,7 @@ function NameInput({
 function App() {
 	const [name, setName] = useState('')
 	const [count, setCount] = useState(0)
-	const increment = () => setCount(c => c + 1)
+	const increment = () => setCount((c) => c + 1)
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
 			<div>

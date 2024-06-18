@@ -14,10 +14,10 @@ It's called a dynamic import and the syntax looks like this:
 
 ```tsx
 import('/some-module.js').then(
-	module => {
+	(module) => {
 		// do stuff with the module's exports
 	},
-	error => {
+	(error) => {
 		// there was some error loading the module...
 	},
 )

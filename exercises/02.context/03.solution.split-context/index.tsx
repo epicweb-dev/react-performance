@@ -53,7 +53,7 @@ const Footer = memo(function Footer() {
 
 function Main({ footer }: { footer: React.ReactNode }) {
 	const [count, setCount] = useState(0)
-	const increment = () => setCount(c => c + 1)
+	const increment = () => setCount((c) => c + 1)
 	return (
 		<div>
 			<button onClick={increment}>The count is {count}</button>
@@ -78,7 +78,7 @@ const FooterSetters = memo(function FooterSetters() {
 				<p>Set the footer name:</p>
 				<label>
 					Name:
-					<input onChange={e => setName(e.currentTarget.value)} />
+					<input onChange={(e) => setName(e.currentTarget.value)} />
 				</label>
 			</div>
 		</>
@@ -91,7 +91,7 @@ function App() {
 		<FooterProvider>
 			<div>
 				<FooterSetters />
-				<button onClick={() => setAppCount(c => c + 1)}>
+				<button onClick={() => setAppCount((c) => c + 1)}>
 					The app count is {appCount}
 				</button>
 				<Main footer={<Footer />} />

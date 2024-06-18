@@ -72,7 +72,7 @@ const Globe = animated(
 					cx={size / 2}
 					cy={size / 2}
 					r={(size / 2) * zoom}
-					onClick={e => {
+					onClick={(e) => {
 						if (!svgref.current || !projection.invert) return
 						let rect = svgref.current.getBoundingClientRect()
 						const inverted = projection.invert([
@@ -93,7 +93,7 @@ const Globe = animated(
 						))}
 				</g>
 				{currentLocation.userLat && isPinVisible
-					? [0, 1].map(pin => (
+					? [0, 1].map((pin) => (
 							<circle
 								key={pin}
 								className={`pin-${pin}`}
@@ -118,7 +118,7 @@ function GlobeContainer({ size = 400 }) {
 	})
 
 	useEffect(() => {
-		navigator.geolocation.getCurrentPosition(position =>
+		navigator.geolocation.getCurrentPosition((position) =>
 			setState({
 				userLng: position.coords.longitude,
 				userLat: position.coords.latitude,

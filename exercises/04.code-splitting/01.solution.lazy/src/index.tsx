@@ -22,7 +22,7 @@ function App() {
 				<input
 					type="checkbox"
 					checked={showGlobe}
-					onChange={e => setShowGlobe(e.currentTarget.checked)}
+					onChange={(e) => setShowGlobe(e.currentTarget.checked)}
 				/>
 				{' show globe'}
 			</label>

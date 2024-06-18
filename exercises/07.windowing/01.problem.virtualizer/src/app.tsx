@@ -54,7 +54,7 @@ function CityChooser() {
 					? `You selected ${selectedCity.name}`
 					: 'Selection Cleared',
 			),
-		itemToString: city => (city ? city.name : ''),
+		itemToString: (city) => (city ? city.name : ''),
 		// 🦉 we want to override Downshift's scrollIntoView functionality because
 		// the virtualizer will handle scrolling for us as the user uses the arrow keys:
 
