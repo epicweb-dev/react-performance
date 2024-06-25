@@ -3,7 +3,13 @@
   "private": true,
   "epicshop": {
     "title": "React Performance ⚡",
-    "githubRoot": "https://github.com/epicweb-dev/react-performance/blob/main"
+    "subtitle": "React is fast, until it isn't. Let's make your React app fast.",
+    "githubRoot": "https://github.com/epicweb-dev/react-performance/blob/main",
+    "instructor": {
+      "name": "Kent C. Dodds",
+      "avatar": "/images/instructor.png",
+      "𝕏": "kentcdodds"
+    }
   },
   "type": "module",
   "imports": {

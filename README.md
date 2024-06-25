@@ -1,7 +1,7 @@
 <div>
   <h1 align="center"><a href="https://www.epicweb.dev/workshops">🤯 Advanced React Patterns</a></h1>
   <strong>
-    React is fast, until it isn't
+    React is fast, until it isn't. Let's make your React app fast.
   </strong>
   <p>
     Learn everything you need to diagnose, profile, and fix performance problems
