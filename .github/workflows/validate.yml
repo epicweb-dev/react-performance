@@ -39,7 +39,9 @@ jobs:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
     # only deploy main branch on pushes
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if:
+      ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      github.repository_owner == 'epicweb-dev' }}
 
     steps:
       - name: ⬇️ Checkout repo
