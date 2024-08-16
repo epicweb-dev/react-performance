@@ -1,4 +1,7 @@
 {
 	"include": ["@epic-web/config/reset.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
-	"extends": ["@epic-web/config/typescript"]
+	"extends": ["@epic-web/config/typescript"],
+	"compilerOptions": {
+		"allowJs": true
+	}
 }
