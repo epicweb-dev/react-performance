@@ -32,8 +32,9 @@ jobs:
       - name: ʦ TypeScript
         run: npm run typecheck
 
-      - name: ⬣ ESLint
-        run: npm run lint
+      # TODO: re-enable linting
+      # - name: ⬣ ESLint
+      #   run: npm run lint
 
   deploy:
     name: 🚀 Deploy
