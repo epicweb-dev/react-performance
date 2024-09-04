@@ -15,7 +15,7 @@
 <div align="center">
   <a
     alt="Epic Web logo with the words Deployed Version"
-    href="https://react-performance.epicweb.dev"
+    href="https://performance.epicreact.dev"
   >
     <img
       width="300px"
