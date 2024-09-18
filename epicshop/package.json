@@ -1,8 +1,13 @@
 {
   "type": "module",
+  "scripts": {
+    "test:setup": "playwright install chromium --with-deps",
+    "test": "playwright test"
+  },
   "dependencies": {
     "@epic-web/config": "^1.11.2",
     "@epic-web/workshop-app": "^4.28.0",
+    "@epic-web/workshop-utils": "^4.28.0",
     "execa": "^9.2.0"
   }
 }
