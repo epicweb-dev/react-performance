@@ -5,6 +5,9 @@
     "title": "React Performance ⚡",
     "subtitle": "React is fast, until it isn't. Let's make your React app fast.",
     "githubRepo": "https://github.com/epicweb-dev/react-performance",
+    "stackBlitzConfig": {
+      "view": "editor"
+    },
     "product": {
       "host": "www.epicreact.dev",
       "slug": "react-performance",
