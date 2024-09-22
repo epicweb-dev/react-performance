@@ -10,4 +10,10 @@ export default [
 			'@typescript-eslint/no-unused-vars': 'off',
 		},
 	},
+	{
+		files: ['**/*.test.*'],
+		rules: {
+			'import/order': 'off',
+		},
+	},
 ]

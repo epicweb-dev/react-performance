@@ -19,7 +19,7 @@ if (
 				extends: ['@epic-web/config/typescript'],
 				compilerOptions: {
 					paths: {
-						'#*': ['../shared/*'],
+						'#shared*': ['../shared/*'],
 					},
 				},
 			},
