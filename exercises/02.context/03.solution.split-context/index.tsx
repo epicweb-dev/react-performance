@@ -42,7 +42,7 @@ function useFooterDispatch() {
 	return context
 }
 
-const Footer = memo(function Footer() {
+const Footer = memo(function FooterImpl() {
 	const { color, name } = useFooterState()
 	return (
 		<footer style={{ color }}>
@@ -62,7 +62,7 @@ function Main({ footer }: { footer: React.ReactNode }) {
 	)
 }
 
-const FooterSetters = memo(function FooterSetters() {
+const FooterSetters = memo(function FooterImplSetters() {
 	const { setColor, setName } = useFooterDispatch()
 	return (
 		<>

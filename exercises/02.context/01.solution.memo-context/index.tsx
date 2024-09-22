@@ -12,7 +12,7 @@ function useFooter() {
 	return context
 }
 
-const Footer = memo(function Footer() {
+const Footer = memo(function FooterImpl() {
 	const { color, name } = useFooter()
 	return (
 		<footer style={{ color }}>

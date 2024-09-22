@@ -39,7 +39,7 @@ function useFooter() {
 
 // 🐨 create a useFooterDispatch function similar to the hook above
 
-const Footer = memo(function Footer() {
+const Footer = memo(function FooterImpl() {
 	// 🐨 update this to useFooterState
 	const { color, name } = useFooter()
 	return (
