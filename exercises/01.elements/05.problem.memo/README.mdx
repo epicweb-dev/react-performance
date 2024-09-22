@@ -24,3 +24,15 @@ we've got it rendering unnecessarily again.
 it only renders when the `name` or `color` change. Good luck!
 
 [📜 Check out the `memo` docs](https://react.dev/reference/react/memo)
+
+<callout-warning>
+The tests rely on the name of your memoized component being `FooterImpl`, like this:
+
+```tsx
+const Footer = memo(function FooterImpl(props) {
+	// ...
+})
+```
+
+If you name it differently, the tests will fail.
+</callout-warning>

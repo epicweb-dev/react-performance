@@ -12,13 +12,13 @@ await testStep(
 
 		const componentNames = await getComponentCalls(async () => {
 			fireEvent.click(button)
+			// give everything a bit to render
 			await new Promise((resolve) => setTimeout(resolve, 10))
 		})
 
-		expect(componentNames, '🚨 the `Footer` component re-rendered').toEqual([
-			'App',
-		])
+		expect(
+			componentNames,
+			'🚨 the `App` component should be the only thing to re-render when clicking the button',
+		).toEqual(['App'])
 	},
 )
-
-export {}

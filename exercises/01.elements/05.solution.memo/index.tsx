@@ -9,7 +9,7 @@ function useColor() {
 	return color
 }
 
-const Footer = memo(function Footer({ name }: { name: string }) {
+const Footer = memo(function FooterImpl({ name }: { name: string }) {
 	const color = useColor()
 	return (
 		<footer style={{ color }}>
