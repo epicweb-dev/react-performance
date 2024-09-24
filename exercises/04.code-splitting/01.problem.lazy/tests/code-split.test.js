@@ -12,7 +12,8 @@ test('should load the globe and countries modules on demand', async ({
 		page.getByText(/loading/i),
 		'🚨 the suspense fallback should show "loading" when showing the globe while the js is lazy loaded',
 	).toBeVisible()
-	// Wait for the network to be idle after clicking the button
+
+	await page.waitForTimeout(100)
 	await page.waitForLoadState('networkidle')
 
 	const jsRequests = await page.evaluate(() =>
@@ -22,13 +23,13 @@ test('should load the globe and countries modules on demand', async ({
 			.map((entry) => entry.name),
 	)
 
-	// Check if any of the requests include 'globe' or 'countries' in their name
-	const hasGlobeOrCountriesModule = jsRequests.some(
-		(url) => url.includes('globe') || url.includes('countries'),
-	)
+	expect(
+		jsRequests,
+		'🚨 Expected to find a request for the globe module',
+	).toEqual(expect.arrayContaining([expect.stringContaining('globe')]))
 
-	expect(hasGlobeOrCountriesModule).toBe(
-		true,
-		'Expected to find a request for globe or countries module',
-	)
+	expect(
+		jsRequests,
+		'🚨 Expected to find a request for the countries module',
+	).toEqual(expect.arrayContaining([expect.stringContaining('countries')]))
 })

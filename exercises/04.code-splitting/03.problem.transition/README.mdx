@@ -9,9 +9,11 @@ enough for the code to load and then check it. You'll notice even though the
 code is ready to go, it still shows our fallback UI.
 
 The reason this happens is React wants to help us avoid a flash of loading
-state. So React will actually wait a little bit before switching from the
+state because it doesn't know whether our content will be ready immediately or
+not. So React shows the fallback immediately, then when it sees the content is
+already ready, it will actually wait a little bit before switching from the
 fallback to the real content. This is a good default, but it's definitely not
-optimial.
+the best user experience for our situation.
 
 So instead, we can wrap our state update `setShowGlobe` in a transition so React
 doesn't go to the suspense fallback and instead we can show a pending UI if we
