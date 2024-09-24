@@ -46,6 +46,7 @@ function relativeToWorkshopRoot(dir) {
 }
 
 await updatePkgNames()
+await copyTestFiles()
 await updateTsconfig()
 
 async function updatePkgNames() {
@@ -59,6 +60,26 @@ async function updatePkgNames() {
 		)
 		if (written) {
 			console.log(`updated ${path.relative(process.cwd(), pkgjsonPath)}`)
+		}
+	}
+}
+
+async function copyTestFiles() {
+	for (const app of exerciseApps) {
+		if (app.includes('problem')) {
+			const solutionApp = app.replace('problem', 'solution')
+			const testDir = path.join(solutionApp, 'tests')
+			const destTestDir = path.join(app, 'tests')
+
+			if (exists(testDir)) {
+				// Remove existing test directory in problem app if it exists
+				if (exists(destTestDir)) {
+					await fs.promises.rm(destTestDir, { recursive: true, force: true })
+				}
+
+				// Copy the entire test directory from solution to problem
+				await fs.promises.cp(testDir, destTestDir, { recursive: true })
+			}
 		}
 	}
 }

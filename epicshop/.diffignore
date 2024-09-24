@@ -1,3 +1,4 @@
 tsconfig.json
 countries-110m.json
 us-cities.json
+tests/

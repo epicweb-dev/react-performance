@@ -11,7 +11,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "playwright test --config=./tests/playwright.config.js"
   },
   "dependencies": {
     "@use-gesture/react": "^10.3.0",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@epic-web/config": "^1.5.4",
+    "@playwright/test": "^1.47.2",
     "@types/d3-geo": "^3.1.0",
     "@types/node": "^20.9.1",
     "@types/react": "npm:types-react@19.0.0-alpha.5",

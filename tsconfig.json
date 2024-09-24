@@ -1,66 +1,68 @@
 {
-	"files": [],
-	"exclude": ["node_modules"],
-	"references": [
-		{
-			"path": "exercises/04.code-splitting/01.problem.lazy"
-		},
-		{
-			"path": "exercises/04.code-splitting/01.solution.lazy"
-		},
-		{
-			"path": "exercises/04.code-splitting/02.problem.eager"
-		},
-		{
-			"path": "exercises/04.code-splitting/02.solution.eager"
-		},
-		{
-			"path": "exercises/04.code-splitting/03.problem.transition"
-		},
-		{
-			"path": "exercises/04.code-splitting/03.solution.transition"
-		},
-		{
-			"path": "exercises/05.calculations/01.problem.use-memo"
-		},
-		{
-			"path": "exercises/05.calculations/01.solution.use-memo"
-		},
-		{
-			"path": "exercises/05.calculations/02.problem.worker"
-		},
-		{
-			"path": "exercises/05.calculations/02.solution.worker"
-		},
-		{
-			"path": "exercises/05.calculations/03.problem.async"
-		},
-		{
-			"path": "exercises/05.calculations/03.solution.async"
-		},
-		{
-			"path": "exercises/06.rerenders/01.problem.memo"
-		},
-		{
-			"path": "exercises/06.rerenders/01.solution.memo"
-		},
-		{
-			"path": "exercises/06.rerenders/02.problem.comparator"
-		},
-		{
-			"path": "exercises/06.rerenders/02.solution.comparator"
-		},
-		{
-			"path": "exercises/06.rerenders/03.problem.primitives"
-		},
-		{
-			"path": "exercises/06.rerenders/03.solution.primitives"
-		},
-		{
-			"path": "exercises/07.windowing/01.problem.virtualizer"
-		},
-		{
-			"path": "exercises/07.windowing/01.solution.virtualizer"
-		}
-	]
+  "files": [],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "exercises/04.code-splitting/01.problem.lazy"
+    },
+    {
+      "path": "exercises/04.code-splitting/01.solution.lazy"
+    },
+    {
+      "path": "exercises/04.code-splitting/02.problem.eager"
+    },
+    {
+      "path": "exercises/04.code-splitting/02.solution.eager"
+    },
+    {
+      "path": "exercises/04.code-splitting/03.problem.transition"
+    },
+    {
+      "path": "exercises/04.code-splitting/03.solution.transition"
+    },
+    {
+      "path": "exercises/05.calculations/01.problem.use-memo"
+    },
+    {
+      "path": "exercises/05.calculations/01.solution.use-memo"
+    },
+    {
+      "path": "exercises/05.calculations/02.problem.worker"
+    },
+    {
+      "path": "exercises/05.calculations/02.solution.worker"
+    },
+    {
+      "path": "exercises/05.calculations/03.problem.async"
+    },
+    {
+      "path": "exercises/05.calculations/03.solution.async"
+    },
+    {
+      "path": "exercises/06.rerenders/01.problem.memo"
+    },
+    {
+      "path": "exercises/06.rerenders/01.solution.memo"
+    },
+    {
+      "path": "exercises/06.rerenders/02.problem.comparator"
+    },
+    {
+      "path": "exercises/06.rerenders/02.solution.comparator"
+    },
+    {
+      "path": "exercises/06.rerenders/03.problem.primitives"
+    },
+    {
+      "path": "exercises/06.rerenders/03.solution.primitives"
+    },
+    {
+      "path": "exercises/07.windowing/01.problem.virtualizer"
+    },
+    {
+      "path": "exercises/07.windowing/01.solution.virtualizer"
+    }
+  ]
 }
