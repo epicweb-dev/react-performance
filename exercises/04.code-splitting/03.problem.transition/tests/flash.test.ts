@@ -13,7 +13,10 @@ test('should not show a pending UI when the globe is ready', async ({
 	const jsRequests = await page.evaluate(() =>
 		performance
 			.getEntriesByType('resource')
-			.filter((entry) => entry.initiatorType === 'script')
+			.filter(
+				(entry) =>
+					(entry as PerformanceResourceTiming).initiatorType === 'script',
+			)
 			.map((entry) => entry.name),
 	)
 

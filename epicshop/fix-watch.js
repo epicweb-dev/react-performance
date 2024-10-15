@@ -54,7 +54,7 @@ async function run() {
 		await $({
 			stdio: 'inherit',
 			cwd: workshopRoot,
-		})`node ./scripts/fix.js`
+		})`node ./epicshop/fix.js`
 	} catch (error) {
 		throw error
 	} finally {
