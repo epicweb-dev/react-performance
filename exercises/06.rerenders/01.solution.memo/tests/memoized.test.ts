@@ -91,9 +91,3 @@ test('Only ListItem should not rerender when clicking force rerender', async ({
 		'🚨 The ListItem component was rendered when clicking force render. Use the `memo` utility from React on the ListItem component to prevent this.',
 	).not.toContain('ListItem')
 })
-
-declare global {
-	interface Window {
-		__REACT_DEVTOOLS_GLOBAL_HOOK__?: any
-	}
-}

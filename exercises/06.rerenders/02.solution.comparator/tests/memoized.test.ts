@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('Only ListItem should not rerender when clicking force rerender', async ({
+test('Only two ListItems should not rerender when the highlighted item changes', async ({
 	page,
 }) => {
 	await page.route('/', async (route) => {
@@ -80,14 +80,43 @@ test('Only ListItem should not rerender when clicking force rerender', async ({
 	await page.goto('/')
 	await page.waitForLoadState('networkidle')
 
+	// get the first item highlighted
+	await page.evaluate(() => {
+		const input = document.querySelector('input')
+		if (!input) {
+			throw new Error('🚨 could not find the input')
+		}
+		input.dispatchEvent(
+			new KeyboardEvent('keydown', {
+				key: 'ArrowDown',
+				keyCode: 40,
+				bubbles: true,
+			}),
+		)
+	})
+
+	// go to the next item, we should now have two that render, the old one to unhighlight it and the new one to highlight it
 	const calledComponents: Array<string> = await page.evaluate(() =>
 		(window as any).getComponentCalls(() => {
-			document.querySelector('button')?.click()
+			const input = document.querySelector('input')
+			if (!input) {
+				throw new Error('🚨 could not find the input')
+			}
+			input.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: 'ArrowDown',
+					keyCode: 40,
+					bubbles: true,
+				}),
+			)
 		}),
 	)
 
+	// memo can change the name of the components, so we'll be more generous with a regex
+	const listItemRenders = calledComponents.filter((c) => /ListItem/i.test(c))
+
 	expect(
-		calledComponents,
-		'🚨 The ListItem component was rendered when clicking force render. Use the `memo` utility from React on the ListItem component to prevent this.',
-	).not.toContain('ListItem')
+		listItemRenders,
+		'🚨 Only two ListItems should render when changing the highlighted item. The first is rerendered to un-highlight it and the second is rerendered to highlight it. Make sure your comparator is correct.',
+	).toHaveLength(2)
 })
