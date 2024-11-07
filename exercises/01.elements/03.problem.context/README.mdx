@@ -6,7 +6,7 @@
 incremented, we trigger a rerender of the `Footer` component! Have we lost the
 ability to take advantage of React's element optimization? No!
 
-Instead of accepting the `color` via props, we can place it in a context provier
+Instead of accepting the `color` via props, we can place it in a context provider
 that the `Footer` can consume. And with that, the `footer` no longer accepts any
 dynamic props so we can move it outside the `App` component again, which means
 the only way it can be rerendered is if the context changes (which is exactly
