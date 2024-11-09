@@ -24,7 +24,7 @@ const Avatar = memo(
 			prevProps.user.avatarUrl === nextProps.user.avatarUrl
 		const nameUnchanged = prevProps.user.name === nextProps.user.name
 		// return true if we don't want to re-render
-		return avatarUnchanged || nameUnchanged
+		return avatarUnchanged && nameUnchanged
 	},
 )
 ```
