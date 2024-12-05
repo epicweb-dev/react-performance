@@ -53,23 +53,17 @@
   },
   "dependencies": {
     "@epic-web/workshop-utils": "^5.9.0",
-    "react": "19.0.0-beta-94eed63c49-20240425",
-    "react-dom": "19.0.0-beta-94eed63c49-20240425"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@epic-web/config": "^1.11.2",
-    "@types/react": "npm:types-react@19.0.0-alpha.5",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-alpha.5",
-    "eslint": "^9.5.0",
-    "eslint-plugin-react-hooks": "5.1.0-beta-94eed63c49-20240425",
+    "@epic-web/config": "^1.16.3",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.16.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.3.1",
-    "typescript": "^5.4.5"
-  },
-  "overrides": {
-    "@types/react": "$@types/react",
-    "@types/react-dom": "$@types/react-dom",
-    "eslint-plugin-react-hooks": "$eslint-plugin-react-hooks"
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
   },
   "workspaces": [
     "./exercises/**/*"
