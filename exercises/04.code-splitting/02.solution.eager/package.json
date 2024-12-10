@@ -17,8 +17,8 @@
   "dependencies": {
     "@use-gesture/react": "^10.3.0",
     "d3-geo": "^3.1.0",
-    "react": "19.0.0-beta-94eed63c49-20240425",
-    "react-dom": "19.0.0-beta-94eed63c49-20240425",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-spring": "^9.7.3",
     "spin-delay": "^2.0.0",
     "topojson-client": "^3.1.0"
@@ -28,16 +28,12 @@
     "@playwright/test": "^1.47.2",
     "@types/d3-geo": "^3.1.0",
     "@types/node": "^20.9.1",
-    "@types/react": "npm:types-react@19.0.0-alpha.5",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-alpha.5",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
     "@types/topojson-client": "^3.1.4",
     "@vitejs/plugin-react": "^4.0.3",
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",
     "vite": "^5.2.10"
-  },
-  "overrides": {
-    "@types/react": "$@types/react",
-    "@types/react-dom": "$@types/react-dom"
   }
 }
