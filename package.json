@@ -52,7 +52,7 @@
     "git": ">=2.18.0"
   },
   "dependencies": {
-    "@epic-web/workshop-utils": "^5.9.5",
+    "@epic-web/workshop-utils": "^5.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
