@@ -33,11 +33,11 @@ function Main({ footer }: { footer: React.ReactNode }) {
 }
 
 function FooterSetters({
-	setName,
 	setColor,
+	setName,
 }: {
-	setName: (name: string) => void
 	setColor: (color: string) => void
+	setName: (name: string) => void
 }) {
 	return (
 		<>
