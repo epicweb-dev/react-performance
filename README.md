@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://www.epicweb.dev/workshops">🤯 Advanced React Patterns</a></h1>
+  <h1 align="center"><a href="https://www.epicweb.dev/workshops">React Performance 🚀</a></h1>
   <strong>
     React is fast, until it isn't. Let's make your React app fast.
   </strong>
