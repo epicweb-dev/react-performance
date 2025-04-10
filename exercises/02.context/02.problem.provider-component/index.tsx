@@ -10,7 +10,7 @@ const FooterContext = createContext<{
 
 // 🐨 create a FooterProvider component here and move the color and name state
 // and context value to this component.
-// 💰 Make sure to accept a children prop and render the FootContext with it
+// 💰 Make sure to accept a children prop and render the FooterContext with it
 
 function useFooter() {
 	const context = use(FooterContext)
