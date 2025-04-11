@@ -13,7 +13,7 @@ export function searchCities(filter: string) {
 
 // 🐨 you're going to want this:
 // import * as Comlink from 'comlink'
-// 🐨 import the Exposed type from './fitler-cities.worker'
+// 🐨 import the Exposed type from './filter-cities.worker'
 
 // 🐨 create a new Worker object out of the ./filter-cities.worker.ts module
 
