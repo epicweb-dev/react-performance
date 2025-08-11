@@ -6,12 +6,12 @@
   },
   "dependencies": {
     "@epic-web/config": "^1.16.4",
-    "@epic-web/workshop-app": "^6.20.2",
-    "@epic-web/workshop-utils": "^6.20.2",
+    "@epic-web/workshop-app": "^6.20.4",
+    "@epic-web/workshop-utils": "^6.20.4",
     "enquirer": "^2.4.1",
     "execa": "^9.5.2",
     "match-sorter": "^8.0.0",
     "p-limit": "^6.1.0",
-    "@epic-web/workshop-cli": "^6.20.2"
+    "@epic-web/workshop-cli": "^6.20.4"
   }
 }
