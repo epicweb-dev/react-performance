@@ -74,7 +74,10 @@ test('Only two ListItems should not rerender when the highlighted item changes',
 			</script>
 		`
 		html = html.replace('<head>', `<head>${scriptToInject}`)
-		route.fulfill({ body: html, headers: { 'content-type': 'text/html' } })
+		await route.fulfill({
+			body: html,
+			headers: { 'content-type': 'text/html' },
+		})
 	})
 
 	await page.goto('/')

@@ -39,7 +39,7 @@
     "setup:custom": "node ./epicshop/setup-custom.js",
     "build": "cd ./playground && npm run build",
     "preview": "cd ./playground && npm run preview",
-    "lint": "eslint .",
+    "lint": "eslint . --concurrency=auto",
     "format": "prettier --write .",
     "typecheck": "tsc -b"
   },
@@ -53,17 +53,17 @@
   },
   "dependencies": {
     "@epic-web/workshop-utils": "^6.23.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@epic-web/config": "^1.16.4",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2",
-    "eslint": "^9.16.0",
+    "@epic-web/config": "^1.21.3",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.8",
+    "eslint": "^9.34.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.2"
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
   },
   "workspaces": [
     "./exercises/**/*"

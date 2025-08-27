@@ -43,11 +43,11 @@ test('should still show a pending UI when the globe is not ready', async ({
 	await page.goto('/')
 	await page.waitForLoadState('networkidle')
 
-	await page.route('**/*', (route) => {
+	await page.route('**/*', async (route) => {
 		if (route.request().resourceType() === 'script') {
 			setTimeout(() => route.continue(), 600) // Simulate a slow load time for scripts
 		} else {
-			route.continue()
+			await route.continue()
 		}
 	})
 

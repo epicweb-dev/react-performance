@@ -24,7 +24,7 @@ export { searchCitiesInstrumented as searchCities }
 		`
 		content = `${content}\n\n${instrumentedCode}`
 
-		route.fulfill({ body: content, headers: response.headers() })
+		await route.fulfill({ body: content, headers: response.headers() })
 	})
 	await page.goto('/')
 	await page.waitForLoadState('networkidle')

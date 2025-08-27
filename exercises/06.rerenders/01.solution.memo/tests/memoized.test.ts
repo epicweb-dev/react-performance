@@ -74,7 +74,10 @@ test('Only ListItem should not rerender when clicking force rerender', async ({
 			</script>
 		`
 		html = html.replace('<head>', `<head>${scriptToInject}`)
-		route.fulfill({ body: html, headers: { 'content-type': 'text/html' } })
+		await route.fulfill({
+			body: html,
+			headers: { 'content-type': 'text/html' },
+		})
 	})
 
 	await page.goto('/')
