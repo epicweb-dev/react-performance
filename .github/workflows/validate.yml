@@ -32,7 +32,7 @@ jobs:
 
       - name: ʦ TypeScript
         run: npm run typecheck
-        working-directory: ./workshop
+        working-directory: ./workshop/${{ github.event.repository.name }}
 
       # TODO: re-enable linting
       # - name: ⬣ ESLint
