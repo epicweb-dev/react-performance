@@ -72,10 +72,8 @@ function collectRenderedComponentsFromCommit(root: any) {
 		if (!isUserCodeFiberTag(fiber.tag)) continue
 		if (!didFiberRender(fiber.alternate, fiber)) continue
 
-		const componentName = getFiberDisplayName(fiber)
-		if (componentName) {
-			activeFallbackComponentNames.push(componentName)
-		}
+		const componentName = getFiberDisplayName(fiber) ?? 'Anonymous'
+		activeFallbackComponentNames.push(componentName)
 	}
 }
 
