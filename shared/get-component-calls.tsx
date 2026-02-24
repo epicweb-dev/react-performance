@@ -54,7 +54,7 @@ function getFiberDisplayName(fiber: any) {
 }
 
 function didFiberRender(previousFiber: any, nextFiber: any) {
-	if (!previousFiber) return false
+	if (!previousFiber) return true
 	return (nextFiber.flags & PerformedWorkFlag) === PerformedWorkFlag
 }
 

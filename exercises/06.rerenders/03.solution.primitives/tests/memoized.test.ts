@@ -50,7 +50,7 @@ test('Only two ListItems should not rerender when the highlighted item changes',
 				}
 
 				function didFiberRender(previousFiber, nextFiber) {
-					if (!previousFiber) return false
+					if (!previousFiber) return true
 					return (nextFiber.flags & PerformedWorkFlag) === PerformedWorkFlag
 				}
 

@@ -50,7 +50,7 @@ test('Only ListItem should not rerender when clicking force rerender', async ({
 				}
 
 				function didFiberRender(previousFiber, nextFiber) {
-					if (!previousFiber) return false
+					if (!previousFiber) return true
 					return (nextFiber.flags & PerformedWorkFlag) === PerformedWorkFlag
 				}
 
