@@ -13,7 +13,7 @@ test('Only two ListItems should not rerender when the highlighted item changes',
 			<script>
 				let internals
 				const PerformedWorkFlag = 0b000000000000000000000000001
-				const UserCodeFiberTags = new Set([0, 1, 9, 11, 14, 15])
+				const UserCodeFiberTags = new Set([0, 1, 9, 11, 15])
 
 				let activeFallbackComponentNames = null
 
@@ -50,7 +50,7 @@ test('Only two ListItems should not rerender when the highlighted item changes',
 				}
 
 				function didFiberRender(previousFiber, nextFiber) {
-					if (!previousFiber) return true
+					if (!previousFiber) return false
 					return (nextFiber.flags & PerformedWorkFlag) === PerformedWorkFlag
 				}
 

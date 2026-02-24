@@ -11,7 +11,6 @@ const FunctionComponentTag = 0
 const ClassComponentTag = 1
 const ContextConsumerTag = 9
 const ForwardRefTag = 11
-const MemoComponentTag = 14
 const SimpleMemoComponentTag = 15
 
 let activeFallbackComponentNames: Array<string> | null = null
@@ -22,7 +21,6 @@ function isUserCodeFiberTag(tag: number) {
 		tag === ClassComponentTag ||
 		tag === ContextConsumerTag ||
 		tag === ForwardRefTag ||
-		tag === MemoComponentTag ||
 		tag === SimpleMemoComponentTag
 	)
 }
@@ -56,7 +54,7 @@ function getFiberDisplayName(fiber: any) {
 }
 
 function didFiberRender(previousFiber: any, nextFiber: any) {
-	if (!previousFiber) return true
+	if (!previousFiber) return false
 	return (nextFiber.flags & PerformedWorkFlag) === PerformedWorkFlag
 }
 
