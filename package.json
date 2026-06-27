@@ -47,7 +47,7 @@
   "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
   "license": "GPL-3.0-only",
   "engines": {
-    "node": ">=20",
+    "node": ">=22",
     "npm": ">=9.3.0",
     "git": ">=2.18.0"
   },
