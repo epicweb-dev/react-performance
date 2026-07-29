@@ -81,10 +81,13 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 26
+          node-version: 24
 
       - name: 📦 Install dependencies
         run: npm ci
+
+      - name: 🎭 Install Playwright browser
+        run: npx playwright install --with-deps --only-shell chromium
 
       # Workshops ship epicshop/test.js (not .ts). `..s` runs solution apps only.
       - name: 🧪 Run solution tests
