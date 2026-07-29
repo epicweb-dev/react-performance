@@ -87,7 +87,7 @@ jobs:
         run: npm ci
 
       - name: 🎭 Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --only-shell chromium
 
       # Workshops ship epicshop/test.js (not .ts). `..s` runs solution apps only.
       - name: 🧪 Run solution tests
