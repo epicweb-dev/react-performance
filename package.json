@@ -39,7 +39,7 @@
     "setup:custom": "node ./epicshop/setup-custom.js",
     "build": "cd ./playground && npm run build",
     "preview": "cd ./playground && npm run preview",
-    "lint": "eslint .",
+    "lint": "node --max-old-space-size=6144 ./node_modules/eslint/bin/eslint.js .",
     "format": "prettier --write .",
     "typecheck": "tsc -b"
   },
